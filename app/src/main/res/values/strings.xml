@@ -1,0 +1,123 @@
+<resources>
+    <string name="app_name">BlockStudy</string>
+
+    <string name="login_chip_createAccount">Crear Cuenta</string>
+    <string name="login_button_sigin">Iniciar Sesión</string>
+    <string name="login_edittext_hint_password">Contraseña</string>
+    <string name="login_button_forget_password">Olvide mi contraseña</string>
+    <string name="login_edittext_hint_email">Correo electrónico</string>
+    <string name="login_edittext_error_invalid_password">Ingrese un correo válido</string>
+    <string name="login_edittext_error_field_blank">El campo no puede estar vacio</string>
+    <string name="cancel">Cancelar</string>
+    <string name="signup_textview_text_terms_and_conditions"><u>Al registrarse usted acepta los términos y condiciones</u></string>
+
+    <string name="signup_edittext_hint_password">Contraseña</string>
+    <string name="signup_edittext_hint_email">Correo electrónico</string>
+    <string name="signup_editext_hint_name">Nombre</string>
+    <string name="signup_editext_hint_lastname">Apellido</string>
+    <string name="signup_buton_signup">Crear Cuenta</string>
+
+    <string name="SignUp">Crear Cuenta</string>
+    <string name="signuping">Registrando...</string>
+
+
+    <!-- Errors Signup Inputs -->
+    <string name="error_text_short">Muy corto</string>
+    <string name="error_text_no_letter">Al menos una letra</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_my_questionary">Mis Cuestionarios</string>
+    <string name="title_repository">Repositorio</string>
+    <string name="title_security">Bloqueo</string>
+    <string name="title_menu">Menú</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_tv_my_profile">Mi perfil</string>
+    <string name="menu_option_menu">Terminos y Condiciones</string>
+    <string name="menu_option_termins_and_conditions">Terminos y Condiciones</string>
+    <string name="menu_option_update_password">Cambiar Contraseña</string>
+    <string name="menu_option_help">Ayuda</string>
+    <string name="menu_option_signout">Cerrar Sesión</string>
+    <string name="button_change_pasword">Cambiar</string>
+    <string name="tv_change_password">Cambiar contraseña</string>
+    <string name="hint_passwordOld">Contraseña actual</string>
+    <string name="hint_password_new">Nueva contraseña</string>
+    <string name="update_password">Actualizando Contraseña</string>
+    <string name="tv_recovery_password">Recuperar Contraseña</string>
+    <string name="button_recovery_pasword">Recuperar</string>
+    <string name="description_recovery_password">Se enviará un mensaje a su cuenta de correo electrónico</string>
+    <string name="verify_email">Verificando email</string>
+    <string name="signiping">Iniciando Sesión</string>
+    <string name="name_user">Nombre Usuario</string>
+    <string name="email_user">emailuser@blockstudy.com</string>
+    <string name="formation_academic">Formación Académica</string>
+    <string name="school">Institucion Educativa</string>
+    <string name="title_academic">Profesion</string>
+    <string name="preferences_subject">Temáticas Preferidas</string>
+    <string name="not_formation_academic">No tiene agregado su formación académica</string>
+    <string name="tv_update_info">Actualizar Información</string>
+    <string name="button_update_info">Actualizar</string>
+    <string name="tv_formation_Academic">Formación Académica</string>
+    <string name="button_save">Guardar</string>
+    <string name="tv_add_subject">Agregar Preferencia</string>
+    <string name="description_add_subject">Seleccione las tematicas de su prefencia</string>
+    <string name="button_add">Agregar</string>
+    <string name="subject">Preferencia</string>
+    <string name="main_message_picture_source">Seleccione medio para  obtener imagen</string>
+    <string name="message_update_user">Actualizando Información Básica</string>
+    <string name="message_update_academic">Actualizan formación académica</string>
+    <string name="message_update_photo_user">Actualizando foto de perfil</string>
+    <string name="message_get_profile">Obtiendo información del perfil</string>
+    <string name="empty_preferences">No tiene agregado temáticas</string>
+    <string name="title_questionnaire">Título</string>
+    <string name="tv_new_questionnaire">Nuevo Cuestionario</string>
+    <string name="description_questionnaire">Descripción</string>
+    <string name="button_create">Crear</string>
+    <string name="keywords">Palabras clave</string>
+    <string name="tv_add_keyword">Agregar palabra clave</string>
+    <string name="create_questionaire">Creando cuestionario</string>
+    <string name="select_difficulty">Seleccionar dificultad</string>
+    <string name="difificulty_basic">Básico</string>
+    <string name="difificulty_intermediate">Intermedio</string>
+    <string name="difificulty_advanced">Avazando</string>
+    <string name="description_add_keyword">Ingrese las palabra clave que indentificaran a su cuestionario</string>
+    <string name="none_keyword">Debe agregar palabras clave</string>
+    <string name="title_activity_detail_questionaire">DetailQuestionaireActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="none_questionnaries">No tiene cuestionarios</string>
+    <string name="none_questions">No tiene preguntas</string>
+    <string name="delete_question">Eliminar Pregunta</string>
+    <string name="exist_correct_response">Deben existir respuestas correctas e incorrectas</string>
+    <string name="exist_incorrect_response">Deben existen respuestas correctas</string>
+    <string name="action_more_info">Mas Información</string>
+    <string name="delete_questionnaire">Eliminar Cuestionario</string>
+    <string name="upload_repository">Subir al Repositorio</string>
+    <string name="title_activity_questions_view">QuestionsViewActivity</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="tv_info_questionnnaire">Informacion Cuestionario</string>
+    <string name="tv_upload_questionnaire">Subir Cuestionario</string>
+    <string name="button_upload">Subir</string>
+    <string name="title_activity_questionnaire_repository">QuestionnaireRepositoryActivity</string>
+    <string name="title_activity_questionnaire_resume">QuestionnaireResumeActivity</string>
+    <string name="title_activity_applications">ApplicationsActivity</string>
+
+    <string name="title_activity_block">BlockActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="description_new_questionnaire">Ingrese la informacion de su cuestionario</string>
+    <string name="description_change_password">La proxima vez que inicie sesión, utilizara su nueva contraseña</string>
+    <string name="description_update_basic_information">Modifique la información básica que desee actualizar</string>
+    <string name="description_formation_academic">Ingrese su formacion académica de mas alto nivel</string>
+    <string name="visibility_questionnaire">Visibilidad</string>
+    <string name="tv_rating_questionnay">Calificar Cuestionario</string>
+    <string name="description_rating_questionnay">Indicanos que te parecio el cuestionario</string>
+    <string name="tv_comment">Comentario</string>
+    <string name="button_rating">Calificar</string>
+</resources>

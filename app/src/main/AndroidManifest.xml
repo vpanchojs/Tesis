@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ec.edu.unl.blockstudy">
+
+    <uses-feature
+        android:name="android.hardware.Camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".login.ui.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".signup.ui.SignupActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".newQuestionnaire.ui.NewQuestionnaireActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".profile.ui.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".detailQuestionaire.ui.QuestionaireActivity"
+            android:label="@string/title_activity_detail_questionaire"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".newQuestion.ui.QuestionActivity"
+            android:label="Nueva Pregunta"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".questionsComplete.ui.QuestionsCompleteActivity"
+            android:label="@string/title_activity_questions_view"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".questionnaireResume.ui.QuestionnaireResumeActivity"
+            android:label="@string/title_activity_questionnaire_resume"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service android:name=".questionnaireResume.servicie.DonwloadIntentService" />
+
+        <activity
+            android:name=".block.ui.BlockActivity"
+            android:configChanges="screenSize|orientation"
+            android:label="@string/title_activity_block"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".block.servicie.ServicieBlock"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".block.broadcast.BroadcastBloqueo"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="MI_ESPECIFICA" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

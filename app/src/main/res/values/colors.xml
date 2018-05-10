@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00838F</color>
+    <color name="colorPrimaryDark">#006064</color>
+    <color name="colorAccent">#00838F</color>
+
+
+    <color name="colorIcons">#d4d4d4</color>
+
+    <color name="colorTextInfoLite">#95989A</color>
+    <color name="colorTextInfoDark">#6e6e6e</color>
+    <color name="colorTextButton">#fff</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorDisableButton">#aadfdfdf</color>
+    <color name="colorDisableButtonText">#58535353</color>
+
+    <!-- Color for chips-->
+    <color name="colorBlackTransparent">#58000000</color>
+
+    <color name="black_overlay">#66000000</color>
+
+</resources>

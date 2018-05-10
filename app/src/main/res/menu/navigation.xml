@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_my_questionary"
+        android:icon="@drawable/ic_folder"
+        android:title="@string/title_my_questionary" />
+
+    <item
+        android:id="@+id/navigation_repository"
+        android:icon="@drawable/ic_cloud"
+        android:title="@string/title_repository" />
+
+    <item
+        android:id="@+id/navigation_block"
+        android:icon="@drawable/ic_security"
+        android:title="@string/title_security" />
+
+    <item
+        android:id="@+id/navigation_my_profile"
+        android:icon="@drawable/ic_menu"
+        android:title="@string/title_menu" />
+
+</menu>
