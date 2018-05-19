@@ -77,14 +77,12 @@
             android:enabled="true"
             android:exported="true" />
 
-        <receiver
-            android:name=".block.broadcast.BroadcastBloqueo"
-            android:enabled="true"
-            android:exported="true">
+        <receiver android:name=".block.broadcast.BroadcastBloqueo">
             <intent-filter>
-                <action android:name="MI_ESPECIFICA" />
+                <action android:name="broadcast" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

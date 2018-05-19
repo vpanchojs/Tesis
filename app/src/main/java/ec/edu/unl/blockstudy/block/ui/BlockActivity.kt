@@ -10,25 +10,47 @@ import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.block.BlockPresenter
 import ec.edu.unl.blockstudy.block.adapter.AnswerSelectAdapter
-import ec.edu.unl.blockstudy.block.adapter.onAnswerAdapterListener
 import ec.edu.unl.blockstudy.entities.Answer
 import ec.edu.unl.blockstudy.entities.Question
 import ec.edu.unl.blockstudy.entities.QuestionPath
+import ec.edu.unl.blockstudy.util.GlideApp
 import kotlinx.android.synthetic.main.activity_block.*
 import javax.inject.Inject
 
 
-class BlockActivity : AppCompatActivity(), BlockView, onAnswerAdapterListener, View.OnClickListener {
+class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.btn_unlock -> {
-                finish()
+                if (validateAnswers()) {
+                    finish()
+                } else {
+                    visibilyWindowsInfo(View.VISIBLE)
+                    getQuestion()
+                }
             }
             R.id.fab_change_question -> {
                 getQuestion()
             }
+            R.id.btn_change_1 -> {
+                visibilyWindowsInfo(View.GONE)
+            }
         }
+    }
+
+    private fun visibilyWindowsInfo(visible: Int) {
+        cl_windows_info.visibility = visible
+    }
+
+    private fun validateAnswers(): Boolean {
+        var validated = true
+        answersList.forEach {
+            if (it.correct != it.select)
+                validated = false
+        }
+
+        return validated
     }
 
     lateinit var questionPathList: List<QuestionPath>
@@ -54,6 +76,7 @@ class BlockActivity : AppCompatActivity(), BlockView, onAnswerAdapterListener, V
         presenter.onSuscribe()
         btn_unlock.setOnClickListener(this)
         fab_change_question.setOnClickListener(this)
+        btn_change_1.setOnClickListener(this)
         getQuestion()
     }
 
@@ -73,7 +96,7 @@ class BlockActivity : AppCompatActivity(), BlockView, onAnswerAdapterListener, V
     }
 
     private fun setupRecycler() {
-        adapter = AnswerSelectAdapter(answersList, this)
+        adapter = AnswerSelectAdapter(answersList)
         rv_answer.layoutManager = LinearLayoutManager(this)
 
         val mDividerItemDecoration = DividerItemDecoration(this,
@@ -89,6 +112,17 @@ class BlockActivity : AppCompatActivity(), BlockView, onAnswerAdapterListener, V
 
     override fun setDataQuestion(question: Question) {
         tv_statament.setText(question.statement)
+        if (question.photoUrl.isNullOrBlank()) {
+            iv_photo_question.visibility = View.GONE
+        } else {
+            iv_photo_question.visibility = View.VISIBLE
+            GlideApp.with(this)
+                    .load(question.photoUrl)
+                    .placeholder(R.drawable.ic_person_black_24dp)
+                    .centerCrop()
+                    .error(R.drawable.ic_person_black_24dp)
+                    .into(iv_photo_question)
+        }
         answersList.clear()
         answersList.addAll(question.answers)
         adapter.notifyDataSetChanged()

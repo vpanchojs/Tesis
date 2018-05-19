@@ -18,7 +18,7 @@ class Question() : Parcelable {
     var statement: String = " "
     @get:Exclude
     var type: Int? = null
-    var photoUrl: String = " "
+    var photoUrl: String = ""
     @get:Exclude
     lateinit var idQuestionnnaire: String
 

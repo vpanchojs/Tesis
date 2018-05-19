@@ -9,7 +9,7 @@ import ec.edu.unl.blockstudy.entities.Answer
 import kotlinx.android.synthetic.main.item_answer_select.view.*
 
 
-class AnswerSelectAdapter(var data: ArrayList<Answer>, var callback: onAnswerAdapterListener) : RecyclerView.Adapter<AnswerSelectAdapter.ViewHolder>() {
+class AnswerSelectAdapter(var data: ArrayList<Answer>) : RecyclerView.Adapter<AnswerSelectAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_answer_select, parent, false);
@@ -24,21 +24,15 @@ class AnswerSelectAdapter(var data: ArrayList<Answer>, var callback: onAnswerAda
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var answer = data.get(position)
         holder!!.view.cb_correct.setText(answer.statement!!)
-        holder!!.onActionListener(answer, position, callback)
+        holder!!.onActionListener(answer)
+        holder!!.view.cb_correct.isChecked = answer.select!!
     }
 
-
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-        fun onActionListener(answer: Answer, position: Int, callback: onAnswerAdapterListener) {
+        fun onActionListener(answer: Answer) {
             view.cb_correct.setOnCheckedChangeListener { buttonView, isChecked ->
-                //answer.correct = isChecked
-
-
+                answer.select = isChecked
             }
         }
     }
-}
-
-interface onAnswerAdapterListener {
-    //fun onRemoveAnswer(position: Answer)
 }

@@ -14,6 +14,7 @@ class Answer() : Parcelable {
     var idCloud: String = ""
     var statement: String? = ""
     var correct: Boolean? = false
+    var select: Boolean? = false
     lateinit var idQuestion: String
 
 

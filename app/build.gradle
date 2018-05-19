@@ -11,7 +11,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "ec.edu.unl.blockstudy"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -37,7 +37,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$compile_sdk_version"
     implementation "com.android.support:design:$compile_sdk_version"
     implementation "com.android.support.constraint:constraint-layout:$constrain_version"
@@ -63,7 +62,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     kapt "io.objectbox:objectbox-processor:$objectboxVersion"
     implementation "io.objectbox:objectbox-android:$objectboxVersion"
     implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"

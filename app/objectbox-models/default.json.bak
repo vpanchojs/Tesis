@@ -187,7 +187,7 @@
     },
     {
       "id": "10:3502532022782216405",
-      "lastPropertyId": "2:7747130100417495044",
+      "lastPropertyId": "3:4135203897920648848",
       "name": "QuestionPath",
       "properties": [
         {
@@ -197,13 +197,18 @@
         {
           "id": "2:7747130100417495044",
           "name": "path"
+        },
+        {
+          "id": "3:4135203897920648848",
+          "indexId": "7:2628573002897752472",
+          "name": "QuestionnaireBlockId"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "10:3502532022782216405",
-  "lastIndexId": "6:5858886942074604473",
+  "lastIndexId": "7:2628573002897752472",
   "lastRelationId": "2:5184765246459916889",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

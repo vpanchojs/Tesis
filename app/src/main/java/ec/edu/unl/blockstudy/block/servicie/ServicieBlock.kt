@@ -1,12 +1,9 @@
 package ec.edu.unl.blockstudy.block.servicie
 
-import android.annotation.TargetApi
-import android.app.ActivityManager
 import android.app.Service
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.util.Log
@@ -106,6 +103,7 @@ class ServicieBlock : Service() {
     }
 
 
+    /*
     fun obtenerAplicacionesEjecutandoseK(): String {
         var aplicacion = ""
         val am = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -120,9 +118,8 @@ class ServicieBlock : Service() {
         }
         return aplicacion
     }
+    */
 
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun obtenerAplicacionEjecutandoseL(): String {
         val endCal = Calendar.getInstance()
         val beginCal = Calendar.getInstance()
@@ -133,9 +130,10 @@ class ServicieBlock : Service() {
                 beginCal.timeInMillis, endCal.timeInMillis)
 
         stats.sortByDescending { it.lastTimeUsed }
-
-        //Log.e(TAG, "app activa ${stats[0].packageName}");
-        return stats[0].packageName
+        if (stats.size > 0)
+            return stats[0].packageName
+        else
+            return ""
 
     }
 
@@ -154,12 +152,9 @@ class ServicieBlock : Service() {
             var cont = 0
             while (activo_hilo1) {
                 try {
-                    /*CONDICION QUE SE ENCARGA DE ENCONTRA LA APLICACION QUE SE ESTA EJECUTANDO ACTUALMENTE*/
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        aplicacionActual = obtenerAplicacionEjecutandoseL()
-                    } else {
-                        aplicacionActual = obtenerAplicacionesEjecutandoseK()
-                    }
+
+                    aplicacionActual = obtenerAplicacionEjecutandoseL()
+
                     //Log.d("HILO 1", "Aplicacion: " + aplicacionActual);
                     /*VERIFICAMOS QUE LA APLICACION ACTUAL NO SE IGUAL A LA APLICACION DE BLOQUEO*/
                     if (aplicacionActual != getPackageName()) {
@@ -186,14 +181,8 @@ class ServicieBlock : Service() {
                     while (activo_hilo2) {
                         Log.e(TAG, "bucando aplicacion")
                         try {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                //Log.d(TAG,"5.0 mayor");
-                                aplicacionActual = obtenerAplicacionEjecutandoseL()
-                            } else {
-                                aplicacionActual = obtenerAplicacionesEjecutandoseK()
-                                //Log.d(TAG,"menor a 5.0");
-                                //Log.d(TAG,aplicacionActual);
-                            }
+
+                            aplicacionActual = obtenerAplicacionEjecutandoseL()
 
                             // Log.d("HILO 2", "Aplicacion: " + aplicacionActual);
                             /*VERIFICAMOS QUE LA APLICACION EJECUTADA ACTUALMENTE, DEBA SER BLOQUEADA*/
@@ -206,8 +195,14 @@ class ServicieBlock : Service() {
                                 /*ALMACENAMOS EN UNA VARIBLE TEMP LA APLICACION BLOQUEADA*/
                                 temp = aplicacionActual
                                 /*LANZAMOS UNA LLAMDA AL BROADCASTRECIVIR QUE SE ENCARA DE INCIAR LA ACTIVIDAD DEL BLOQUEO*/
-                                sendBroadcast(Intent("MI_ESPECIFICA").putExtra(BlockActivity.QUESTIONS_PATH_PARAM, questionPathList!!))
+                                //sendBroadcast(Intent("broadcast").putExtra(BlockActivity.QUESTIONS_PATH_PARAM, questionPathList!!))
+                                Thread.sleep(500)
+                                val mIntent = Intent(applicationContext, BlockActivity::class.java)
+                                mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                mIntent.putExtra(BlockActivity.QUESTIONS_PATH_PARAM, questionPathList)
+                                applicationContext!!.startActivity(mIntent)
                                 /*TERMINAMOS EL HILO 2*/
+                                Log.e("SERVICIE", "ACTIVIDAD LANZANDOSE")
                                 activo_hilo2 = false
                                 //   Log.d("HILO 2", "CANCELADOR");
                             }
