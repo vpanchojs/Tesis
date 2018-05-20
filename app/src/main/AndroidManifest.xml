@@ -68,6 +68,7 @@
         <activity
             android:name=".block.ui.BlockActivity"
             android:configChanges="screenSize|orientation"
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_block"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -83,6 +84,9 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".myrepository.ui.MyRepositoryActivity"
+            android:label="Mi Repositorio" />
     </application>
 
 </manifest>

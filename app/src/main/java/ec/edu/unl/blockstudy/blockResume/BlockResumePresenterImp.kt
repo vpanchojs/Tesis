@@ -6,6 +6,7 @@ import ec.edu.unl.blockstudy.blockResume.events.BlockResumeEvents
 import ec.edu.unl.blockstudy.blockResume.ui.BlockResumeView
 import ec.edu.unl.blockstudy.entities.Block
 import ec.edu.unl.blockstudy.entities.Questionaire
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import org.greenrobot.eventbus.Subscribe
 
@@ -63,7 +64,7 @@ class BlockResumePresenterImp(var eventBus: EventBusInterface, var view: BlockRe
 //                view.setQuestionnaries(event.any as Questionaire)
 
 
-                var questionnaire_list = event.any as List<Questionaire>
+                var questionnaire_list = event.any as List<QuestionnaireBd>
                 if (questionnaire_list.size > 0)
                     view.setQuestionnaries(questionnaire_list)
                 else

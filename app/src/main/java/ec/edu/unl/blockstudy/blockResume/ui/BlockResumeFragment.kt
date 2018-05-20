@@ -20,14 +20,14 @@ import ec.edu.unl.blockstudy.blockResume.BlockResumePresenter
 import ec.edu.unl.blockstudy.blockResume.adapter.QuestionnaireSelectAdapter
 import ec.edu.unl.blockstudy.blockResume.adapter.onQuestionnaireAdapterListener
 import ec.edu.unl.blockstudy.entities.Block
-import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.util.BaseActivitys
 import kotlinx.android.synthetic.main.fragment_block_resume.*
 import javax.inject.Inject
 
 
-class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, onQuestionnaireAdapterListener, CompoundButton.OnCheckedChangeListener {
+class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, onQuestionnaireAdapterListener<QuestionnaireBd>, CompoundButton.OnCheckedChangeListener {
 
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
@@ -45,13 +45,13 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     val MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS = 100
 
-    override fun addQuestionnaire(questionaire: Questionaire) {
-        //presenter.addQuestionnaire(questionaire)
-        presenter.addQuestionnaire(questionaire.idQuestionaire, questionaire.idCloud, block.id, questionaire.refQuestions)
+
+    override fun addQuestionnaire(questionaire: QuestionnaireBd) {
+        // presenter.addQuestionnaire(questionaire.idQuestionaire, questionaire.idCloud, block.id, questionaire.refQuestions)
     }
 
-    override fun removeQuestionnaire(questionaire: Questionaire) {
-        presenter.removeQuestionnaire(questionaire.idQuestionaire)
+    override fun removeQuestionnaire(questionaire: QuestionnaireBd) {
+        //presenter.removeQuestionnaire(questionaire.idQuestionaire)
     }
 
     @Inject
@@ -65,14 +65,14 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     lateinit var adapter: QuestionnaireSelectAdapter
 
-    var data = ArrayList<Questionaire>()
+    var data = ArrayList<QuestionnaireBd>()
 
     var questonnaireBlock = ArrayList<QuestionnaireBlock>()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_block_resume, container, false)
+        val view = inflater.inflate(R.layout.fragment_block_resume, container, false)
         return view
     }
 
@@ -195,7 +195,7 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     }
 
-    override fun setQuestionnaries(questionnaire_list: List<Questionaire>) {
+    override fun setQuestionnaries(questionnaire_list: List<QuestionnaireBd>) {
         data!!.clear()
         adapter.data.addAll(questionnaire_list)
         adapter.notifyDataSetChanged()

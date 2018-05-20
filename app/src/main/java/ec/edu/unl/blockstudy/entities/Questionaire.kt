@@ -15,7 +15,6 @@ import kotlin.collections.HashMap
 /**
  * Created by victor on 6/2/18.
  */
-@Entity
 class Questionaire() : Parcelable {
     @Id
     var idQuestionaire: Long = 0

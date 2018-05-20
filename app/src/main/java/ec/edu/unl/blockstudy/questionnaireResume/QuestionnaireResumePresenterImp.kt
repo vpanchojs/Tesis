@@ -23,7 +23,6 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
         interactor.onGetQuestionAll(idQuestionnaire)
     }
 
-
     override fun onGetUser(idUser: Any) {
         interactor.onGetUser(idUser)
     }

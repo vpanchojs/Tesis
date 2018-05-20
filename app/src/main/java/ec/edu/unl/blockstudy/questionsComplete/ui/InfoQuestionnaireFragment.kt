@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.widget.ImageButton
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.entities.Questionaire
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import kotlinx.android.synthetic.main.fragment_info_questionnaire.view.*
 
 class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListener {
@@ -48,7 +49,7 @@ class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListen
 
     companion object {
         val PARAM_QUESTIONNAIRE = "questionnaire"
-        fun newInstance(questionaire: Questionaire): InfoQuestionnaireFragment {
+        fun newInstance(questionaire: QuestionnaireBd): InfoQuestionnaireFragment {
             val fragment = InfoQuestionnaireFragment()
             var b = Bundle()
             b.putParcelable(PARAM_QUESTIONNAIRE, questionaire)

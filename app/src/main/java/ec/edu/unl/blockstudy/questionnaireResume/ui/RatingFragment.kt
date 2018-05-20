@@ -11,18 +11,21 @@ import android.support.v7.widget.AppCompatRatingBar
 import android.widget.Button
 import android.widget.ImageButton
 import ec.edu.unl.blockstudy.R
+import ec.edu.unl.blockstudy.entities.Raiting
 import ec.edu.unl.blockstudy.util.BaseActivitys.Companion.onTextChangedListener
 import kotlinx.android.synthetic.main.fragment_raiting.view.*
 
 class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     private var btn_action: Button? = null
     private var ib_close: ImageButton? = null
-    private var rating: AppCompatRatingBar? = null
+    private var ratingBar: AppCompatRatingBar? = null
     private var tie_comment: TextInputEditText? = null
     private var callback: OnRatingListener? = null
+    private var raiting: Raiting? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        raiting = arguments!!.getParcelable(PARAM_RAITING)
     }
 
 
@@ -32,13 +35,24 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
         btn_action = view.btn_action
         ib_close = view.ib_close
         tie_comment = view.tie_comment
-        rating = view.rating
+        ratingBar = view.rating
         setupFieldsValidation()
         builder.setView(view)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setOnShowListener(this)
+        setRating()
         return dialog
+    }
+
+    private fun setRating() {
+        if (raiting != null) {
+            ratingBar!!.rating = raiting!!.value.toFloat()
+            tie_comment!!.setText(raiting!!.comment)
+            btn_action!!.text = "Actualizar"
+        } else {
+
+        }
     }
 
     private fun setupFieldsValidation() {
@@ -53,7 +67,7 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
         if (dialogo != null) {
             btn_action!!.setOnClickListener {
                 //callback!!.onRecoveryPassword(tie_email!!.text.toString())
-                callback!!.onSetRaiting(rating!!.rating.toDouble(), tie_comment!!.text.toString())
+                callback!!.onSetRaiting(ratingBar!!.rating.toDouble(), tie_comment!!.text.toString())
                 dismiss()
             }
 
@@ -79,8 +93,13 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     }
 
     companion object {
-        fun newInstance(): RatingFragment {
-            val fragment = RatingFragment()
+        const val PARAM_RAITING = "raiting"
+
+        fun newInstance(raitingMe: Raiting?): RatingFragment {
+            var fragment = RatingFragment()
+            var params = Bundle()
+            params.putParcelable(PARAM_RAITING, raitingMe)
+            fragment.arguments = params
             return fragment
         }
     }

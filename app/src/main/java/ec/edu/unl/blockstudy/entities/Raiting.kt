@@ -16,22 +16,27 @@ class Raiting() : Parcelable {
     lateinit var comment: String
     lateinit var idQuestionaire: String
     lateinit var date: Date
-
-
-    @Exclude
-    fun toMap(): Map<String, Any> {
-        val result = HashMap<String, Any>()
-        result["value"] = value!!
-        result["comment"] = comment!!
-        result["date"] = FieldValue.serverTimestamp()!!
-        return result
-    }
+    var me = false
+    var nameUser = ""
 
     constructor(parcel: Parcel) : this() {
         idRaiting = parcel.readString()
         value = parcel.readDouble()
         comment = parcel.readString()
         idQuestionaire = parcel.readString()
+        me = parcel.readByte() != 0.toByte()
+        nameUser = parcel.readString()
+    }
+
+
+    @Exclude
+    fun toMap(): Map<String, Any> {
+        val result = HashMap<String, Any>()
+        result["value"] = value
+        result["comment"] = comment
+        result["date"] = FieldValue.serverTimestamp()
+        result["nameUser"] = nameUser
+        return result
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -39,6 +44,8 @@ class Raiting() : Parcelable {
         parcel.writeDouble(value)
         parcel.writeString(comment)
         parcel.writeString(idQuestionaire)
+        parcel.writeByte(if (me) 1 else 0)
+        parcel.writeString(nameUser)
     }
 
     override fun describeContents(): Int {
@@ -54,5 +61,6 @@ class Raiting() : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
 
 }

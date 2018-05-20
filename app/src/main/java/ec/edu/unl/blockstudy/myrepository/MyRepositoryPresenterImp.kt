@@ -1,17 +1,16 @@
-package ec.edu.unl.blockstudy.myquestionnaires
+package ec.edu.unl.blockstudy.myrepository
 
 import android.util.Log
 import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
-import ec.edu.unl.blockstudy.myquestionnaires.events.MyQuestionaireEvents
-import ec.edu.unl.blockstudy.myquestionnaires.ui.MyQuestionnariesView
+import ec.edu.unl.blockstudy.myrepository.events.MyRepositoryEvents
+import ec.edu.unl.blockstudy.myrepository.ui.MyRepositoryView
 import org.greenrobot.eventbus.Subscribe
 
 /**
  * Created by victor on 24/2/18.
  */
-class MyQuestionairePresenterImp(var eventBus: EventBusInterface, var view: MyQuestionnariesView, var interactor: MyQuestionaireInteractor) : MyQuestionairePresenter {
+class MyRepositoryPresenterImp(var eventBus: EventBusInterface, var view: MyRepositoryView, var interactor: MyRepositoryInteractor) : MyRepositoryPresenter {
 
     override fun onResume() {
         Log.e("PR", "REGISTRE")
@@ -23,10 +22,10 @@ class MyQuestionairePresenterImp(var eventBus: EventBusInterface, var view: MyQu
         Log.e("PR", "unregistre")
     }
 
-    override fun onGetMyQuestionnaires() {
+    override fun onGetmyrepository() {
         view.none_results(false)
         view.showProgress(true)
-        interactor.onGetMyQuestionnaires()
+        interactor.onGetmyrepository()
     }
 
     override fun onCreateQuestionaire(title: String, description: String) {
@@ -34,23 +33,23 @@ class MyQuestionairePresenterImp(var eventBus: EventBusInterface, var view: MyQu
     }
 
     @Subscribe
-    override fun onEventThread(event: MyQuestionaireEvents) {
+    override fun onEventThread(event: MyRepositoryEvents) {
         when (event.type) {
-            MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS -> {
+            MyRepositoryEvents.ON_GET_QUESTIONAIRE_SUCCESS -> {
                 view.showProgress(false)
-                var questionnaire_list = event.any as List<QuestionnaireBd>
+                var questionnaire_list = event.any as List<Questionaire>
                 if (questionnaire_list.size > 0)
                     view.setQuestionnaries(questionnaire_list)
                 else
                     view.none_results(true)
             }
-            MyQuestionaireEvents.ON_GET_QUESTIONAIRE_ERROR -> {
+            MyRepositoryEvents.ON_GET_QUESTIONAIRE_ERROR -> {
                 view.showMessagge(event.any.toString())
                 view.showButtonCreateQuestionnaire()
 
             }
-            MyQuestionaireEvents.ON_CREATE_QUESTIONAIRE_SUCCESS -> {
-                view.navigationManageQuestionnaire(event.any as QuestionnaireBd)
+            MyRepositoryEvents.ON_CREATE_QUESTIONAIRE_SUCCESS -> {
+                view.navigationManageQuestionnaire(event.any as Questionaire)
                 view.hideDialogNewQuestionnaire()
                 view.showMessagge("Cuestionario Creado")
             }

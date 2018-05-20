@@ -3,13 +3,9 @@ package ec.edu.unl.blockstudy.entities
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
-import io.objectbox.annotation.Entity
-import io.objectbox.annotation.Id
 import java.util.*
 
-@Entity
 class Answer() : Parcelable {
-    @Id
     var idAnswer: Long = 0
     var idCloud: String = ""
     var statement: String? = ""

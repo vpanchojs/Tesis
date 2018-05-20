@@ -33,7 +33,7 @@ class Question() : Parcelable {
         statement = parcel.readString()
         type = parcel.readValue(Int::class.java.classLoader) as? Int
         photoUrl = parcel.readString()
-      //  idQuestionnnaire = parcel.readString()
+        //  idQuestionnnaire = parcel.readString()
         answers = parcel.createTypedArrayList(Answer)
     }
 

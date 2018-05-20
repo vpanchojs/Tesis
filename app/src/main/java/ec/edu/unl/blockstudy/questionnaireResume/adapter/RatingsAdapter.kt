@@ -23,7 +23,7 @@ class RatingsAdapter(var data: ArrayList<Raiting>) : RecyclerView.Adapter<Rating
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var rating = data.get(position)
-        holder!!.view.tv_name_user.setText("Nombre Usuario")
+        holder!!.view.tv_name_user.setText(rating.nameUser)
         holder!!.view.tv_comment.setText(rating.comment)
         holder!!.view.rating_value.rating = rating.value.toFloat()
 

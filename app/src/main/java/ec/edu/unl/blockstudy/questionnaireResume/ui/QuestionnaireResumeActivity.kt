@@ -47,7 +47,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
                 }
             }
             R.id.btn_raiting -> {
-                val ratingFragment = RatingFragment.newInstance()
+                val ratingFragment = RatingFragment.newInstance(getRaitingMe())
                 ratingFragment.show(supportFragmentManager, "Calificar")
             }
             R.id.btn_get_questionnaire -> {
@@ -60,9 +60,15 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         }
     }
 
+    fun getRaitingMe(): Raiting? {
+        return ratingsList.findLast {
+            it.me == true
+        }
+    }
+
     lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-    var questionList: ArrayList<Question>? = ArrayList<Question>()
-    var ratingsList: ArrayList<Raiting>? = ArrayList<Raiting>()
+    var questionList = ArrayList<Question>()
+    var ratingsList = ArrayList<Raiting>()
 
     lateinit var application: MyApplication
     lateinit var adapter: QuestionAdapter
@@ -92,14 +98,11 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         setupRecyclerView()
     }
 
-
     private fun setupEvents() {
-
         cl_header_bs.setOnClickListener(this)
         btn_raiting.setOnClickListener(this)
         btn_get_questionnaire.setOnClickListener(this)
     }
-
 
     fun setupBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
@@ -132,6 +135,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
             tv_raiting.setText(questionaire.assessment.toString())
         }
         tv_questions_num.setText(questionaire.numberQuest.toString())
+
+        tv_subtitle_bs.text = "${questionaire.numAssessment} calificaciones"
     }
 
     private fun setupInjection() {
@@ -178,7 +183,6 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         presenter.onGetUser(questionaire.idUser!!)
         presenter.onGetRaitingsAll(questionaire.idCloud)
     }
-
 
     override fun showMessagge(message: Any) {
         BaseActivitys.showToastMessage(this, message, Toast.LENGTH_SHORT)

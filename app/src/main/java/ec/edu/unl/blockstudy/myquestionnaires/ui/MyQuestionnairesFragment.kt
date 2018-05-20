@@ -7,32 +7,28 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionaireActivity
-import ec.edu.unl.blockstudy.entities.Questionaire
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.myquestionnaires.MyQuestionairePresenter
 import ec.edu.unl.blockstudy.myquestionnaires.adapter.QuestionnaireAdapter
 import ec.edu.unl.blockstudy.myquestionnaires.adapter.onQuestionnaireAdapterListener
+import ec.edu.unl.blockstudy.myrepository.ui.MyRepositoryActivity
 import ec.edu.unl.blockstudy.questionsComplete.ui.QuestionsCompleteActivity
 import ec.edu.unl.blockstudy.util.BaseActivitys
-import kotlinx.android.synthetic.main.fragment_my_questionnaires.view.*
+import kotlinx.android.synthetic.main.fragment_my_questionnaires.*
 import javax.inject.Inject
 
 class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnariesView, onQuestionnaireAdapterListener {
-    override fun navigationManageQuestionnaire(questionaire: Questionaire) {
+    override fun navigationManageQuestionnaire(questionaire: QuestionnaireBd) {
         startActivity(Intent(context, QuestionaireActivity::class.java).putExtra(QuestionaireActivity.QUESTIONNAIRE, questionaire))
     }
 
-    var questionnaries: ArrayList<Questionaire>? = ArrayList<Questionaire>()
+    var questionnaries = ArrayList<QuestionnaireBd>()
     lateinit var application: MyApplication
-    lateinit var progresbar: ProgressBar
-    lateinit var tv_none_questionnaires: TextView
     lateinit var adapter: QuestionnaireAdapter
-    lateinit var newQuestionarieFragment: NewQuestionarieFragment
 
 
     @Inject
@@ -56,13 +52,15 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_my_questionnaires, container, false)
-        view.fab_new_questionnaraire.setOnClickListener(this)
-        view.rv_questionnaire.layoutManager = LinearLayoutManager(context)
-        view.rv_questionnaire.adapter = adapter
-        progresbar = view.progressbar
-        tv_none_questionnaires = view.tv_none_questionnaires
+        val view = inflater.inflate(R.layout.fragment_my_questionnaires, container, false)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fab_my_repository.setOnClickListener(this)
+        rv_questionnaire.layoutManager = LinearLayoutManager(context)
+        rv_questionnaire.adapter = adapter
     }
 
     private fun setupInjection() {
@@ -83,10 +81,9 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.fab_new_questionnaraire -> {
-                // startActivity(Intent(context, NewQuestionnaireActivity::class.java))
-                newQuestionarieFragment = NewQuestionarieFragment.newInstance()
-                newQuestionarieFragment.show(childFragmentManager, "Nuevo Cuestionario")
+            R.id.fab_my_repository -> {
+                startActivity(Intent(activity, MyRepositoryActivity::class.java))
+
             }
         }
     }
@@ -100,14 +97,14 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
     }
 
     override fun showProgress(show: Boolean) {
-        if (show) progresbar.visibility = View.VISIBLE else progresbar.visibility = View.GONE
+        if (show) progressbar.visibility = View.VISIBLE else progressbar.visibility = View.GONE
     }
 
     override fun showMessagge(message: Any) {
         BaseActivitys.showToastMessage(context!!, message, Toast.LENGTH_SHORT)
     }
 
-    override fun setQuestionnaries(questionaire: List<Questionaire>) {
+    override fun setQuestionnaries(questionaire: List<QuestionnaireBd>) {
         questionnaries!!.clear()
         adapter.data.addAll(questionaire)
         adapter.notifyDataSetChanged()
@@ -119,7 +116,7 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
     }
 
     override fun navigationToDetailQuestionnarie(any: Any) {
-        startActivity(Intent(context, QuestionsCompleteActivity::class.java).putExtra(QuestionsCompleteActivity.QUESTIONNAIRE_PARAM, any as Questionaire))
+        startActivity(Intent(context, QuestionsCompleteActivity::class.java).putExtra(QuestionsCompleteActivity.QUESTIONNAIRE_PARAM, any as QuestionnaireBd))
         //navigationManageQuestionnaire(any as Questionaire)
     }
 
@@ -128,12 +125,10 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
     }
 
     override fun hideDialogNewQuestionnaire() {
-        if (::newQuestionarieFragment.isInitialized) {
-            newQuestionarieFragment.dismiss()
-        }
+
     }
 
     override fun showButtonCreateQuestionnaire() {
-        newQuestionarieFragment.showButtonCreate()
+
     }
 }

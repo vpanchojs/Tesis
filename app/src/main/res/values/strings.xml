@@ -34,7 +34,7 @@
     <string name="title_menu">Menú</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello blank activity</string>
     <string name="menu_tv_my_profile">Mi perfil</string>
     <string name="menu_option_menu">Terminos y Condiciones</string>
     <string name="menu_option_termins_and_conditions">Terminos y Condiciones</string>
@@ -117,7 +117,7 @@
     <string name="description_formation_academic">Ingrese su formacion académica de mas alto nivel</string>
     <string name="visibility_questionnaire">Visibilidad</string>
     <string name="tv_rating_questionnay">Calificar Cuestionario</string>
-    <string name="description_rating_questionnay">Indicanos que te parecio el cuestionario</string>
-    <string name="tv_comment">Comentario</string>
+    <string name="description_rating_questionnay">Indica que te parecio el cuestionario</string>
+    <string name="tv_comment">Comentario(opcional)</string>
     <string name="button_rating">Calificar</string>
 </resources>

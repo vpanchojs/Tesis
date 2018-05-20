@@ -1,7 +1,6 @@
 package ec.edu.unl.blockstudy.blockResume
 
 import android.util.Log
-import com.google.firebase.firestore.QuerySnapshot
 import ec.edu.unl.blockstudy.blockResume.events.BlockResumeEvents
 import ec.edu.unl.blockstudy.domain.FirebaseApi
 import ec.edu.unl.blockstudy.domain.ObjectBoxApi
@@ -9,8 +8,8 @@ import ec.edu.unl.blockstudy.domain.SharePreferencesApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
 import ec.edu.unl.blockstudy.entities.Block
-import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 
 class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi, var sharePreferencesApi: SharePreferencesApi) : BlockResumeRepository {
@@ -28,6 +27,16 @@ class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi:
     }
 
     override fun getQuestionnaires() {
+        objectBoxApi.getMyQuestionnaries(object : OnCallbackApis<List<QuestionnaireBd>> {
+            override fun onSuccess(response: List<QuestionnaireBd>) {
+                postEvent(BlockResumeEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
+            }
+
+            override fun onError(error: Any?) {
+                postEvent(BlockResumeEvents.ON_GET_QUESTIONAIRE_ERROR, error!!)
+            }
+        })
+        /*
         firebaseApi.getMyQuestionnaries(firebaseApi.getUid(), object : OnCallbackApis<QuerySnapshot> {
             override fun onSuccess(response: QuerySnapshot) {
                 var questionnairesList = ArrayList<Questionaire>()
@@ -45,6 +54,7 @@ class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi:
                 postEvent(BlockResumeEvents.ON_GET_QUESTIONAIRE_ERROR, error!!)
             }
         })
+        */
     }
 
     override fun setApplications(apps: List<String>, id: Long) {

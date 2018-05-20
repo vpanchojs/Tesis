@@ -32,6 +32,10 @@ import ec.edu.unl.blockstudy.myquestionnaires.di.DaggerMyQuestionaireComponent
 import ec.edu.unl.blockstudy.myquestionnaires.di.MyQuestionaireComponent
 import ec.edu.unl.blockstudy.myquestionnaires.di.MyQuestionaireModule
 import ec.edu.unl.blockstudy.myquestionnaires.ui.MyQuestionnariesView
+import ec.edu.unl.blockstudy.myrepository.di.DaggerMyRepositoryComponent
+import ec.edu.unl.blockstudy.myrepository.di.MyRepositoryComponent
+import ec.edu.unl.blockstudy.myrepository.di.MyRepositoryModule
+import ec.edu.unl.blockstudy.myrepository.ui.MyRepositoryView
 import ec.edu.unl.blockstudy.newQuestion.di.DaggerQuestionComponent
 import ec.edu.unl.blockstudy.newQuestion.di.QuestionComponent
 import ec.edu.unl.blockstudy.newQuestion.di.QuestionModule
@@ -139,6 +143,16 @@ class MyApplication : MultiDexApplication() {
                 .build()
     }
 
+    fun getMyRepositoryComponent(view: MyRepositoryView): MyRepositoryComponent {
+        return DaggerMyRepositoryComponent
+                .builder()
+                .domainModule(domainModule)
+                .libModule(LibModule())
+                .myRepositoryModule(MyRepositoryModule(view))
+                .build()
+
+    }
+
 
     fun getQuestionnarieComponent(view: QuestionnaireView): QuestionnaireComponent {
         return DaggerQuestionnaireComponent
@@ -202,7 +216,7 @@ class MyApplication : MultiDexApplication() {
                 .build()
     }
 
-    fun getBlockComponent(view:BlockView):BlockComponent{
+    fun getBlockComponent(view: BlockView): BlockComponent {
         return DaggerBlockComponent
                 .builder()
                 .domainModule(domainModule)

@@ -1,6 +1,5 @@
 package ec.edu.unl.blockstudy.questionsComplete.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -14,10 +13,9 @@ import android.view.*
 import android.widget.Toast
 import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionaireActivity
 import ec.edu.unl.blockstudy.entities.Answer
 import ec.edu.unl.blockstudy.entities.Question
-import ec.edu.unl.blockstudy.entities.Questionaire
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.questionsComplete.QuestionCompletePresenter
 import ec.edu.unl.blockstudy.questionsComplete.adapter.AnswerAdapter
 import ec.edu.unl.blockstudy.util.BaseActivitys
@@ -62,7 +60,7 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     var questions = ArrayList<Question>()
-    lateinit var questionaire: Questionaire
+    lateinit var questionaire: QuestionnaireBd
     var idQuestionnaire: Long = 0
     lateinit var application: MyApplication
 
@@ -113,12 +111,10 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_admin_questionnaire -> {
-                startActivity(Intent(this, QuestionaireActivity::class.java).putExtra(QuestionaireActivity.QUESTIONNAIRE, questionaire))
-            }
             R.id.action_more_info -> {
                 var infoQuestionnaireFragment = InfoQuestionnaireFragment.newInstance(questionaire)
                 infoQuestionnaireFragment.show(supportFragmentManager, "info")
+
             }
         }
         return super.onOptionsItemSelected(item)

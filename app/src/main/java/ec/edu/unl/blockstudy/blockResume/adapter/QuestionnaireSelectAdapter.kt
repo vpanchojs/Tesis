@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import kotlinx.android.synthetic.main.item_my_questionnarie_select.view.*
 
 /**
  * Created by victor on 24/2/18.
  */
-class QuestionnaireSelectAdapter(var data: ArrayList<Questionaire>, var questionnaireBlock: ArrayList<QuestionnaireBlock>, var callback: onQuestionnaireAdapterListener) : RecyclerView.Adapter<QuestionnaireSelectAdapter.ViewHolder>() {
+class QuestionnaireSelectAdapter(var data: ArrayList<QuestionnaireBd>, var questionnaireBlock: ArrayList<QuestionnaireBlock>, var callback: onQuestionnaireAdapterListener<QuestionnaireBd>) : RecyclerView.Adapter<QuestionnaireSelectAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_my_questionnarie_select, parent, false)
@@ -34,10 +34,10 @@ class QuestionnaireSelectAdapter(var data: ArrayList<Questionaire>, var question
 
     }
 
-    fun verificate(questionaire: Questionaire): Boolean {
+    fun verificate(questionaire: QuestionnaireBd): Boolean {
         questionnaireBlock.forEach {
             if (it.idCloud.equals(questionaire.idCloud)) {
-                questionaire.idQuestionaire = it.id
+                questionaire.id = it.id
                 return true;
             }
         }
@@ -46,13 +46,8 @@ class QuestionnaireSelectAdapter(var data: ArrayList<Questionaire>, var question
 
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-        fun onClickListener(questionaire: Questionaire, callback: onQuestionnaireAdapterListener) {
-            view.setOnClickListener({
-                //callback.navigationToDetailQuestionnarie(questionaire)
-            })
-        }
 
-        fun onCheckListener(questionaire: Questionaire, callback: onQuestionnaireAdapterListener) {
+        fun onCheckListener(questionaire: QuestionnaireBd, callback: onQuestionnaireAdapterListener<QuestionnaireBd>) {
             view.setOnClickListener {
                 if (it.cb_select.isChecked) {
                     it.cb_select.isChecked = false
@@ -67,9 +62,9 @@ class QuestionnaireSelectAdapter(var data: ArrayList<Questionaire>, var question
     }
 }
 
-interface onQuestionnaireAdapterListener {
+interface onQuestionnaireAdapterListener<T> {
     //  fun navigationToDetailQuestionnarie(any: Any)
-    fun addQuestionnaire(questionaire: Questionaire)
+    fun addQuestionnaire(questionaire: T)
 
-    fun removeQuestionnaire(questionaire: Questionaire)
+    fun removeQuestionnaire(questionaire: T)
 }

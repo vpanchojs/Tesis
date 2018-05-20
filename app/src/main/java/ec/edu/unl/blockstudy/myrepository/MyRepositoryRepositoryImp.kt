@@ -1,30 +1,19 @@
-package ec.edu.unl.blockstudy.myquestionnaires
+package ec.edu.unl.blockstudy.myrepository
 
+import com.google.firebase.firestore.QuerySnapshot
 import ec.edu.unl.blockstudy.domain.FirebaseApi
 import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
-import ec.edu.unl.blockstudy.myquestionnaires.events.MyQuestionaireEvents
+import ec.edu.unl.blockstudy.myrepository.events.MyRepositoryEvents
 
 /**
  * Created by victor on 24/2/18.
  */
-class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : MyQuestionaireRepository {
+class MyRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : MyRepositoryRepository {
 
-    override fun onGetMyQuestionnaires() {
-
-        objectBoxApi.getMyQuestionnaries(object : OnCallbackApis<List<QuestionnaireBd>> {
-            override fun onSuccess(response: List<QuestionnaireBd>) {
-                postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
-            }
-
-            override fun onError(error: Any?) {
-
-            }
-        })
-        /*
+    override fun onGetmyrepository() {
         firebaseApi.getMyQuestionnaries(firebaseApi.getUid(), object : OnCallbackApis<QuerySnapshot> {
             override fun onSuccess(response: QuerySnapshot) {
                 var questionnairesList = ArrayList<Questionaire>()
@@ -35,7 +24,7 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
                     questionnairesList.add(questionaire)
                 }
 
-                postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, questionnairesList!!)
+                postEvent(MyRepositoryEvents.ON_GET_QUESTIONAIRE_SUCCESS, questionnairesList!!)
 
             }
 
@@ -43,18 +32,17 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
 
             }
         })
-        */
 
     }
 
     override fun onCreateQuestionaire(questionaire: Questionaire) {
         firebaseApi.createQuestionnaire(questionaire, object : OnCallbackApis<Questionaire> {
             override fun onSuccess(response: Questionaire) {
-                postEvent(MyQuestionaireEvents.ON_CREATE_QUESTIONAIRE_SUCCESS, response!!)
+                postEvent(MyRepositoryEvents.ON_CREATE_QUESTIONAIRE_SUCCESS, response!!)
             }
 
             override fun onError(error: Any?) {
-                postEvent(MyQuestionaireEvents.ON_CREATE_QUESTIONAIRE_ERROR, error!!)
+                postEvent(MyRepositoryEvents.ON_CREATE_QUESTIONAIRE_ERROR, error!!)
             }
         })
 
@@ -62,7 +50,7 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
 
 
     private fun postEvent(type: Int, any: Any) {
-        var event = MyQuestionaireEvents(type, any)
+        var event = MyRepositoryEvents(type, any)
         eventBus.post(event)
     }
 }

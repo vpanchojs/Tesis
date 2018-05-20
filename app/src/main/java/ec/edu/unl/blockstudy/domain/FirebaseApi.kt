@@ -290,6 +290,15 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return mAuth.currentUser!!.uid
     }
 
+    fun getNameUser(): String {
+        if (mAuth.currentUser!!.displayName != null) {
+            return mAuth.currentUser!!.displayName!!
+        } else {
+            return "Usuario"
+        }
+
+    }
+
 
     fun getPreferencesUser(callback: onDomainApiActionListener) {
         db.collection(USERS_PATH).document(getUid()).collection(SUBJECTS_PATH).get()
@@ -636,6 +645,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
     fun onSetRaiting(raiting: Raiting, callback: onDomainApiActionListener) {
+        raiting.nameUser = getNameUser()
         var newAvgRating: Double = 0.0
         /*Referencia al cuestionrio a calificar */
         var questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(raiting.idQuestionaire)
@@ -643,11 +653,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         var ratingsRef: DocumentReference
 
         /*Referencia al nodo de calificaciones*/
-        if (raiting.idRaiting.isNullOrBlank()) {
-            ratingsRef = questionaireRef.collection(RATING_PATH).document()
-        } else {
-            ratingsRef = questionaireRef.collection(RATING_PATH).document(raiting.idRaiting)
-        }
+        //if (raiting.idRaiting.isNullOrBlank()) {
+        ratingsRef = questionaireRef.collection(RATING_PATH).document(getUid())
+        //} else {
+        //ratingsRef = questionaireRef.collection(RATING_PATH).document(raiting.idRaiting)
+        //}
 
 
         db.runTransaction {
@@ -695,11 +705,21 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 }
     }
 
-    fun getQuestionnarie(idQuestionnaire: String, callback: onDomainApiActionListener) {
+    fun getQuestionnarie(idQuestionnaire: String, callback: OnCallbackApis<DocumentSnapshot>) {
 
         val questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire!!)
-        val questionsRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire!!).collection(QUESTIONS_PATH)
+        //val questionsRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire!!).collection(QUESTIONS_PATH)
 
+        questionaireRef.get()
+                .addOnSuccessListener {
+                    callback.onSuccess(it)
+                }
+                .addOnFailureListener {
+                    callback.onError(it.toString())
+                    Log.e(TAG, it.toString())
+                }
+
+        /*
         db.runTransaction(object : Transaction.Function<Questionaire> {
             override fun apply(trans: Transaction): Questionaire? {
                 var questionaire: Questionaire
@@ -718,53 +738,6 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
                 }
 
-                .addOnFailureListener {
-
-                }
-
-        /*
-        var questionaire: Questionaire
-        db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire!!)
-                .get()
-                .addOnSuccessListener { q ->
-                    questionaire = q.toObject(Questionaire::class.java)
-                    questionaire.idCloud = q.id
-
-
-                    db.collection(QUESTIONNAIRE_PATH).document(q.id).collection(QUESTIONS_PATH)
-                            .get()
-                            .addOnSuccessListener { p ->
-
-
-                                var questionList = ArrayList<Question>()
-
-
-                                p.documents.forEach { pp ->
-                                    var question = pp.toObject(Question::class.java)
-                                    question.idCloud = pp.id
-
-                                    db.collection(QUESTIONNAIRE_PATH).document(q.id).collection(QUESTIONS_PATH).document(pp.id).collection(ANSWER_PATH)
-                                            .get()
-                                            .addOnSuccessListener { a ->
-                                                var answerList = ArrayList<Answer>()
-                                                a.documents.forEach { aa ->
-                                                    var answers = aa.toObject(Answer::class.java)
-                                                    answers.idCloud = aa.id
-                                                    answerList.add(answers)
-                                                }
-
-                                                /*Anadir las respuestas*/
-                                                question.answers = answerList
-                                                /*Anadimos la pregunta con las respuestas */
-                                                questionList.add(question)
-                                            }
-
-
-                                }
-
-
-                            }
-                }
                 .addOnFailureListener {
 
                 }

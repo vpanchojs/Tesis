@@ -4,6 +4,9 @@ import android.util.Log
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
 import ec.edu.unl.blockstudy.entities.*
+import ec.edu.unl.blockstudy.entities.objectBox.AnswerBd
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionBd
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import io.objectbox.BoxStore
 
 /**
@@ -11,29 +14,28 @@ import io.objectbox.BoxStore
  */
 class ObjectBoxApi(var boxStore: BoxStore) {
     val TAG = "ObjectBoxApi"
-    //    val questionaireBox = boxStore.boxFor(Questionaire::class.java)
-    //val questionBox = boxStore.boxFor(Question::class.java)
-    // val answerBox = boxStore.boxFor(Answer::class.java)
+    val questionaireBox = boxStore.boxFor(QuestionnaireBd::class.java)
+    val questionBox = boxStore.boxFor(QuestionBd::class.java)
+    val answerBox = boxStore.boxFor(AnswerBd::class.java)
     val keywordBox = boxStore.boxFor(Keyword::class.java)
     val blockBox = boxStore.boxFor(Block::class.java)
     val applicationBox = boxStore.boxFor(Application::class.java)
     val questionnaireBlockBox = boxStore.boxFor(QuestionnaireBlock::class.java)
 
 
-    fun createQuestionaire(questionaire: Questionaire, callback: onDomainApiActionListener) {
-        //   questionaireBox.put(questionaire)
-        Log.e("BOXDB", "Inserted new cuestionario, ID: " + questionaire.idQuestionaire)
-        //val questionaire = questionaireBox.get(questionaire.idQuestionaire)
-        //Log.e("BOXDB", questionaire.keyword[0].description)
-        if (questionaire.idQuestionaire > 0) {
-            callback.onSuccess(questionaire)
+    fun createQuestionaire(questionaire: QuestionnaireBd, callback: OnCallbackApis<Unit>) {
+        questionaireBox.put(questionaire)
+        Log.e("BOXDB", "Inserted new cuestionario, ID: " + questionaire.id)
+
+        if (questionaire.id > 0) {
+            callback.onSuccess(Unit)
         } else {
             callback.onError("No se puedo crear el cuestionario")
         }
     }
 
-    fun getMyQuestionnaries(idUser: String, callback: onDomainApiActionListener) {
-        // callback.onSuccess(questionaireBox.query().equal(Questionaire_.idUser, idUser).build().find())
+    fun getMyQuestionnaries(callback: OnCallbackApis<List<QuestionnaireBd>>) {
+        callback.onSuccess(questionaireBox.all)
     }
 
     fun getDataQuestionnaire(idQuestionaire: Long, callback: onDomainApiActionListener) {
@@ -54,12 +56,12 @@ class ObjectBoxApi(var boxStore: BoxStore) {
         //callback.onSuccess(questionaire)
     }
 
-    fun onSetQuestion(question: Question, callback: onDomainApiActionListener) {
-        //  questionBox.put(question)
-        if (question.idQuestion > 0) {
-            callback.onSuccess(question)
+    fun onSetQuestion(question: QuestionBd) {
+        questionBox.put(question)
+        if (question.id > 0) {
+            Log.e(TAG, "se guardo")
         } else {
-            callback.onError("No se puedo crear el pregunta")
+            Log.e(TAG, "No se puedo crear el pregunta")
         }
     }
 
@@ -104,18 +106,19 @@ class ObjectBoxApi(var boxStore: BoxStore) {
     }
 
     fun getBlockData(idUser: String, callback: onDomainApiActionListener) {
-        var block = blockBox.query().equal(Block_.idUser, idUser).build().findUnique()
+        /*
+         var block = blockBox.query().equal(Block_.idUser, idUser).build().findUnique()
 
-        if (block != null) {
-            callback.onSuccess(block)
+         if (block != null) {
+             callback.onSuccess(block)
 
-        } else {
-            var block = Block()
-            block.idUser = idUser
-            blockBox.put(block)
-            callback.onSuccess(block)
-        }
-
+         } else {
+             var block = Block()
+             block.idUser = idUser
+             blockBox.put(block)
+             callback.onSuccess(block)
+         }
+         */
     }
 
     fun onUpdateBlock(block: Block, callback: onDomainApiActionListener) {
@@ -144,7 +147,7 @@ class ObjectBoxApi(var boxStore: BoxStore) {
     }
 
     fun removeQuestionnaireBlock(idQuestionaire: Long, callback: OnCallbackApis<Unit>) {
-        questionnaireBlockBox.query().equal(QuestionnaireBlock_.idQuestionnaire, idQuestionaire).build().remove()
+        //  questionnaireBlockBox.query().equal(QuestionnaireBlock_.idQuestionnaire, idQuestionaire).build().remove()
         questionnaireBlockBox.remove(idQuestionaire)
         callback.onSuccess(Unit)
 

@@ -60,6 +60,7 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
                 aux.documents.forEach {
                     var raiting = it.toObject(Raiting::class.java)
                     raiting!!.idRaiting = it.id
+                    raiting!!.me = it.id == firebaseApi.getUid()
                     ratingsList.add(raiting)
                 }
                 Log.e("aa", "enviando" + ratingsList.size)

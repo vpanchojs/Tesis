@@ -26,7 +26,7 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
         startActivity(Intent(context, QuestionnaireResumeActivity::class.java).putExtra(QuestionnaireResumeActivity.PARAM_QUESTIONNAIRE, questionaire as Questionaire))
     }
 
-    var questionnaries: ArrayList<Questionaire>? = ArrayList<Questionaire>()
+    var questionnaries = ArrayList<Questionaire>()
     lateinit var application: MyApplication
     lateinit var progresbar: ProgressBar
     lateinit var tv_none_questionnaires: TextView
@@ -38,7 +38,7 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = QuestionnaireRepositoryAdapter(questionnaries!!, this)
+        adapter = QuestionnaireRepositoryAdapter(questionnaries, this)
         setupInjection()
     }
 
@@ -60,7 +60,7 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.activity_questionnaire_repository, container, false)
+        val view = inflater.inflate(R.layout.activity_questionnaire_repository, container, false)
         view.rv_questionnaire.layoutManager = LinearLayoutManager(context)
         view.rv_questionnaire.adapter = adapter
         progresbar = view.progressbar

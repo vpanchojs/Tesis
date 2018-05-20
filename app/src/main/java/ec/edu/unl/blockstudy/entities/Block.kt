@@ -2,6 +2,7 @@ package ec.edu.unl.blockstudy.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
