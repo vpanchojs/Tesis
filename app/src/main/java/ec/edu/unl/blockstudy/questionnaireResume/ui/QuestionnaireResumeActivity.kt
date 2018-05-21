@@ -51,7 +51,6 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
                 ratingFragment.show(supportFragmentManager, "Calificar")
             }
             R.id.btn_get_questionnaire -> {
-                //presenter.getQuestionnaire(questionaire.idCloud)
                 Log.e("aa", "sasdasd")
                 val intent = Intent(this, DonwloadIntentService::class.java)
                 intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
@@ -204,13 +203,13 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     }
 
     override fun setQuestions(questionList: List<Question>) {
-        this.questionList!!.clear()
-        this.questionList!!.addAll(questionList)
+        this.questionList.clear()
+        this.questionList.addAll(questionList)
         adapter.notifyDataSetChanged()
     }
 
     override fun setUser(user: User) {
-        tv_user.setText(user.name + " " + user.lastname)
+        tv_user.text = "${user.name}  ${user.lastname}"
     }
 
     override fun updateRating(rating: Double) {
@@ -219,9 +218,9 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
 
     override fun setRatings(ratingList: List<Raiting>) {
         Log.e("aa", "todo llego" + ratingList.size)
-        tv_subtitle_bs.setText(ratingList.size.toString() + " calificaciones")
-        this.ratingsList!!.clear()
-        this.ratingsList!!.addAll(ratingList)
+        tv_subtitle_bs.text = "${ratingList.size} calificaciones"
+        this.ratingsList.clear()
+        this.ratingsList.addAll(ratingList)
         adapterRating.notifyDataSetChanged()
     }
 }

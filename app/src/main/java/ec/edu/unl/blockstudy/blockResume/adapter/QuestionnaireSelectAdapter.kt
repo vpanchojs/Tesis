@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import kotlinx.android.synthetic.main.item_my_questionnarie_select.view.*
 
 /**
  * Created by victor on 24/2/18.
  */
-class QuestionnaireSelectAdapter(var data: ArrayList<QuestionnaireBd>, var questionnaireBlock: ArrayList<QuestionnaireBlock>, var callback: onQuestionnaireAdapterListener<QuestionnaireBd>) : RecyclerView.Adapter<QuestionnaireSelectAdapter.ViewHolder>() {
+class QuestionnaireSelectAdapter(var data: ArrayList<QuestionnaireBd>, var callback: onQuestionnaireAdapterListener<QuestionnaireBd>) : RecyclerView.Adapter<QuestionnaireSelectAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_my_questionnarie_select, parent, false)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_my_questionnarie_select, parent, false)
         return ViewHolder(view)
     }
 
@@ -25,25 +24,14 @@ class QuestionnaireSelectAdapter(var data: ArrayList<QuestionnaireBd>, var quest
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var questionaire = data.get(position)
-        holder!!.view.tv_title.text = questionaire.title
+        holder.view.tv_title.text = questionaire.title
 
-        holder!!.view.cb_select.isChecked = verificate(questionaire)
+        holder.view.cb_select.isChecked = questionaire.blockId > 0
 
-        holder!!.onCheckListener(questionaire, callback)
+        holder.onCheckListener(questionaire, callback)
 
 
     }
-
-    fun verificate(questionaire: QuestionnaireBd): Boolean {
-        questionnaireBlock.forEach {
-            if (it.idCloud.equals(questionaire.idCloud)) {
-                questionaire.id = it.id
-                return true;
-            }
-        }
-        return false
-    }
-
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 

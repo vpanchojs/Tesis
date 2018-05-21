@@ -1,8 +1,11 @@
 package ec.edu.unl.blockstudy.questionsComplete
 
+import android.util.Log
+import ec.edu.unl.blockstudy.database.QuestionBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.entities.Answer
-import ec.edu.unl.blockstudy.entities.Question
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
+import ec.edu.unl.blockstudy.newQuestion.events.QuestionEvents
 import ec.edu.unl.blockstudy.questionsComplete.events.QuestionCompleteEvents
 import ec.edu.unl.blockstudy.questionsComplete.ui.QuestionCompleteView
 import org.greenrobot.eventbus.Subscribe
@@ -28,15 +31,21 @@ class QuestionCompletePresenterImp(var eventBus: EventBusInterface, var view: Qu
         interactor.onGetAnswersQuestion(idQuestionnaire, idCloud)
     }
 
+    override fun deleteQuestionnarie(questionnaireBd: QuestionnaireBd) {
+        interactor.deleteQuestionnarie(questionnaireBd)
+    }
+
     @Subscribe
     override fun onEventThread(event: QuestionCompleteEvents) {
         when (event.type) {
             QuestionCompleteEvents.ON_GET_QUESTIONS_SUCCESS -> {
-                var questionList = event.any as List<Question>
-                if (questionList.size > 0)
+                var questionList = event.any as List<QuestionBd>
+                if (questionList.size > 0) {
+                    Log.e("pre", "si esta ")
                     view.setQuestions(questionList)
-                else
+                } else {
                     view.none_results(true)
+                }
 
             }
 
@@ -46,6 +55,10 @@ class QuestionCompletePresenterImp(var eventBus: EventBusInterface, var view: Qu
                     view.setAnswer(answerList)
                 else
                     view.none_results(true)
+            }
+
+            QuestionCompleteEvents.ON_DELETE_SUCCESS->{
+                view.closeActivity()
             }
 
         }

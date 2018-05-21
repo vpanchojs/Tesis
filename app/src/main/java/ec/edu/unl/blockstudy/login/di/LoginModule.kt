@@ -35,8 +35,8 @@ class LoginModule(var view: LoginView) {
 
     @Provides
     @Singleton
-    fun providesLoginRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, sharePreferencesApi: SharePreferencesApi): LoginRepository {
-        return LoginRepositoryImp(eventBus, firebaseApi,  sharePreferencesApi)
+    fun providesLoginRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): LoginRepository {
+        return LoginRepositoryImp(eventBus, firebaseApi)
     }
 
 }

@@ -1,6 +1,5 @@
 package ec.edu.unl.blockstudy.newQuestionnaire.ui
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
@@ -9,32 +8,21 @@ import android.view.View
 import android.widget.Toast
 import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.entities.Keyword
 import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.newQuestionnaire.NewQuestionairePresenter
-import ec.edu.unl.blockstudy.newQuestionnaire.adapters.KeywordAdapter
-import ec.edu.unl.blockstudy.newQuestionnaire.adapters.onKeywordAdapterListener
 import ec.edu.unl.blockstudy.util.BaseActivitys
 import ec.edu.unl.blockstudy.util.BaseActivitys.Companion.onTextChangedListener
 import kotlinx.android.synthetic.main.activity_new_questionnaire.*
 import javax.inject.Inject
 
-class NewQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, NewQuestionaireView, KeyWordFragment.OnkeyWordListener, onKeywordAdapterListener {
+class NewQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, NewQuestionaireView {
     companion object {
         val PARAM_QUESTIONNAIRE = "questionnaire"
         val REQUEST_INFORM_BASIC_QUESTIONNAIRE = 1
     }
 
-    override fun onRemoveKeyword(position: Int) {
-        data!!.removeAt(position)
-        keywordAdapter!!.notifyDataSetChanged()
-        verifyNoneKeyword()
-    }
 
-    private var data: ArrayList<Keyword>? = ArrayList()
-    private var keywordAdapter: KeywordAdapter? = null
     lateinit var application: MyApplication
-    lateinit var progressDialog: ProgressDialog
     lateinit var questionaire: Questionaire
 
     @Inject
@@ -44,7 +32,6 @@ class NewQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, NewQ
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_questionnaire)
-        keywordAdapter = KeywordAdapter(data!!, this)
         setupInjection()
         setupFieldsValidation()
         setupToolBar()
@@ -157,11 +144,6 @@ class NewQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, NewQ
         }
     }
 
-    override fun onAddKeyword(keyword: Keyword) {
-        data!!.add(keyword)
-        keywordAdapter!!.notifyDataSetChanged()
-        verifyNoneKeyword()
-    }
 
     override fun showMessagge(message: Any) {
         BaseActivitys.showToastMessage(this, message, Toast.LENGTH_SHORT)

@@ -6,26 +6,19 @@ import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import ec.edu.unl.blockstudy.MyApplication
+import ec.edu.unl.blockstudy.database.Db
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.domain.SharePreferencesApi
-import ec.edu.unl.blockstudy.domain.VolleyApi
-import io.objectbox.BoxStore
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import javax.inject.Singleton
 
 @Module
-class DomainModule(var app: MyApplication, var boxStore: BoxStore) {
+class DomainModule(var app: MyApplication, var db: Db) {
 
     @Provides
     @Singleton
-    fun providesVolleyApi(): VolleyApi {
-        return VolleyApi(app)
-    }
-
-    @Provides
-    @Singleton
-    fun providesObjectBoxApi(): ObjectBoxApi {
-        return ObjectBoxApi(boxStore)
+    fun providesDbApi(): DbApi {
+        return DbApi(db)
     }
 
     @Provides

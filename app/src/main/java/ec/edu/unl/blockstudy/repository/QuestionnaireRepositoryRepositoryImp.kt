@@ -8,7 +8,7 @@ import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.repository.events.QuestionnaireRepositoryEvents
 
-class QuestionnaireRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : QuestionnaireRepositoryRepository {
+class QuestionnaireRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : QuestionnaireRepositoryRepository {
 
     override fun postEvent(type: Int, any: Any) {
         var event = QuestionnaireRepositoryEvents(type, any)

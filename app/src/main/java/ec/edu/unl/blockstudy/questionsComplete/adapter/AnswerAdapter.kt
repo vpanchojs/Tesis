@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.entities.Answer
+import ec.edu.unl.blockstudy.database.AnswerBd
 import kotlinx.android.synthetic.main.item_answer_complete.view.*
 
 
-class AnswerAdapter(var data: ArrayList<Answer>) : RecyclerView.Adapter<AnswerAdapter.ViewHolder>() {
+class AnswerAdapter(var data: ArrayList<AnswerBd>) : RecyclerView.Adapter<AnswerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_answer_complete, parent, false);

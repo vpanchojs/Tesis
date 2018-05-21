@@ -4,9 +4,9 @@ import dagger.Module
 import dagger.Provides
 import ec.edu.unl.blockstudy.blockResume.*
 import ec.edu.unl.blockstudy.blockResume.ui.BlockResumeView
+import ec.edu.unl.blockstudy.database.Db
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
-import ec.edu.unl.blockstudy.domain.SharePreferencesApi
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import javax.inject.Singleton
 
@@ -35,7 +35,7 @@ class BlockResumeModule(var view: BlockResumeView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, objectBoxApi: ObjectBoxApi, sharePreferencesApi: SharePreferencesApi): BlockResumeRepository {
-        return BlockResumeRepositoryImp(eventBus, firebaseApi, objectBoxApi, sharePreferencesApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, db: DbApi): BlockResumeRepository {
+        return BlockResumeRepositoryImp(eventBus, firebaseApi, db)
     }
 }

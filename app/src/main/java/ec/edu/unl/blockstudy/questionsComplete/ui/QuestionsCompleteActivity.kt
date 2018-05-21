@@ -13,9 +13,10 @@ import android.view.*
 import android.widget.Toast
 import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
+import ec.edu.unl.blockstudy.database.AnswerBd
+import ec.edu.unl.blockstudy.database.QuestionBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.entities.Answer
-import ec.edu.unl.blockstudy.entities.Question
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.questionsComplete.QuestionCompletePresenter
 import ec.edu.unl.blockstudy.questionsComplete.adapter.AnswerAdapter
 import ec.edu.unl.blockstudy.util.BaseActivitys
@@ -59,7 +60,7 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
     }
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-    var questions = ArrayList<Question>()
+    var questions = ArrayList<QuestionBd>()
     lateinit var questionaire: QuestionnaireBd
     var idQuestionnaire: Long = 0
     lateinit var application: MyApplication
@@ -81,15 +82,14 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
         presenter.onSuscribe()
         setSupportActionBar(toolbar)
 
-
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, questions)
         container.adapter = mSectionsPagerAdapter
         tabs.setupWithViewPager(container)
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
         container.addOnPageChangeListener(this)
 
-
-        presenter.onGetQuestionAll(questionaire.idCloud)
+        presenter.onGetQuestionAll(questionaire.id)
+        //setQuestions(ArrayList<QuestionBd>questionaire.questions)
     }
 
 
@@ -116,6 +116,9 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
                 infoQuestionnaireFragment.show(supportFragmentManager, "info")
 
             }
+            R.id.action_delete -> {
+                presenter.deleteQuestionnarie(questionaire)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -133,27 +136,29 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
         BaseActivitys.hideProgressDialog()
     }
 
-    override fun setQuestions(list: List<Question>) {
+    override fun setQuestions(list: List<QuestionBd>) {
         questions.clear()
         questions.addAll(list)
         mSectionsPagerAdapter!!.notifyDataSetChanged()
         onPageSelected(1)
+
     }
 
     override fun setAnswer(answerList: List<Answer>) {
         questions.forEach {
-            if (it.idCloud.equals(answerList[0].idQuestion)) {
-                var aux = it.answers as ArrayList<Answer>
-                aux.clear()
-                aux.addAll(answerList)
-                //Log.e("local", "respuestas " + it.answers.size)
-            }
-            mSectionsPagerAdapter!!.notifyDataSetChanged()
-
+            /*
+             if (it.idCloud.equals(answerList[0].idQuestion)) {
+                 var aux = it.answers as ArrayList<Answer>
+                 aux.clear()
+                 aux.addAll(answerList)
+                 //Log.e("local", "respuestas " + it.answers.size)
+             }
+             mSectionsPagerAdapter!!.notifyDataSetChanged()
+             */
         }
     }
 
-    inner class SectionsPagerAdapter(fm: FragmentManager, var questions: ArrayList<Question>) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter(fm: FragmentManager, var questions: ArrayList<QuestionBd>) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             return PlaceholderFragment.newInstance(questions.get(position))
@@ -179,12 +184,12 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            val question = arguments!!.getParcelable(PARAM_QUESTION) as Question
+            val question = arguments!!.getParcelable(PARAM_QUESTION) as QuestionBd
             setupRecyclerView(question)
             setData(question)
         }
 
-        private fun setData(question: Question) {
+        private fun setData(question: QuestionBd) {
             tv_statament.text = question.statement
             if (question.photoUrl.isNullOrBlank()) {
                 iv_photo_question.visibility = View.GONE
@@ -198,8 +203,8 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
             }
         }
 
-        private fun setupRecyclerView(question: Question) {
-            val answerAdapter = AnswerAdapter(question.answers as ArrayList<Answer>)
+        private fun setupRecyclerView(question: QuestionBd) {
+            val answerAdapter = AnswerAdapter(question.answers as ArrayList<AnswerBd>)
             rv_answer.layoutManager = LinearLayoutManager(context)
             val mDividerItemDecoration = DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL)
@@ -210,7 +215,7 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
         companion object {
             val PARAM_QUESTION = "question"
-            fun newInstance(question: Question): PlaceholderFragment {
+            fun newInstance(question: QuestionBd): PlaceholderFragment {
                 val fragment = PlaceholderFragment()
                 val args = Bundle()
                 args.putParcelable(PARAM_QUESTION, question)
@@ -222,5 +227,9 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
     override fun none_results(show: Boolean) {
 
+    }
+
+    override fun closeActivity() {
+        finish()
     }
 }

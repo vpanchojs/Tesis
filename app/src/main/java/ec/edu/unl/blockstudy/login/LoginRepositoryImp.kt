@@ -6,7 +6,7 @@ import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.login.events.LoginEvents
 
-class LoginRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, val sharePreferencesApi: SharePreferencesApi) : LoginRepository {
+class LoginRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : LoginRepository {
 
     val TAG = "LoginRepository"
     override fun onSignIn(email: String, password: String) {

@@ -3,7 +3,7 @@ package ec.edu.unl.blockstudy.QuestionCompletesComplete.di
 import dagger.Module
 import dagger.Provides
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.questionsComplete.*
 import ec.edu.unl.blockstudy.questionsComplete.ui.QuestionCompleteView
@@ -33,7 +33,7 @@ class QuestionCompleteModule(var view: QuestionCompleteView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, objectBoxApi: ObjectBoxApi): QuestionCompleteRepository {
-        return QuestionCompleteRepositoryImp(eventBus, firebaseApi, objectBoxApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, dbApi: DbApi): QuestionCompleteRepository {
+        return QuestionCompleteRepositoryImp(eventBus, firebaseApi,dbApi)
     }
 }

@@ -3,8 +3,6 @@ package ec.edu.unl.blockstudy.newQuestion
 import android.util.Log
 import com.google.firebase.firestore.QuerySnapshot
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
-import ec.edu.unl.blockstudy.domain.SharePreferencesApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
 import ec.edu.unl.blockstudy.entities.Answer
@@ -12,7 +10,7 @@ import ec.edu.unl.blockstudy.entities.Question
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.newQuestion.events.QuestionEvents
 
-class QuestionRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var sharePreferencesApi: SharePreferencesApi, var objectBoxApi: ObjectBoxApi) : QuestionRepository {
+class QuestionRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : QuestionRepository {
     override fun onCreateQuestion(question: Question, idQuestionnaire: String) {
         firebaseApi.onCreateQuestion(question, idQuestionnaire, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {

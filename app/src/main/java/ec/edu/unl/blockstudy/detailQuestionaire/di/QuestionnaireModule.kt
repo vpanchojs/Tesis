@@ -34,7 +34,7 @@ class QuestionnaireModule(var view: QuestionnaireView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, objectBoxApi: ObjectBoxApi): QuestionnariesRepository {
-        return QuestionnariesRepositoryImp(eventBus, firebaseApi, objectBoxApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): QuestionnariesRepository {
+        return QuestionnariesRepositoryImp(eventBus, firebaseApi)
     }
 }

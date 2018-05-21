@@ -4,5 +4,5 @@ import ec.edu.unl.blockstudy.util.Presenter
 
 interface BlockPresenter : Presenter {
 
-    fun getQuestion(questionPath: String)
+    fun getQuestion(ids: ArrayList<Long>)
 }

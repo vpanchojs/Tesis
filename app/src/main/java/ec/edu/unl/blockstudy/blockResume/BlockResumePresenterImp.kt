@@ -1,12 +1,11 @@
 package ec.edu.unl.blockstudy.blockResume
 
 import android.util.Log
-import com.google.firebase.firestore.DocumentReference
 import ec.edu.unl.blockstudy.blockResume.events.BlockResumeEvents
 import ec.edu.unl.blockstudy.blockResume.ui.BlockResumeView
-import ec.edu.unl.blockstudy.entities.Block
-import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.Application
+import ec.edu.unl.blockstudy.database.Block
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import org.greenrobot.eventbus.Subscribe
 
@@ -22,8 +21,8 @@ class BlockResumePresenterImp(var eventBus: EventBusInterface, var view: BlockRe
     }
 
 
-    override fun setTimeActivity(block: Block) {
-        interactor.setTimeActivity(block)
+    override fun setTimeActivity(time: Int) {
+        interactor.setTimeActivity(time)
     }
 
     override fun setApplications(apps: List<String>, id: Long) {
@@ -38,16 +37,17 @@ class BlockResumePresenterImp(var eventBus: EventBusInterface, var view: BlockRe
         interactor.getQuestionnaires()
     }
 
-    override fun addQuestionnaire(idQuestionaire: Long, idCloud: String, idBlock: Long, refQuestions: ArrayList<DocumentReference>) {
-        interactor.addQuestionnaire(idQuestionaire, idCloud, idBlock, refQuestions)
+    override fun addQuestionnaireBlock(id: Long, idBlock: Long) {
+        interactor.addQuestionnaireBlock(id, idBlock)
     }
 
-    override fun removeQuestionnaire(idQuestionaire: Long) {
-        interactor.removeQuestionnaire(idQuestionaire)
+    override fun removeQuestionnaireBlock(id: Long) {
+        interactor.removeQuestionnaireBlock(id)
     }
 
     @Subscribe
     fun onEventThread(event: BlockResumeEvents) {
+
         when (event.type) {
             BlockResumeEvents.ON_GET_BLOCKDATA_SUCCESS -> {
                 Log.e("bien", "" + (event.any as Block).id)
@@ -63,12 +63,19 @@ class BlockResumePresenterImp(var eventBus: EventBusInterface, var view: BlockRe
                 view.showProgress(false)
 //                view.setQuestionnaries(event.any as Questionaire)
 
-
                 var questionnaire_list = event.any as List<QuestionnaireBd>
                 if (questionnaire_list.size > 0)
                     view.setQuestionnaries(questionnaire_list)
                 else
                     view.none_results(true)
+            }
+
+            BlockResumeEvents.ON_SET_APPLICATIONS_SUCCESS -> {
+                view.setApplicationsSize(event.any as Int)
+
+            }
+            BlockResumeEvents.ON_GET_APPLICATIONS_SUCCESS -> {
+                view.setApplicationsSelect(event.any as List<Application>)
             }
 
         }

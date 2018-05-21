@@ -1,5 +1,6 @@
 package ec.edu.unl.blockstudy.questionsComplete
 
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.util.Repository
 
 /**
@@ -8,4 +9,5 @@ import ec.edu.unl.blockstudy.util.Repository
 interface QuestionCompleteRepository : Repository {
     fun onGetQuestionAll(idQuestionnaire: Any)
     fun onGetAnswersQuestion(idQuestionnaire: String, idCloud: String)
+    fun deleteQuestionnarie(questionnaireBd: QuestionnaireBd)
 }

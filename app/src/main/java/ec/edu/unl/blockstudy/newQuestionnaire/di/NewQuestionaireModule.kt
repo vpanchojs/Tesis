@@ -37,7 +37,7 @@ class NewQuestionaireModule(var view: NewQuestionaireView) {
 
     @Provides
     @Singleton
-    fun providesLoginRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, sharePreferencesApi: SharePreferencesApi, objectBoxApi: ObjectBoxApi): NewQuestionaireRepository {
-        return NewQuestionaireRepositoryImp(eventBus, firebaseApi,  sharePreferencesApi,objectBoxApi)
+    fun providesLoginRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): NewQuestionaireRepository {
+        return NewQuestionaireRepositoryImp(eventBus, firebaseApi)
     }
 }

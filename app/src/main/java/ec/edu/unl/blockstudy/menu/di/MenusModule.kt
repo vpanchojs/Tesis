@@ -31,8 +31,8 @@ class MenusModule(var view: MenusView) {
 
     @Provides
     @Singleton
-    fun providesMenusRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, sharePreferencesApi: SharePreferencesApi): MenusRepository {
-        return MenusRepositoryImp(eventBus, firebaseApi, sharePreferencesApi)
+    fun providesMenusRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): MenusRepository {
+        return MenusRepositoryImp(eventBus, firebaseApi)
     }
 }
 

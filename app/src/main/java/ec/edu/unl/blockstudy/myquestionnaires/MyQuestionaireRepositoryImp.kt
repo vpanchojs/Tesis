@@ -1,20 +1,45 @@
 package ec.edu.unl.blockstudy.myquestionnaires
 
+import android.util.Log
+import ec.edu.unl.blockstudy.database.QuestionBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.myquestionnaires.events.MyQuestionaireEvents
 
 /**
  * Created by victor on 24/2/18.
  */
-class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : MyQuestionaireRepository {
+class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var db: DbApi) : MyQuestionaireRepository {
 
     override fun onGetMyQuestionnaires() {
 
+        db.getMyQuestionnaires(object : OnCallbackApis<List<QuestionnaireBd>> {
+            override fun onSuccess(response: List<QuestionnaireBd>) {
+                Log.e("myq", "AAAAA")
+
+                /*
+                db.getQuestions(object : OnCallbackApis<List<QuestionBd>> {
+                    override fun onSuccess(response: List<QuestionBd>) {
+                        Log.e("question","preguntas ${response.size}")
+                    }
+
+                    override fun onError(error: Any?) {
+
+                    }
+                })
+                */
+                postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
+            }
+
+            override fun onError(error: Any?) {
+
+            }
+        })
+        /*
         objectBoxApi.getMyQuestionnaries(object : OnCallbackApis<List<QuestionnaireBd>> {
             override fun onSuccess(response: List<QuestionnaireBd>) {
                 postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
@@ -24,27 +49,7 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
 
             }
         })
-        /*
-        firebaseApi.getMyQuestionnaries(firebaseApi.getUid(), object : OnCallbackApis<QuerySnapshot> {
-            override fun onSuccess(response: QuerySnapshot) {
-                var questionnairesList = ArrayList<Questionaire>()
-
-                response.documents.forEach {
-                    var questionaire = it.toObject(Questionaire::class.java)
-                    questionaire!!.idCloud = it.id
-                    questionnairesList.add(questionaire)
-                }
-
-                postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, questionnairesList!!)
-
-            }
-
-            override fun onError(error: Any?) {
-
-            }
-        })
-        */
-
+       */
     }
 
     override fun onCreateQuestionaire(questionaire: Questionaire) {

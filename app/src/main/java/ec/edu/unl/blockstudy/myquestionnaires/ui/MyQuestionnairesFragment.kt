@@ -10,8 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionaireActivity
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.myquestionnaires.MyQuestionairePresenter
 import ec.edu.unl.blockstudy.myquestionnaires.adapter.QuestionnaireAdapter
 import ec.edu.unl.blockstudy.myquestionnaires.adapter.onQuestionnaireAdapterListener
@@ -23,7 +22,7 @@ import javax.inject.Inject
 
 class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnariesView, onQuestionnaireAdapterListener {
     override fun navigationManageQuestionnaire(questionaire: QuestionnaireBd) {
-        startActivity(Intent(context, QuestionaireActivity::class.java).putExtra(QuestionaireActivity.QUESTIONNAIRE, questionaire))
+        //startActivity(Intent(context, QuestionaireActivity::class.java).putExtra(QuestionaireActivity.QUESTIONNAIRE, questionaire))
     }
 
     var questionnaries = ArrayList<QuestionnaireBd>()
@@ -45,7 +44,7 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = QuestionnaireAdapter(questionnaries!!, this)
+        adapter = QuestionnaireAdapter(questionnaries, this)
         setupInjection()
 
     }
@@ -105,19 +104,18 @@ class MyQuestionnairesFragment : Fragment(), View.OnClickListener, MyQuestionnar
     }
 
     override fun setQuestionnaries(questionaire: List<QuestionnaireBd>) {
-        questionnaries!!.clear()
+        questionnaries.clear()
         adapter.data.addAll(questionaire)
         adapter.notifyDataSetChanged()
     }
 
     override fun none_results(show: Boolean) {
-        questionnaries!!.clear()
+        questionnaries.clear()
         if (show) tv_none_questionnaires.visibility = View.VISIBLE else tv_none_questionnaires.visibility = View.GONE
     }
 
     override fun navigationToDetailQuestionnarie(any: Any) {
         startActivity(Intent(context, QuestionsCompleteActivity::class.java).putExtra(QuestionsCompleteActivity.QUESTIONNAIRE_PARAM, any as QuestionnaireBd))
-        //navigationManageQuestionnaire(any as Questionaire)
     }
 
     fun onCreateQuestionnaire(description: String, title: String) {

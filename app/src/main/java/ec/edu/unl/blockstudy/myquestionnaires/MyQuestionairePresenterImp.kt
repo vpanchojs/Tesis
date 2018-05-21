@@ -1,8 +1,7 @@
 package ec.edu.unl.blockstudy.myquestionnaires
 
 import android.util.Log
-import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.myquestionnaires.events.MyQuestionaireEvents
 import ec.edu.unl.blockstudy.myquestionnaires.ui.MyQuestionnariesView

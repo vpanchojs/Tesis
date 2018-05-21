@@ -3,8 +3,6 @@ package ec.edu.unl.blockstudy.newQuestion.di
 import dagger.Module
 import dagger.Provides
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
-import ec.edu.unl.blockstudy.domain.SharePreferencesApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.newQuestion.*
 import ec.edu.unl.blockstudy.newQuestion.ui.QuestionView
@@ -36,7 +34,7 @@ class QuestionModule(var view: QuestionView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, sharePreferencesApi: SharePreferencesApi, objectBoxApi: ObjectBoxApi): QuestionRepository {
-        return QuestionRepositoryImp(eventBus, firebaseApi, sharePreferencesApi, objectBoxApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): QuestionRepository {
+        return QuestionRepositoryImp(eventBus, firebaseApi)
     }
 }

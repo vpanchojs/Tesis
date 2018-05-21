@@ -19,9 +19,9 @@ import ec.edu.unl.blockstudy.block.servicie.ServicieBlock
 import ec.edu.unl.blockstudy.blockResume.BlockResumePresenter
 import ec.edu.unl.blockstudy.blockResume.adapter.QuestionnaireSelectAdapter
 import ec.edu.unl.blockstudy.blockResume.adapter.onQuestionnaireAdapterListener
-import ec.edu.unl.blockstudy.entities.Block
-import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.Application
+import ec.edu.unl.blockstudy.database.Block
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.util.BaseActivitys
 import kotlinx.android.synthetic.main.fragment_block_resume.*
 import javax.inject.Inject
@@ -31,12 +31,16 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-        //requestPermission()
-        if (p1)
-            activity!!.startService(Intent(context, ServicieBlock::class.java).putExtra(ServicieBlock.IDBLOCK, block.id))
-        else
-            activity!!.stopService(Intent(context, ServicieBlock::class.java))
+        if (hasPermission()) {
 
+            if (p1)
+                activity!!.startService(Intent(context, ServicieBlock::class.java))
+            else
+                activity!!.stopService(Intent(context, ServicieBlock::class.java))
+
+        } else {
+            requestPermission()
+        }
     }
 
     fun getStateServicie() {
@@ -47,11 +51,12 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
 
     override fun addQuestionnaire(questionaire: QuestionnaireBd) {
-        // presenter.addQuestionnaire(questionaire.idQuestionaire, questionaire.idCloud, block.id, questionaire.refQuestions)
+        presenter.addQuestionnaireBlock(questionaire.id, block.id)
+
     }
 
     override fun removeQuestionnaire(questionaire: QuestionnaireBd) {
-        //presenter.removeQuestionnaire(questionaire.idQuestionaire)
+        presenter.removeQuestionnaireBlock(questionaire.id)
     }
 
     @Inject
@@ -66,8 +71,6 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     lateinit var adapter: QuestionnaireSelectAdapter
 
     var data = ArrayList<QuestionnaireBd>()
-
-    var questonnaireBlock = ArrayList<QuestionnaireBlock>()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -92,7 +95,7 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     }
 
     private fun setupRecyclerView() {
-        adapter = QuestionnaireSelectAdapter(data, questonnaireBlock, this)
+        adapter = QuestionnaireSelectAdapter(data, this)
         rv_questionnaire.layoutManager = LinearLayoutManager(context)
         rv_questionnaire.adapter = adapter
     }
@@ -100,7 +103,8 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     fun onSetTime(time: Int) {
         block.timeActivity = time
-        presenter.setTimeActivity(block)
+        setTimeActivity(time)
+        presenter.setTimeActivity(time)
     }
 
     private fun setupInjection() {
@@ -125,16 +129,10 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.cl_apps -> {
-                Log.e("a", "apps")
-                //Enviar la lista de las aplicaciones
-                //startActivity(Intent(context, ApplicationsActivity::class.java))
-
                 val applicationsFragment = ApplicationsFragment.newInstance(applications)
                 applicationsFragment.show(childFragmentManager, "Apps")
             }
-
             R.id.cl_time_activity -> {
-                Log.e("a", "click time")
                 if (::block.isInitialized) {
                     val selectTimeActivityFragment = SelectTimeActivityFragment.newInstance(block.timeActivity)
                     selectTimeActivityFragment.show(childFragmentManager, "Time")
@@ -143,7 +141,6 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         }
     }
 
-
     private fun requestPermission() {
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
         startActivityForResult(intent, MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS)
@@ -151,11 +148,8 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     private fun hasPermission(): Boolean {
         val appOps = activity!!.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        var mode = 0
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                    android.os.Process.myUid(), activity!!.getPackageName())
-        }
+        var mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(), activity!!.getPackageName())
         return mode == AppOpsManager.MODE_ALLOWED
     }
 
@@ -186,9 +180,19 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         presenter.setApplications(applications, block.id)
     }
 
-    override fun setApplicationsSelect(size: Int) {
-        Log.e("applicaciones", size.toString())
-        tv_num_applications.setText(size.toString() + " Seleccionadas")
+    override fun setApplicationsSize(size: Int) {
+        activity!!.runOnUiThread(java.lang.Runnable {
+            Log.e("applicaciones", size.toString())
+            tv_num_applications.setText(size.toString() + " Seleccionadas")
+        })
+
+    }
+
+    override fun setApplicationsSelect(applicationsList: List<Application>) {
+        setApplicationsSize(applicationsList.size)
+        applicationsList.forEach {
+            applications.add(it.packagename)
+        }
     }
 
     override fun showProgress(show: Boolean) {
@@ -196,7 +200,7 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     }
 
     override fun setQuestionnaries(questionnaire_list: List<QuestionnaireBd>) {
-        data!!.clear()
+        data.clear()
         adapter.data.addAll(questionnaire_list)
         adapter.notifyDataSetChanged()
     }
@@ -208,22 +212,20 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     override fun setBlockData(block: Block) {
         this.block = block
         setTimeActivity(block.timeActivity)
-        setApplicationsSelect(block.apps.size)
         applications.clear()
-        block.apps.forEach {
-            applications.add(it.app)
-        }
 
-        questonnaireBlock.addAll(block.questionaire)
+        //questonnaireBlock.addAll(block.questionaire)
 
-        adapter.notifyDataSetChanged()
+        //adapter.notifyDataSetChanged()
 
+        /*
         block.questionaire.forEach {
             //applications.add(it.)
             it.questionsPath.forEach {
                 Log.e("path", "${it.path}")
             }
         }
+        */
     }
 
 }

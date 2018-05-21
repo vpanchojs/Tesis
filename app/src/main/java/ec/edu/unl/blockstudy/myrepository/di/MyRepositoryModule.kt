@@ -34,8 +34,8 @@ class MyRepositoryModule(val view: MyRepositoryView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, objectBoxApi: ObjectBoxApi): MyRepositoryRepository {
-        return MyRepositoryRepositoryImp(eventBus, firebaseApi, objectBoxApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): MyRepositoryRepository {
+        return MyRepositoryRepositoryImp(eventBus, firebaseApi)
     }
 
 }

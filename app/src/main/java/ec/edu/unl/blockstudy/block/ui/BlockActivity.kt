@@ -10,9 +10,9 @@ import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.block.BlockPresenter
 import ec.edu.unl.blockstudy.block.adapter.AnswerSelectAdapter
-import ec.edu.unl.blockstudy.entities.Answer
-import ec.edu.unl.blockstudy.entities.Question
-import ec.edu.unl.blockstudy.entities.QuestionPath
+import ec.edu.unl.blockstudy.database.AnswerBd
+import ec.edu.unl.blockstudy.database.QuestionBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.util.GlideApp
 import kotlinx.android.synthetic.main.activity_block.*
 import javax.inject.Inject
@@ -27,11 +27,12 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
                     finish()
                 } else {
                     visibilyWindowsInfo(View.VISIBLE)
-                    getQuestion()
+                    //getQuestion()
+                    setDataQuestion(randomQuestions())
                 }
             }
             R.id.fab_change_question -> {
-                getQuestion()
+                setDataQuestion(randomQuestions())
             }
             R.id.btn_change_1 -> {
                 visibilyWindowsInfo(View.GONE)
@@ -45,7 +46,7 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
 
     private fun validateAnswers(): Boolean {
         var validated = true
-        answersList.forEach {
+        adapter.data.forEach {
             if (it.correct != it.select)
                 validated = false
         }
@@ -53,13 +54,14 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
         return validated
     }
 
-    lateinit var questionPathList: List<QuestionPath>
+    lateinit var questionnaireList: List<QuestionnaireBd>
     lateinit var adapter: AnswerSelectAdapter
-    var answersList = ArrayList<Answer>()
+    var questionsList = ArrayList<QuestionBd>()
+    var answersList = ArrayList<AnswerBd>()
 
 
     companion object {
-        const val QUESTIONS_PATH_PARAM = "questionsPath"
+        const val QUESTIONNAIRE_PATH_PARAM = "questionnaire"
     }
 
     @Inject
@@ -69,7 +71,7 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_block)
-        questionPathList = intent.getParcelableArrayListExtra(QUESTIONS_PATH_PARAM)
+        questionnaireList = intent.getParcelableArrayListExtra(QUESTIONNAIRE_PATH_PARAM)
         //Log.e("BLOQUEO", "Numero de questions path ${questionPathList.size}")
         setupInject()
         setupRecycler()
@@ -82,13 +84,20 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
 
 
     fun getQuestion() {
-        presenter.getQuestion(randomQuestionsPath().path)
+        var idsQuestionnaire = ArrayList<Long>()
+        questionnaireList.forEach {
+            idsQuestionnaire.add(it.id)
+        }
+        presenter.getQuestion(idsQuestionnaire)
+
     }
 
-    fun randomQuestionsPath(): QuestionPath {
-        var num_pregunta = (Math.random() * questionPathList.size).toInt()
-        return questionPathList.get(num_pregunta)
+
+    fun randomQuestions(): QuestionBd {
+        var num_pregunta = (Math.random() * questionsList.size).toInt()
+        return questionsList.get(num_pregunta)
     }
+
 
     private fun setupInject() {
         myApplication = getApplication() as MyApplication
@@ -110,9 +119,10 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
         presenter.onUnSuscribe()
     }
 
-    override fun setDataQuestion(question: Question) {
+    fun setDataQuestion(question: QuestionBd) {
+
         tv_statament.setText(question.statement)
-        if (question.photoUrl.isNullOrBlank()) {
+        if (question.photoUrl.isBlank()) {
             iv_photo_question.visibility = View.GONE
         } else {
             iv_photo_question.visibility = View.VISIBLE
@@ -123,10 +133,11 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
                     .error(R.drawable.ic_person_black_24dp)
                     .into(iv_photo_question)
         }
+
+        Log.e("BLoqueo", "la pregunta es ${question.statement}")
         answersList.clear()
         answersList.addAll(question.answers)
         adapter.notifyDataSetChanged()
-        Log.e("BLoqueo", "la pregunta es ${question.statement}")
     }
 
     override fun hideProgressDialog() {
@@ -139,5 +150,10 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
 
     override fun showMessagge(message: String) {
 
+    }
+
+    override fun setQuestionsAll(questions: ArrayList<QuestionBd>) {
+        questionsList.addAll(questions)
+        setDataQuestion(randomQuestions())
     }
 }

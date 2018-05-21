@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import ec.edu.unl.blockstudy.block.ui.BlockActivity
-import ec.edu.unl.blockstudy.entities.QuestionPath
 
 class BroadcastBloqueo : BroadcastReceiver() {
 
@@ -13,7 +12,7 @@ class BroadcastBloqueo : BroadcastReceiver() {
         Log.e("AA","ACTIVIDAD LANZANDOSE")
         val mIntent = Intent(p0, BlockActivity::class.java)
         //mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        mIntent.putExtra(BlockActivity.QUESTIONS_PATH_PARAM, p1!!.getParcelableArrayListExtra<QuestionPath>(BlockActivity.QUESTIONS_PATH_PARAM))
+        //mIntent.putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, p1!!.getParcelableArrayListExtra<QuestionPath>(BlockActivity.QUESTIONNAIRE_PATH_PARAM))
         p0!!.startActivity(mIntent)
     }
 }

@@ -2,5 +2,5 @@ package ec.edu.unl.blockstudy.block
 
 interface BlockRepository {
 
-    fun getQuestion(questionPath: String)
+    fun getQuestion(questionPath: ArrayList<Long>)
 }

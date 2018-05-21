@@ -13,7 +13,7 @@ import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 /**
  * Created by victor on 25/2/18.
  */
-class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : QuestionnariesRepository {
+class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : QuestionnariesRepository {
     override fun onGetDataQuestionnaire(any: Any) {
         firebaseApi.getQuestions(any.toString(), object : OnCallbackApis<QuerySnapshot> {
             override fun onSuccess(response: QuerySnapshot) {

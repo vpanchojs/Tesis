@@ -1,10 +1,7 @@
 package ec.edu.unl.blockstudy.blockResume
 
-import com.google.firebase.firestore.DocumentReference
-import ec.edu.unl.blockstudy.entities.Block
-
 interface BlockResumeInteractor {
-    fun setTimeActivity(time: Block)
+    fun setTimeActivity(time: Int)
 
     fun setApplications(apps: List<String>, id: Long)
 
@@ -12,7 +9,7 @@ interface BlockResumeInteractor {
 
     fun getQuestionnaires()
 
-    fun addQuestionnaire(idQuestionaire: Long, idCloud: String, idBlock: Long, refQuestions: ArrayList<DocumentReference>)
+    fun addQuestionnaireBlock(id: Long, idBlock: Long)
 
-    fun removeQuestionnaire(idQuestionaire: Long)
+    fun removeQuestionnaireBlock(id: Long)
 }

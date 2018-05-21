@@ -8,7 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.widget.ImageButton
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import kotlinx.android.synthetic.main.fragment_info_questionnaire.view.*
 
 class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListener {
@@ -52,7 +52,7 @@ class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListen
         fun newInstance(questionaire: QuestionnaireBd): InfoQuestionnaireFragment {
             val fragment = InfoQuestionnaireFragment()
             var b = Bundle()
-            b.putParcelable(PARAM_QUESTIONNAIRE, questionaire)
+          //  b.putParcelable(PARAM_QUESTIONNAIRE, questionaire)
             fragment.arguments = b
             return fragment
         }

@@ -11,7 +11,7 @@ import ec.edu.unl.blockstudy.newQuestionnaire.events.NewQuestionaireEvents
 /**
  * Created by victor on 5/2/18.
  */
-class NewQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var sharePreferencesApi: SharePreferencesApi, var objectBoxApi: ObjectBoxApi) : NewQuestionaireRepository {
+class NewQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : NewQuestionaireRepository {
 
     override fun onUploadQuestionaire(questionaire: Questionaire) {
         firebaseApi.onUploadQuestionaire(questionaire, object : onDomainApiActionListener {
@@ -27,6 +27,7 @@ class NewQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebase
 
 
     override fun onGetQuestionaire(any: Any) {
+        /*
         objectBoxApi.getDataQuestionnaire(any as Long, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {
                 postEvent(NewQuestionaireEvents.ON_GET_QUESTIONNAIRE_SUCCESS, response!!)
@@ -36,6 +37,7 @@ class NewQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebase
 
             }
         })
+        */
     }
 
     private fun postEvent(type: Int, any: Any) {

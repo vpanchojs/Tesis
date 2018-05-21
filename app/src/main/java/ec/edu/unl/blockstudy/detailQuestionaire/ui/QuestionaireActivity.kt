@@ -140,7 +140,6 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
             R.id.fab_new_question -> {
                 val intent = Intent(this, QuestionActivity::class.java)
                 intent.putExtra(QuestionActivity.ID_QUESTIONNAIRE_PARAM, questionaire.idCloud)
-                //startActivityForResult(intent, QuestionActivity.REQUEST_CODE)
                 startActivity(intent)
             }
             R.id.fab_edit_questionnaire -> {

@@ -2,8 +2,9 @@ package ec.edu.unl.blockstudy.myquestionnaires.di
 
 import dagger.Module
 import dagger.Provides
+import ec.edu.unl.blockstudy.database.Db
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.myquestionnaires.*
 import ec.edu.unl.blockstudy.myquestionnaires.ui.MyQuestionnariesView
@@ -34,8 +35,8 @@ class MyQuestionaireModule(val view: MyQuestionnariesView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, objectBoxApi: ObjectBoxApi): MyQuestionaireRepository {
-        return MyQuestionaireRepositoryImp(eventBus, firebaseApi, objectBoxApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, db: DbApi): MyQuestionaireRepository {
+        return MyQuestionaireRepositoryImp(eventBus, firebaseApi, db)
     }
 
 }

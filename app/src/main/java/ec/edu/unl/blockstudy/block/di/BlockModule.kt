@@ -4,9 +4,7 @@ import dagger.Module
 import dagger.Provides
 import ec.edu.unl.blockstudy.block.*
 import ec.edu.unl.blockstudy.block.ui.BlockView
-import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
-import ec.edu.unl.blockstudy.domain.SharePreferencesApi
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import javax.inject.Singleton
 
@@ -36,7 +34,7 @@ class BlockModule(var view: BlockView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, sharePreferencesApi: SharePreferencesApi, objectBoxApi: ObjectBoxApi): BlockRepository {
-        return BlockRepositoryImp(eventBus, firebaseApi, sharePreferencesApi, objectBoxApi)
+    fun providesRepository(eventBus: EventBusInterface, dbApi: DbApi): BlockRepository {
+        return BlockRepositoryImp(eventBus, dbApi)
     }
 }

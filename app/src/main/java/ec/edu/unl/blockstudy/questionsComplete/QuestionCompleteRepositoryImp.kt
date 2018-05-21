@@ -1,23 +1,46 @@
 package ec.edu.unl.blockstudy.questionsComplete
 
 import com.google.firebase.firestore.QuerySnapshot
+import ec.edu.unl.blockstudy.database.QuestionBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
+import ec.edu.unl.blockstudy.domain.services.DbApi
 import ec.edu.unl.blockstudy.entities.Answer
-import ec.edu.unl.blockstudy.entities.Question
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.questionsComplete.events.QuestionCompleteEvents
 
 /**
  * Created by victor on 5/3/18.
  */
-class QuestionCompleteRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : QuestionCompleteRepository {
+class QuestionCompleteRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var dbApi: DbApi) : QuestionCompleteRepository {
 
+
+    override fun deleteQuestionnarie(questionnaireBd: QuestionnaireBd) {
+        dbApi.deleteQuestionnaire(questionnaireBd, object : OnCallbackApis<Int> {
+            override fun onSuccess(response: Int) {
+                postEvent(QuestionCompleteEvents.ON_DELETE_SUCCESS, response)
+            }
+
+            override fun onError(error: Any?) {
+                postEvent(QuestionCompleteEvents.ON_DELETE_ERROR, error!!)
+            }
+        })
+    }
 
     override fun onGetQuestionAll(idQuestionnaire: Any) {
+        dbApi.getQuestions(idQuestionnaire.toString().toLong(), object : OnCallbackApis<List<QuestionBd>> {
+            override fun onSuccess(response: List<QuestionBd>) {
+                postEvent(QuestionCompleteEvents.ON_GET_QUESTIONS_SUCCESS, response)
+            }
 
+            override fun onError(error: Any?) {
+
+            }
+        })
+
+        /*
         firebaseApi.getQuestions(idQuestionnaire.toString(), object : OnCallbackApis<QuerySnapshot> {
             override fun onSuccess(response: QuerySnapshot) {
                 //var aux = response as QuerySnapshot
@@ -35,6 +58,7 @@ class QuestionCompleteRepositoryImp(var eventBus: EventBusInterface, var firebas
 
             }
         })
+        */
 
 
         /*

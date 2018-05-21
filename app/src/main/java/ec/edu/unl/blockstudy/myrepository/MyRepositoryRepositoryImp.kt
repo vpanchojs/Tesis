@@ -11,7 +11,7 @@ import ec.edu.unl.blockstudy.myrepository.events.MyRepositoryEvents
 /**
  * Created by victor on 24/2/18.
  */
-class MyRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var objectBoxApi: ObjectBoxApi) : MyRepositoryRepository {
+class MyRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : MyRepositoryRepository {
 
     override fun onGetmyrepository() {
         firebaseApi.getMyQuestionnaries(firebaseApi.getUid(), object : OnCallbackApis<QuerySnapshot> {

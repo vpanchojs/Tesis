@@ -10,11 +10,12 @@ import android.util.Log
 import ec.edu.unl.blockstudy.MyApplication
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.block.ui.BlockActivity
+import ec.edu.unl.blockstudy.database.Application
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
-import ec.edu.unl.blockstudy.entities.Application
-import ec.edu.unl.blockstudy.entities.QuestionPath
-import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
+import ec.edu.unl.blockstudy.domain.services.DbApi
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,20 +27,20 @@ class ServicieBlock : Service() {
     var activo_hilo2: Boolean = false
     var temp = ""
     var aplicacionActual = ""
-    lateinit var block: ec.edu.unl.blockstudy.entities.Block
+    lateinit var block: ec.edu.unl.blockstudy.database.Block
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
 
     val applicationsBlock = ArrayList<Application>()
-    val questionnnairesBlock = ArrayList<QuestionnaireBlock>()
-    val questionPathList = ArrayList<QuestionPath>()
+    val questionnnairesBlock = ArrayList<QuestionnaireBd>()
+
     lateinit var bloqueo1: Thread
     var timeActivity = 0
     lateinit var application: MyApplication
     lateinit var firebaseApi: FirebaseApi
-    lateinit var objectBoxApi: ObjectBoxApi
+    lateinit var dbApi: DbApi
 
 
     companion object {
@@ -57,14 +58,13 @@ class ServicieBlock : Service() {
     private fun setupInjection() {
         application = getApplication() as MyApplication
         firebaseApi = application.domainModule!!.providesFirebaseApi()
-        objectBoxApi = application.domainModule!!.providesObjectBoxApi()
+        dbApi = application.domainModule!!.providesDbApi()
+
     }
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        //val idBlock = intent!!.getLongExtra(IDBLOCK, -1)
-        //Log.e(TAG, "id block $idBlock")
-        getDataBlock(1)
+        getDataBlock()
         startForeground()
         bloqueo1 = Block()
         bloqueo1.start()
@@ -72,21 +72,25 @@ class ServicieBlock : Service() {
         return START_STICKY
     }
 
+    fun getDataBlock() {
+        doAsync {
+            block = dbApi.db.blockDao().getBlockById(firebaseApi.getUid())
+            Log.e(TAG, "el bloqueo id ${block.id}")
+            applicationsBlock.addAll(dbApi.db.applicationDao().getApplicationByBlock(block.id))
+            Log.e(TAG, "aplicaciones  ${applicationsBlock.size}")
+            timeActivity = block.timeActivity * 60
 
-    fun getDataBlock(idBlock: Long) {
-        block = objectBoxApi.blockBox.get(idBlock)
-        applicationsBlock.addAll(block.apps)
-        questionnnairesBlock.addAll(block.questionaire)
-        timeActivity = block.timeActivity * 60
-        getQuestionsPath()
-        Log.e(TAG, "paths de preguntas ${questionPathList.size}")
-    }
+            questionnnairesBlock.addAll(dbApi.db.questionnaireDao().getQuestionnaireByBlock(block.id))
+            /*
+             questionnnairesBlock.forEach {
 
-    fun getQuestionsPath() {
-        questionPathList.clear()
-        questionnnairesBlock.forEach {
-            questionPathList.addAll(it.questionsPath)
+             }*/
+            Log.e(TAG, "cuestionarios  ${questionnnairesBlock.size}")
+            uiThread {
+                Log.e(TAG, "el bloqueo id ${block.id}")
+            }
         }
+
     }
 
 
@@ -94,31 +98,14 @@ class ServicieBlock : Service() {
         val notification = NotificationCompat.Builder(this)
                 .setContentTitle(resources.getString(R.string.app_name))
                 .setTicker(resources.getString(R.string.app_name))
-                .setContentText("BLOQUEO ACTIVO")
+                .setContentText("Bloqueo Activo")
+                .setContentInfo("Abre una aplicacion y estudia")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(null)
                 .setOngoing(true)
                 .build()
         startForeground(9999, notification)
     }
-
-
-    /*
-    fun obtenerAplicacionesEjecutandoseK(): String {
-        var aplicacion = ""
-        val am = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            aplicacion = am.runningAppProcesses[0].processName
-            Log.d(TAG, aplicacion)
-        } else {
-            val taskInfo = am.getRunningTasks(1)
-            val componentInfo = taskInfo[0].topActivity
-            aplicacion = componentInfo.packageName
-        }
-        return aplicacion
-    }
-    */
 
     private fun obtenerAplicacionEjecutandoseL(): String {
         val endCal = Calendar.getInstance()
@@ -188,18 +175,18 @@ class ServicieBlock : Service() {
                             /*VERIFICAMOS QUE LA APLICACION EJECUTADA ACTUALMENTE, DEBA SER BLOQUEADA*/
 
                             var verify = applicationsBlock.any {
-                                it.app.equals(aplicacionActual)
+                                it.packagename.equals(aplicacionActual)
                             }
 
                             if (verify) {
                                 /*ALMACENAMOS EN UNA VARIBLE TEMP LA APLICACION BLOQUEADA*/
                                 temp = aplicacionActual
                                 /*LANZAMOS UNA LLAMDA AL BROADCASTRECIVIR QUE SE ENCARA DE INCIAR LA ACTIVIDAD DEL BLOQUEO*/
-                                //sendBroadcast(Intent("broadcast").putExtra(BlockActivity.QUESTIONS_PATH_PARAM, questionPathList!!))
+                                //sendBroadcast(Intent("broadcast").putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, questionPathList!!))
                                 Thread.sleep(500)
                                 val mIntent = Intent(applicationContext, BlockActivity::class.java)
                                 mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                mIntent.putExtra(BlockActivity.QUESTIONS_PATH_PARAM, questionPathList)
+                                mIntent.putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, questionnnairesBlock)
                                 applicationContext!!.startActivity(mIntent)
                                 /*TERMINAMOS EL HILO 2*/
                                 Log.e("SERVICIE", "ACTIVIDAD LANZANDOSE")

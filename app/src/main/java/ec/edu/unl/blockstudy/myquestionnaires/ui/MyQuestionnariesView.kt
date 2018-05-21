@@ -1,7 +1,6 @@
 package ec.edu.unl.blockstudy.myquestionnaires.ui
 
-import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 
 /**
  * Created by victor on 24/2/18.

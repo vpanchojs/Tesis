@@ -1,12 +1,12 @@
 package ec.edu.unl.blockstudy.myquestionnaires.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.entities.Questionaire
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
+import ec.edu.unl.blockstudy.database.QuestionnaireBd
 import kotlinx.android.synthetic.main.item_my_questionnarie.view.*
 
 /**
@@ -27,6 +27,7 @@ class QuestionnaireAdapter(var data: ArrayList<QuestionnaireBd>, var callback: o
         var questionaire = data.get(position)
         holder!!.view.tv_title.text = questionaire.title
         holder!!.view.tv_description.text = questionaire.description
+
         //holder!!.view.tv_num_question.text = "${questionaire.numberQuest} preg"
         holder!!.onClickListener(questionaire, callback)
     }

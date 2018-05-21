@@ -93,7 +93,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
     }
 
     override fun hideProgressDialog() {
-        progressDialog.hide()
+        progressDialog.dismiss()
     }
 
     override fun navigationMain() {

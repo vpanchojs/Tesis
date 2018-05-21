@@ -3,14 +3,13 @@ package ec.edu.unl.blockstudy.entities
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
-import io.objectbox.annotation.Id
 import java.util.*
 
 /**
  * Created by victor on 6/2/18.
  */
 class Question() : Parcelable {
-    @Id
+
     @get:Exclude
     var idQuestion: Long = 0
     @get:Exclude

@@ -11,7 +11,7 @@ import ec.edu.unl.blockstudy.menu.events.MenusEvents
 /**
  * Created by victor on 27/1/18.
  */
-class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var sharePreferencesApi: SharePreferencesApi) : MenusRepository {
+class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : MenusRepository {
 
     override fun onSingOut() {
         firebaseApi.signOut()

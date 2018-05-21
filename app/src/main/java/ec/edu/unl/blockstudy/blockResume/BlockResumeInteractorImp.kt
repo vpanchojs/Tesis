@@ -1,18 +1,21 @@
 package ec.edu.unl.blockstudy.blockResume
 
-import com.google.firebase.firestore.DocumentReference
-import ec.edu.unl.blockstudy.entities.Block
-import ec.edu.unl.blockstudy.entities.QuestionPath
-import ec.edu.unl.blockstudy.entities.QuestionnaireBlock
+import ec.edu.unl.blockstudy.database.Application
 
 class BlockResumeInteractorImp(var repository: BlockResumeRepository) : BlockResumeInteractor {
 
-    override fun setTimeActivity(block: Block) {
-        repository.setTimeActivity(block)
+    override fun setTimeActivity(time: Int) {
+        repository.setTimeActivity(time)
     }
 
     override fun setApplications(apps: List<String>, id: Long) {
-        repository.setApplications(apps, id)
+        var applicationsList = arrayListOf<Application>()
+
+        apps.forEach {
+            applicationsList.add(Application(packagename = it, blockId = id))
+        }
+
+        repository.setApplications(applicationsList)
     }
 
     override fun getDataBlock() {
@@ -23,28 +26,14 @@ class BlockResumeInteractorImp(var repository: BlockResumeRepository) : BlockRes
         repository.getQuestionnaires()
     }
 
-    override fun removeQuestionnaire(idQuestionaire: Long) {
-        repository.removeQuestionnaire(idQuestionaire)
+
+    override fun addQuestionnaireBlock(id: Long, idBlock: Long) {
+        repository.addQuestionnaireBlock(id, idBlock)
     }
 
-    override fun addQuestionnaire(idQuestionaire: Long, idCloud: String, idBlock: Long, refQuestions: ArrayList<DocumentReference>) {
-        val questionaire = QuestionnaireBlock()
-        questionaire.idCloud = idCloud
-        questionaire.idQuestionnaire = idQuestionaire
-        questionaire.block.targetId = idBlock
-        questionaire.questionsPath.addAll(getQuestionsPath(refQuestions, idQuestionaire))
-        repository.addQuestionnaire(questionaire)
+    override fun removeQuestionnaireBlock(id: Long) {
+        repository.removeQuestionnaireBlock(id)
     }
 
-    fun getQuestionsPath(refQuestions: ArrayList<DocumentReference>, idQuestionaire: Long): List<QuestionPath> {
-        val questionPathList = ArrayList<QuestionPath>()
-        refQuestions.forEach {
-            var questionPath = QuestionPath()
-            questionPath.path = it.path
-            questionPath.QuestionnaireBlock.targetId = idQuestionaire
-            questionPathList.add(questionPath)
-        }
 
-        return questionPathList
-    }
 }

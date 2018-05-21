@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import ec.edu.unl.blockstudy.R
 import ec.edu.unl.blockstudy.entities.Answer
 import ec.edu.unl.blockstudy.entities.Question
-import io.objectbox.relation.ToMany
 import kotlinx.android.synthetic.main.item_my_question.view.*
 
 
@@ -30,6 +29,7 @@ class QuestionAdapter(var data: ArrayList<Question>, var callback: onQuestionAda
         holder!!.onClickListener(question, position, callback)
     }
 
+    /*
     private fun getAnswer(answer: ToMany<Answer>): String {
         for (a in answer) {
             if (a.correct!!) {
@@ -39,6 +39,7 @@ class QuestionAdapter(var data: ArrayList<Question>, var callback: onQuestionAda
         return ""
 
     }
+    */
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         fun onClickListener(question: Question, position: Int, callback: onQuestionAdapterListener) {

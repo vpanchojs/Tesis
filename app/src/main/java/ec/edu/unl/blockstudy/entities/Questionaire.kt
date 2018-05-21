@@ -5,9 +5,6 @@ import android.os.Parcelable
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.FieldValue
-import io.objectbox.annotation.Entity
-import io.objectbox.annotation.Id
-import io.objectbox.relation.ToOne
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -16,7 +13,7 @@ import kotlin.collections.HashMap
  * Created by victor on 6/2/18.
  */
 class Questionaire() : Parcelable {
-    @Id
+
     var idQuestionaire: Long = 0
     lateinit var idCloud: String
     var title: String? = null

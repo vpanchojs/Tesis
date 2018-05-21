@@ -11,6 +11,9 @@ class BlockResumeEvents(public var type: Int, public var any: Any) {
         val ON_UPDATE_BLOCKDATA_SUCCESS = 2
         val ON_GET_QUESTIONAIRE_SUCCESS = 3
         val ON_GET_QUESTIONAIRE_ERROR = 4
+        val ON_SET_APPLICATIONS_SUCCESS = 5
+        val ON_SET_APPLICATIONS_ERROR = 6
+        val ON_GET_APPLICATIONS_SUCCESS=7
     }
 
 }

@@ -15,7 +15,7 @@ import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.questionnaireResume.events.QuestionnaireResumeEvents
 
 
-class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var sharePreferencesApi: SharePreferencesApi, var objectBoxApi: ObjectBoxApi) : QuestionnaireResumeRepository {
+class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : QuestionnaireResumeRepository {
 
     override fun getQuestionnaire(idQuestionnaire: String) {
         /*

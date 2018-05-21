@@ -1,5 +1,6 @@
 package ec.edu.unl.blockstudy
 
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.SharedPreferences
 import android.support.multidex.MultiDexApplication
@@ -13,12 +14,12 @@ import ec.edu.unl.blockstudy.blockResume.di.BlockResumeComponent
 import ec.edu.unl.blockstudy.blockResume.di.BlockResumeModule
 import ec.edu.unl.blockstudy.blockResume.di.DaggerBlockResumeComponent
 import ec.edu.unl.blockstudy.blockResume.ui.BlockResumeView
+import ec.edu.unl.blockstudy.database.Db
 import ec.edu.unl.blockstudy.detailQuestionaire.di.DaggerQuestionnaireComponent
 import ec.edu.unl.blockstudy.detailQuestionaire.di.QuestionnaireComponent
 import ec.edu.unl.blockstudy.detailQuestionaire.di.QuestionnaireModule
 import ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionnaireView
 import ec.edu.unl.blockstudy.domain.di.DomainModule
-import ec.edu.unl.blockstudy.entities.MyObjectBox
 import ec.edu.unl.blockstudy.lib.di.LibModule
 import ec.edu.unl.blockstudy.login.di.DaggerLoginComponent
 import ec.edu.unl.blockstudy.login.di.LoginComponent
@@ -65,13 +66,12 @@ import ec.edu.unl.blockstudy.signup.di.DaggerSignupComponent
 import ec.edu.unl.blockstudy.signup.di.SignupComponent
 import ec.edu.unl.blockstudy.signup.di.SignupModule
 import ec.edu.unl.blockstudy.signup.ui.SignupView
-import io.objectbox.BoxStore
 
 class MyApplication : MultiDexApplication() {
     val SHARED_PREFERENCES_NAME = "dsafio_preferences"
     var domainModule: DomainModule? = null
     var appModule: MyAplicationModule? = null
-    lateinit var boxStore: BoxStore
+    lateinit var db: Db
 
     override fun onCreate() {
         super.onCreate()
@@ -83,9 +83,9 @@ class MyApplication : MultiDexApplication() {
     }
 
     fun initModules() {
-        boxStore = MyObjectBox.builder().androidContext(this).build();
+        db = Room.databaseBuilder(this, Db::class.java, "block-db").build()
         appModule = MyAplicationModule(this)
-        domainModule = DomainModule(this, boxStore)
+        domainModule = DomainModule(this, db)
     }
 
 

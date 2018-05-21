@@ -9,6 +9,8 @@ class QuestionCompleteEvents(var type: Int, var any: Any) {
         val ON_GET_QUESTIONS_SUCCESS = 2
         val ON_GET_QUESTIONS_ERROR = 3
         val ON_GET_ANSWERS_SUCCESS = 4
+        val ON_DELETE_SUCCESS = 5
+        val ON_DELETE_ERROR = 6
 
     }
 }

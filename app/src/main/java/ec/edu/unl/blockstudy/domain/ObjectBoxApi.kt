@@ -1,18 +1,11 @@
 package ec.edu.unl.blockstudy.domain
 
-import android.util.Log
-import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
-import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
-import ec.edu.unl.blockstudy.entities.*
-import ec.edu.unl.blockstudy.entities.objectBox.AnswerBd
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionBd
-import ec.edu.unl.blockstudy.entities.objectBox.QuestionnaireBd
-import io.objectbox.BoxStore
 
 /**
  * Created by victor on 20/2/18.
  */
-class ObjectBoxApi(var boxStore: BoxStore) {
+class ObjectBoxApi() {
+    /*
     val TAG = "ObjectBoxApi"
     val questionaireBox = boxStore.boxFor(QuestionnaireBd::class.java)
     val questionBox = boxStore.boxFor(QuestionBd::class.java)
@@ -106,19 +99,18 @@ class ObjectBoxApi(var boxStore: BoxStore) {
     }
 
     fun getBlockData(idUser: String, callback: onDomainApiActionListener) {
-        /*
-         var block = blockBox.query().equal(Block_.idUser, idUser).build().findUnique()
+        var block = blockBox.query().equal(Block_.idUser, idUser).build().findUnique()
 
-         if (block != null) {
-             callback.onSuccess(block)
+        if (block != null) {
+            callback.onSuccess(block)
 
-         } else {
-             var block = Block()
-             block.idUser = idUser
-             blockBox.put(block)
-             callback.onSuccess(block)
-         }
-         */
+        } else {
+            var block = Block()
+            block.idUser = idUser
+            blockBox.put(block)
+            callback.onSuccess(block)
+        }
+
     }
 
     fun onUpdateBlock(block: Block, callback: onDomainApiActionListener) {
@@ -141,17 +133,29 @@ class ObjectBoxApi(var boxStore: BoxStore) {
         Log.e("a", "se actualizo block $id y elementos ${list.size}")
     }
 
-    fun addQuestionnaireBlock(questionaire: QuestionnaireBlock, callback: OnCallbackApis<Unit>) {
-        questionnaireBlockBox.put(questionaire)
+    fun addQuestionnaireBlock(id: Long, idBlock: Long, callback: OnCallbackApis<Unit>) {
+        val q = questionaireBox.get(id)
+        q.idBlock = idBlock
+        questionaireBox.put(q)
+        //questionnaireBlockBox.put(questionaire)
         callback.onSuccess(Unit)
     }
 
-    fun removeQuestionnaireBlock(idQuestionaire: Long, callback: OnCallbackApis<Unit>) {
+    fun removeQuestionnaireBlock(id: Long, callback: OnCallbackApis<Unit>) {
+        val q = questionaireBox.get(id)
+        q.idBlock = 0
+        questionaireBox.put(q)
         //  questionnaireBlockBox.query().equal(QuestionnaireBlock_.idQuestionnaire, idQuestionaire).build().remove()
-        questionnaireBlockBox.remove(idQuestionaire)
+        //questionnaireBlockBox.remove(idQuestionaire)
         callback.onSuccess(Unit)
 
     }
 
+    fun getQuestionnaireBlock(id: Long): MutableList<QuestionnaireBd> {
+        return questionaireBox.query().equal(QuestionnaireBd_.idBlock, id).build().find()
+        //return questionaireBox.all
+
+    }
+*/
 
 }
