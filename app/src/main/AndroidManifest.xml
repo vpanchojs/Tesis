@@ -39,6 +39,7 @@
             android:name=".main.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".updateQuestionnaire.ui.UpdateQuestionnaireActivity"
@@ -76,7 +77,6 @@
 
         <activity
             android:name=".block.ui.BlockActivity"
-            android:configChanges="screenSize|orientation"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_block"
             android:noHistory="true"

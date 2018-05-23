@@ -347,4 +347,13 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
         tv_email.text = user.email
         setPhoto()
     }
+
+    override fun setPhoto(toString: String) {
+        GlideApp.with(this)
+                .load(toString)
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .centerCrop()
+                .error(R.drawable.ic_person_black_24dp)
+                .into(civ_photo_user)
+    }
 }

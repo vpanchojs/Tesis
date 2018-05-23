@@ -16,5 +16,6 @@ interface ProfileView {
     fun setPhoto()
     fun setInfoUser(user: User)
     fun setDataProfile(user: User)
+    fun setPhoto(toString: String)
 
 }

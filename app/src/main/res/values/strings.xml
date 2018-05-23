@@ -54,8 +54,8 @@
     <string name="name_user">Nombre Usuario</string>
     <string name="email_user">emailuser@blockstudy.com</string>
     <string name="formation_academic">Formación Académica</string>
-    <string name="school">Institucion Educativa</string>
-    <string name="title_academic">Profesion</string>
+    <string name="school">Institución Educativa</string>
+    <string name="title_academic">Profesión</string>
     <string name="preferences_subject">Temáticas Preferidas</string>
     <string name="not_formation_academic">No tiene agregado su formación académica</string>
     <string name="tv_update_info">Actualizar Información</string>
@@ -115,7 +115,7 @@
     <string name="description_new_questionnaire">Ingrese la informacion de su cuestionario</string>
     <string name="description_change_password">La proxima vez que inicie sesión, utilizara su nueva contraseña</string>
     <string name="description_update_basic_information">Modifique la información básica que desee actualizar</string>
-    <string name="description_formation_academic">Ingrese su formacion académica de mas alto nivel</string>
+    <string name="description_formation_academic">Ingrese su formación académica de mas alto nivel</string>
     <string name="visibility_questionnaire">Visibilidad</string>
     <string name="tv_rating_questionnay">Calificar Cuestionario</string>
     <string name="description_rating_questionnay">Indica que te parecio el cuestionario</string>

@@ -148,7 +148,7 @@ class ServicieBlock : Service() {
                         /*VERIFICACION LA EXISTENCIA DE FRECUENCIA DE BLOQUEO Y QUE LA APLICACION SEA IGUAL PARA LANZAR NUEVAMENTE EL BLOQUEO*/
                         if (aplicacionActual == temp && timeActivity > 0) {
                             cont++
-                            Log.e("HILO 1", "Aplicacion contador: " + cont + " fre:" + timeActivity);
+                            // Log.e("HILO 1", "Aplicacion contador: " + cont + " fre:" + timeActivity);
                             /*TIEMPO DE ESPERA PARA INCIAR NUEVAMENTE EL BLOQUEO MIENTRAS NOS ENCONTRAMOS EN LA APLICACION ANTERIOR BLOQUEADA*/
                             if (cont > timeActivity) {
                                 cont = 0
@@ -183,7 +183,7 @@ class ServicieBlock : Service() {
                                 temp = aplicacionActual
                                 /*LANZAMOS UNA LLAMDA AL BROADCASTRECIVIR QUE SE ENCARA DE INCIAR LA ACTIVIDAD DEL BLOQUEO*/
                                 //sendBroadcast(Intent("broadcast").putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, questionPathList!!))
-                                Thread.sleep(500)
+                                Thread.sleep(1500)
                                 val mIntent = Intent(applicationContext, BlockActivity::class.java)
                                 mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 mIntent.putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, questionnnairesBlock)
@@ -195,8 +195,10 @@ class ServicieBlock : Service() {
                             }
                             /*Tiempo de Espera para descansar el hilo*/
                             Thread.sleep(300)
-                        } catch (e: InterruptedException) {
+                        } catch (e: Exception) {
+                            Log.e(TAG, e.toString())
                             e.printStackTrace()
+
                         }
 
                     }

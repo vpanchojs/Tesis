@@ -67,6 +67,7 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
                 questionnaireBd.description = questionaire!!.description
                 questionnaireBd.idUser = questionaire.idUser
                 questionnaireBd.title = questionaire.title
+                questionnaireBd.numberQuest=questionaire.numberQuest
 
                 dbApi.insertQuestionnaire(questionnaireBd, object : OnCallbackApis<Long> {
                     override fun onSuccess(id: Long) {
@@ -151,6 +152,7 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
         while (cicle) {
             Log.e(TAG, "descargando cuestionario")
             cicle = !(cont == questionsSize)
+            Thread.sleep(300)
         }
 
         setNotification(questionaire.title!!)

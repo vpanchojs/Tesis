@@ -73,6 +73,10 @@ class BlockResumePresenterImp(var eventBus: EventBusInterface, var view: BlockRe
                 }
             }
 
+            BlockResumeEvents.ON_UPDATE_SETTINGS_SUCCESS -> {
+                view.reloadServicie()
+            }
+
             BlockResumeEvents.ON_SET_APPLICATIONS_SUCCESS -> {
                 view.setApplicationsSize(event.any as Int)
 

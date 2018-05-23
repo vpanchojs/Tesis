@@ -43,6 +43,11 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         }
     }
 
+    fun realoadServicie() {
+        activity!!.stopService(Intent(context, ServicieBlock::class.java))
+        activity!!.startService(Intent(context, ServicieBlock::class.java))
+    }
+
     fun getStateServicie() {
         tobtn_block.isChecked = ServicieBlock.INSTANCE
     }
@@ -217,4 +222,8 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     }
 
+    override fun reloadServicie() {
+        if (ServicieBlock.INSTANCE)
+            realoadServicie()
+    }
 }

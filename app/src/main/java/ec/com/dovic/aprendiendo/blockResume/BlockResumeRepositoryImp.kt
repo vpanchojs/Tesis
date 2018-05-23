@@ -13,9 +13,9 @@ import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var db: DbApi) : BlockResumeRepository {
 
     override fun setTimeActivity(time: Int) {
-        db.updateTimeBlock(time, object : OnCallbackApis<Int>{
+        db.updateTimeBlock(time, object : OnCallbackApis<Int> {
             override fun onSuccess(response: Int) {
-
+                postEvent(BlockResumeEvents.ON_UPDATE_SETTINGS_SUCCESS, "")
             }
 
             override fun onError(error: Any?) {
@@ -53,6 +53,7 @@ class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi:
             override fun onSuccess(response: Int) {
                 Log.e("brr", "se guardaron $response")
                 postEvent(BlockResumeEvents.ON_SET_APPLICATIONS_SUCCESS, response)
+                postEvent(BlockResumeEvents.ON_UPDATE_SETTINGS_SUCCESS, "")
             }
 
             override fun onError(error: Any?) {
@@ -88,6 +89,7 @@ class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi:
         db.addorRemoveQuestionnaireBlock(id, idBlock, object : OnCallbackApis<Unit> {
             override fun onSuccess(response: Unit) {
                 Log.e("a", "se guardo")
+                postEvent(BlockResumeEvents.ON_UPDATE_SETTINGS_SUCCESS, "")
             }
 
             override fun onError(error: Any?) {
@@ -102,6 +104,7 @@ class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi:
         db.addorRemoveQuestionnaireBlock(id, 0, object : OnCallbackApis<Unit> {
             override fun onSuccess(response: Unit) {
                 Log.e("a", "se guardo")
+                postEvent(BlockResumeEvents.ON_UPDATE_SETTINGS_SUCCESS, "")
             }
 
             override fun onError(error: Any?) {

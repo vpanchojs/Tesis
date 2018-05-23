@@ -223,7 +223,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                         mAuth.currentUser!!.updateProfile(profileUpdate)
                                 .addOnSuccessListener {
                                     Log.e(TAG, "Se actualizo la photo")
-                                    callback.onSuccess(null)
+                                    callback.onSuccess(downloadUrl)
                                 }
                                 .addOnFailureListener {
                                     Log.e(TAG, it.toString())

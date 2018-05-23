@@ -23,7 +23,9 @@ class QuestionnaireRepositoryRepositoryImp(var eventBus: EventBusInterface, var 
                 querySnapshot.documents.forEach {
                     var questionaire = it.toObject(Questionaire::class.java)
                     questionaire!!.idCloud = it.id
-                    questionnairesList.add(questionaire)
+                    if (!questionaire.idUser.equals(firebaseApi.getUid()))
+                        questionnairesList.add(questionaire)
+
                 }
                 postEvent(QuestionnaireRepositoryEvents.ON_GET_QUESTIONAIRE_SUCCESS, questionnairesList)
             }

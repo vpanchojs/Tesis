@@ -69,7 +69,7 @@ class ProfilePresenterImp(var eventBus: EventBusInterface, var view: ProfileView
             }
             ProfileEvents.ON_UPDATE_PHOTO_USER_SUCCESS -> {
                 view.hideProgressDialog()
-                view.setPhoto()
+                view.setPhoto(event.any.toString())
                 view.showMessagge("Foto Actualizada")
             }
             ProfileEvents.ON_UPDATE_PHOTO_USER_ERROR -> {

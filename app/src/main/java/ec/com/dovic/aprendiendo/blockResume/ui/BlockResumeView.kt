@@ -13,4 +13,5 @@ interface BlockResumeView {
     fun showProgress(show: Boolean)
     fun setQuestionnaries(questionnaire_list: List<QuestionnaireBd>)
     fun none_results(visibility: Int)
+    fun reloadServicie()
 }

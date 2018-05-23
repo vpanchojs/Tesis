@@ -1,7 +1,6 @@
 package ec.com.dovic.aprendiendo.myquestionnaires.adapter
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +26,7 @@ class QuestionnaireAdapter(var data: ArrayList<QuestionnaireBd>, var callback: o
         var questionaire = data.get(position)
         holder.view.tv_title.text = questionaire.title
         holder.view.tv_description.text = questionaire.description
-
-        //holder!!.view.tv_num_question.text = "${questionaire.numberQuest} preg"
+        holder!!.view.tv_num_question.text = "${questionaire.numberQuest} preg"
         holder.onClickListener(questionaire, callback)
     }
 
