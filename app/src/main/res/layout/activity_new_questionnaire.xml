@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ec.edu.unl.blockstudy.signup.ui.SignupActivity">
+    tools:context="ec.com.dovic.aprendiendo.signup.ui.SignupActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

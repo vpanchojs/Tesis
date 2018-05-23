@@ -4,7 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionaireActivity$PlaceholderFragment">
+    tools:context="ec.com.dovic.aprendiendo.detailQuestionaire.ui.QuestionaireActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"

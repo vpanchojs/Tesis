@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_login"
-    tools:context="ec.edu.unl.blockstudy.login.ui.LoginActivity">
+    tools:context="ec.com.dovic.aprendiendo.login.ui.LoginActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_chip_registre"

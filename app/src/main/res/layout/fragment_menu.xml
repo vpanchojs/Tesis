@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    tools:context="ec.edu.unl.blockstudy.menu.ui.MenuFragment">
+    tools:context="ec.com.dovic.aprendiendo.menu.ui.MenuFragment">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_my_profile"

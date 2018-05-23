@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BlockStudy</string>
+    <string name="app_name">Aprendiendo</string>
 
     <string name="login_chip_createAccount">Crear Cuenta</string>
     <string name="login_button_sigin">Iniciar Sesión</string>
@@ -37,7 +37,7 @@
     <string name="hello_blank_fragment">Hello blank activity</string>
     <string name="menu_tv_my_profile">Mi perfil</string>
     <string name="menu_option_menu">Terminos y Condiciones</string>
-    <string name="menu_option_termins_and_conditions">Terminos y Condiciones</string>
+    <string name="menu_option_termins_and_conditions">Términos y Condiciones</string>
     <string name="menu_option_update_password">Cambiar Contraseña</string>
     <string name="menu_option_help">Ayuda</string>
     <string name="menu_option_signout">Cerrar Sesión</string>
@@ -122,4 +122,6 @@
     <string name="tv_comment">Comentario(opcional)</string>
     <string name="button_rating">Calificar</string>
     <string name="action_download">Descargar Cuestionario</string>
+    <string name="none_questionnaries_repository">Lo sentimos no tenemos cuestionarios</string>
+    <string name="none_questionnaries_my_repository">Aun no ha creado ningun cuestionario</string>
 </resources>

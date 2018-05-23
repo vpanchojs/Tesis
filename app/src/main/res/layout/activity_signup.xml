@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ec.edu.unl.blockstudy.signup.ui.SignupActivity">
+    tools:context="ec.com.dovic.aprendiendo.signup.ui.SignupActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -156,7 +156,6 @@
             android:background="@drawable/bg_btn_signin"
             android:enabled="false"
             android:text="@string/signup_buton_signup"
-            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

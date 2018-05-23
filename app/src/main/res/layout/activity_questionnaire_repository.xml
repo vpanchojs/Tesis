@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_margin="8dp"
     android:layout_height="match_parent"
-    tools:context="ec.edu.unl.blockstudy.myquestionnaires.ui.MyQuestionnairesFragment">
+    tools:context="ec.com.dovic.aprendiendo.myquestionnaires.ui.MyQuestionnairesFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_questionnaire"
@@ -38,7 +38,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/none_questionnaries"
+        android:text="@string/none_questionnaries_repository"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

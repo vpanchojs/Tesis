@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ec.edu.unl.blockstudy.questionnaireResume.ui.QuestionnaireResumeActivity"
+    tools:context="ec.com.dovic.aprendiendo.questionnaireResume.ui.QuestionnaireResumeActivity"
     tools:showIn="@layout/activity_questionnaire_resume">
 
     <android.support.constraint.ConstraintLayout

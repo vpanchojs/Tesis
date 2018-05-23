@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionaireActivity">
+    tools:context="ec.com.dovic.aprendiendo.detailQuestionaire.ui.QuestionaireActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
