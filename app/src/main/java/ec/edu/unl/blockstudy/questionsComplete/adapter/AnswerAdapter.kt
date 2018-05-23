@@ -22,13 +22,13 @@ class AnswerAdapter(var data: ArrayList<AnswerBd>) : RecyclerView.Adapter<Answer
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var answer = data.get(position)
-        holder!!.view.tv_respuesta.text = answer.statement
+        val answer = data.get(position)
+        holder.view.tv_respuesta.text = answer.statement
 
         if (answer.correct!!) {
-            holder!!.view.iv_correct.visibility = View.VISIBLE
+            holder.view.iv_correct.visibility = View.VISIBLE
         } else {
-            holder!!.view.iv_correct.visibility = View.INVISIBLE
+            holder.view.iv_correct.visibility = View.INVISIBLE
         }
 
 

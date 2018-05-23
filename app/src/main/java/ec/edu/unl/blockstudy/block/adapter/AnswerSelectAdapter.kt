@@ -30,7 +30,7 @@ class AnswerSelectAdapter(var data: ArrayList<AnswerBd>) : RecyclerView.Adapter<
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         fun onActionListener(answer: AnswerBd) {
-            view.cb_correct.setOnCheckedChangeListener { buttonView, isChecked ->
+            view.cb_correct.setOnCheckedChangeListener { _, isChecked ->
                 answer.select = isChecked
             }
         }

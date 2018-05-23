@@ -23,12 +23,12 @@ class QuestionnaireRepositoryAdapter(var data: ArrayList<Questionaire>, var call
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var questionaire = data.get(position)
-        holder!!.view.tv_title.text = questionaire.title
-        holder!!.view.tv_description.text = questionaire.description
-        holder!!.view.tv_raiting.text = questionaire.assessment.toString()
-        holder!!.view.tv_num_question.text = "${questionaire.numberQuest} preg"
-        holder!!.onClickListener(questionaire, callback)
+        val questionaire = data.get(position)
+        holder.view.tv_title.text = questionaire.title
+        holder.view.tv_description.text = questionaire.description
+        holder.view.tv_raiting.text = questionaire.assessment.toString()
+        holder.view.tv_num_question.text = "${questionaire.numberQuest} preg"
+        holder.onClickListener(questionaire, callback)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {

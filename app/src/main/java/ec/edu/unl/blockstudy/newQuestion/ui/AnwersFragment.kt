@@ -60,7 +60,7 @@ class AnwersFragment : Fragment(), onAnswerAdapterListener, View.OnClickListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var view = inflater!!.inflate(R.layout.fragment_anwers, container, false)
+        var view = inflater.inflate(R.layout.fragment_anwers, container, false)
         rv_answer = view.rv_answer
         fab_add_answer = view.fab_add_answer
         fab_add_answer.setOnClickListener(this)

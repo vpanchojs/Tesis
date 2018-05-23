@@ -7,13 +7,13 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.widget.ImageButton
 import ec.edu.unl.blockstudy.R
-import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.database.QuestionnaireBd
+import ec.edu.unl.blockstudy.entities.Questionaire
 import kotlinx.android.synthetic.main.fragment_info_questionnaire.view.*
 
 class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListener {
     private var ib_close: ImageButton? = null
-    lateinit var questionaire: Questionaire
+    lateinit var questionaire: QuestionnaireBd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +38,10 @@ class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListen
 
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
             ib_close!!.setOnClickListener {
                 dismiss()
             }
-        }
+
     }
 
 
@@ -52,7 +50,7 @@ class InfoQuestionnaireFragment : DialogFragment(), DialogInterface.OnShowListen
         fun newInstance(questionaire: QuestionnaireBd): InfoQuestionnaireFragment {
             val fragment = InfoQuestionnaireFragment()
             var b = Bundle()
-          //  b.putParcelable(PARAM_QUESTIONNAIRE, questionaire)
+            b.putParcelable(PARAM_QUESTIONNAIRE, questionaire)
             fragment.arguments = b
             return fragment
         }

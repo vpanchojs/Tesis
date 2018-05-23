@@ -68,18 +68,16 @@ class ApplicationsFragment : DialogFragment(), DialogInterface.OnShowListener, A
     }
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
-            btn_action!!.setOnClickListener {
-                Log.e("select ", applications.size.toString())
-                (parentFragment as BlockResumeFragment).setApplications()
-                dismiss()
-            }
-            ib_close!!.setOnClickListener {
-                dismiss()
-            }
-
+        //val dialogo = getDialog() as AlertDialog
+        btn_action!!.setOnClickListener {
+            Log.e("select ", applications.size.toString())
+            (parentFragment as BlockResumeFragment).setApplications()
+            dismiss()
         }
+        ib_close!!.setOnClickListener {
+            dismiss()
+        }
+
     }
 
     override fun addApp(app: ApplicationInfo) {

@@ -1,9 +1,9 @@
-package ec.edu.unl.blockstudy.newQuestionnaire.events
+package ec.edu.unl.blockstudy.updateQuestionnaire.events
 
 /**
  * Created by victor on 5/2/18.
  */
-class NewQuestionaireEvents(var type: Int, var any: Any) {
+class UpdateQuestionaireEvents(var type: Int, var any: Any) {
 
     companion object {
         val ON_POST_QUESTIONAIRE_SUCCESS = 0

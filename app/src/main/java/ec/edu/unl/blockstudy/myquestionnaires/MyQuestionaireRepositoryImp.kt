@@ -55,7 +55,7 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
     override fun onCreateQuestionaire(questionaire: Questionaire) {
         firebaseApi.createQuestionnaire(questionaire, object : OnCallbackApis<Questionaire> {
             override fun onSuccess(response: Questionaire) {
-                postEvent(MyQuestionaireEvents.ON_CREATE_QUESTIONAIRE_SUCCESS, response!!)
+                postEvent(MyQuestionaireEvents.ON_CREATE_QUESTIONAIRE_SUCCESS, response)
             }
 
             override fun onError(error: Any?) {

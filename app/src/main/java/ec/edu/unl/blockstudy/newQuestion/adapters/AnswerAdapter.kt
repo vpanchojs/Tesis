@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_answer.view.*
 class AnswerAdapter(var data: ArrayList<Answer>, var callback: onAnswerAdapterListener) : RecyclerView.Adapter<AnswerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_answer, parent, false);
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_answer, parent, false);
         return ViewHolder(view);
     }
 
@@ -23,7 +23,7 @@ class AnswerAdapter(var data: ArrayList<Answer>, var callback: onAnswerAdapterLi
     }
 
     fun removeItem(any: Any) {
-        var answer = any as Answer
+        val answer = any as Answer
         for (a in 0..(itemCount - 1)) {
             if (answer.equals(data.get(a))) {
                 data.remove(answer)
@@ -35,10 +35,10 @@ class AnswerAdapter(var data: ArrayList<Answer>, var callback: onAnswerAdapterLi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var answer = data.get(position)
-        holder!!.view.cb_correct.isChecked = answer.correct!!
-        holder!!.view.tie_answer.setText(answer.statement!!)
-        holder!!.onActionListener(answer, position, callback)
+        val answer = data.get(position)
+        holder.view.cb_correct.isChecked = answer.correct!!
+        holder.view.tie_answer.setText(answer.statement!!)
+        holder.onActionListener(answer, position, callback)
     }
 
 

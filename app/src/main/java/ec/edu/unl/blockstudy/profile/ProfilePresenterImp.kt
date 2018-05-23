@@ -61,7 +61,7 @@ class ProfilePresenterImp(var eventBus: EventBusInterface, var view: ProfileView
             ProfileEvents.ON_UPDATE_USER_SUCCESS -> {
                 view.hideProgressDialog()
                 view.setInfoUser(event.any as User)
-                view.showMessagge("Informacion Actualizada")
+                view.showMessagge("Información Actualizada")
             }
             ProfileEvents.ON_UPDATE_USER_ERROR -> {
                 view.hideProgressDialog()
@@ -79,7 +79,7 @@ class ProfilePresenterImp(var eventBus: EventBusInterface, var view: ProfileView
             ProfileEvents.ON_UPDATE_ACADEMIC_SUCCESS -> {
                 view.hideProgressDialog()
                 view.setAcademic(event.any as ArrayList<Academic>)
-                view.showMessagge("Formacion Academica actualizada")
+                view.showMessagge("Formación Academica actualizada")
             }
             ProfileEvents.ON_UPDATE_ACADEMIC_ERROR -> {
                 view.hideProgressDialog()
@@ -91,7 +91,7 @@ class ProfilePresenterImp(var eventBus: EventBusInterface, var view: ProfileView
             }
             ProfileEvents.ON_SET_SUBJECTS_SUCCESS -> {
                 view.hideProgressDialog()
-                view.setPreferences(event.any as ArrayList<Subject>)
+                view.showMessagge("No se puedo cargar la información")
 
             }
             ProfileEvents.ON_SET_SUBJECTS_ERROR -> {

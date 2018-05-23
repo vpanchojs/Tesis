@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".login.ui.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,35 +33,43 @@
         </activity>
         <activity
             android:name=".signup.ui.SignupActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".main.MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".newQuestionnaire.ui.NewQuestionnaireActivity"
+            android:name=".updateQuestionnaire.ui.UpdateQuestionnaireActivity"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".profile.ui.ProfileActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".detailQuestionaire.ui.QuestionaireActivity"
             android:label="@string/title_activity_detail_questionaire"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".newQuestion.ui.QuestionActivity"
             android:label="Nueva Pregunta"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".questionsComplete.ui.QuestionsCompleteActivity"
             android:label="@string/title_activity_questions_view"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".questionnaireResume.ui.QuestionnaireResumeActivity"
             android:label="@string/title_activity_questionnaire_resume"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".questionnaireResume.servicie.DonwloadIntentService" />
@@ -71,6 +80,7 @@
             android:excludeFromRecents="true"
             android:label="@string/title_activity_block"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
@@ -86,7 +96,8 @@
 
         <activity
             android:name=".myrepository.ui.MyRepositoryActivity"
-            android:label="Mi Repositorio" />
+            android:label="Mi Repositorio"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_menu_option.view.*
 class OptionsAdapter(var data: ArrayList<OptionMenu>, var callback: onOptionsAdapterListener) : RecyclerView.Adapter<OptionsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_menu_option, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_menu_option, parent, false)
         return ViewHolder(view)
     }
 
@@ -21,9 +21,9 @@ class OptionsAdapter(var data: ArrayList<OptionMenu>, var callback: onOptionsAda
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder!!.view.tv_name_option.text = data.get(position).name
-        holder!!.view.iv_option.setImageResource(data.get(position).icon)
-        holder!!.onClickItemListener(position, callback)
+        holder.view.tv_name_option.text = data.get(position).name
+        holder.view.iv_option.setImageResource(data.get(position).icon)
+        holder.onClickItemListener(position, callback)
     }
 
 

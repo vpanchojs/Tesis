@@ -1,15 +1,15 @@
-package ec.edu.unl.blockstudy.newQuestionnaire
+package ec.edu.unl.blockstudy.updateQuestionnaire
 
 import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
-import ec.edu.unl.blockstudy.newQuestionnaire.events.NewQuestionaireEvents
-import ec.edu.unl.blockstudy.newQuestionnaire.ui.NewQuestionaireView
+import ec.edu.unl.blockstudy.updateQuestionnaire.events.UpdateQuestionaireEvents
+import ec.edu.unl.blockstudy.updateQuestionnaire.ui.UpdateQuestionaireView
 import org.greenrobot.eventbus.Subscribe
 
 /**
  * Created by victor on 5/2/18.
  */
-class NewQuestionairePresenterImp(var eventBus: EventBusInterface, var view: NewQuestionaireView, var interactor: NewQuestionaireInteractor) : NewQuestionairePresenter {
+class UpdateQuestionairePresenterImp(var eventBus: EventBusInterface, var view: UpdateQuestionaireView, var interactor: UpdateQuestionaireInteractor) : UpdateQuestionairePresenter {
 
     override fun onResume() {
         eventBus.register(this)
@@ -30,14 +30,14 @@ class NewQuestionairePresenterImp(var eventBus: EventBusInterface, var view: New
     }
 
     @Subscribe
-    override fun onEventNewQuestionaireThread(event: NewQuestionaireEvents) {
+    override fun onEventNewQuestionaireThread(event: UpdateQuestionaireEvents) {
         when (event.type) {
-            NewQuestionaireEvents.ON_POST_QUESTIONAIRE_SUCCESS -> {
+            UpdateQuestionaireEvents.ON_POST_QUESTIONAIRE_SUCCESS -> {
                 view.hideProgressDialog()
                 view.showMessagge("Cuestionario Publicado")
                 view.navigationToQuestionaire()
             }
-            NewQuestionaireEvents.ON_POST_QUESTIONAIRE_ERROR -> {
+            UpdateQuestionaireEvents.ON_POST_QUESTIONAIRE_ERROR -> {
                 view.hideProgressDialog()
                 view.showMessagge(event.any.toString())
             }

@@ -176,6 +176,24 @@
             app:layout_constraintTop_toTopOf="@+id/iv_questionnaires" />
 
 
+        <TextView
+            android:id="@+id/tv_none_questionnaires"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="No ha descargado ningun cuestionario"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_questionnaires"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_questionnaire"
             android:layout_width="0dp"
@@ -183,6 +201,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/tobtn_block"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_title_questionnaire"

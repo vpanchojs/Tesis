@@ -1,6 +1,7 @@
 package ec.edu.unl.blockstudy.blockResume
 
 import android.util.Log
+import android.view.View
 import ec.edu.unl.blockstudy.blockResume.events.BlockResumeEvents
 import ec.edu.unl.blockstudy.blockResume.ui.BlockResumeView
 import ec.edu.unl.blockstudy.database.Application
@@ -61,13 +62,15 @@ class BlockResumePresenterImp(var eventBus: EventBusInterface, var view: BlockRe
             }
             BlockResumeEvents.ON_GET_QUESTIONAIRE_SUCCESS -> {
                 view.showProgress(false)
-//                view.setQuestionnaries(event.any as Questionaire)
 
                 var questionnaire_list = event.any as List<QuestionnaireBd>
-                if (questionnaire_list.size > 0)
+                if (questionnaire_list.size > 0) {
+                    view.none_results(View.GONE)
                     view.setQuestionnaries(questionnaire_list)
-                else
-                    view.none_results(true)
+
+                } else {
+                    view.none_results(View.VISIBLE)
+                }
             }
 
             BlockResumeEvents.ON_SET_APPLICATIONS_SUCCESS -> {

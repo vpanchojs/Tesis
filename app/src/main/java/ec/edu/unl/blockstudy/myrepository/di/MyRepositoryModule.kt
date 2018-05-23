@@ -3,7 +3,6 @@ package ec.edu.unl.blockstudy.myrepository.di
 import dagger.Module
 import dagger.Provides
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import ec.edu.unl.blockstudy.myrepository.*
 import ec.edu.unl.blockstudy.myrepository.ui.MyRepositoryView

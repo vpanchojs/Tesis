@@ -19,11 +19,11 @@ class SignupPresenterImpl(var view: SignupView,
     }
 
     override fun onResume() {
-        eventBus!!.register(this)
+        eventBus.register(this)
     }
 
     override fun onPause() {
-        eventBus!!.unregister(this)
+        eventBus.unregister(this)
     }
 
     override fun onDestroy() {

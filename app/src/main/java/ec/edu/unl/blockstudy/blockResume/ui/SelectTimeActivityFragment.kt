@@ -52,8 +52,6 @@ class SelectTimeActivityFragment : DialogFragment(), DialogInterface.OnShowListe
 
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
             btn_action!!.setOnClickListener {
                 if (cb_none!!.isChecked) {
                     (parentFragment as BlockResumeFragment).onSetTime(-1)
@@ -65,7 +63,7 @@ class SelectTimeActivityFragment : DialogFragment(), DialogInterface.OnShowListe
             ib_close!!.setOnClickListener {
                 dismiss()
             }
-        }
+
     }
 
 

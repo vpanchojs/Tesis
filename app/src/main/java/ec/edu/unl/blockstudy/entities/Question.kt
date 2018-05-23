@@ -40,8 +40,8 @@ class Question() : Parcelable {
     @Exclude
     fun toMapPost(): Map<String, Any> {
         val result = HashMap<String, Any>()
-        result["statement"] = statement!!
-        result["photoUrl"] = photoUrl!!
+        result["statement"] = statement
+        result["photoUrl"] = photoUrl
         result["answers"] = hashAnswers
         return result
     }

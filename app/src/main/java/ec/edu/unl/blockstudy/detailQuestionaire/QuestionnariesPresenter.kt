@@ -20,5 +20,6 @@ interface QuestionnariesPresenter {
     fun onEventThread(event: QuestionnaireEvents)
 
     fun updateBasicQuestionnaire(questionaire: Questionaire)
+
     fun onDeleteQuestionnnaire(idQuestionaire: Any)
 }

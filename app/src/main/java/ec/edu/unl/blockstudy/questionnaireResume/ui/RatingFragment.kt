@@ -63,8 +63,6 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
 
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
             btn_action!!.setOnClickListener {
                 //callback!!.onRecoveryPassword(tie_email!!.text.toString())
                 callback!!.onSetRaiting(ratingBar!!.rating.toDouble(), tie_comment!!.text.toString())
@@ -74,7 +72,7 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
             ib_close!!.setOnClickListener {
                 dismiss()
             }
-        }
+
     }
 
     override fun onAttach(context: Context?) {

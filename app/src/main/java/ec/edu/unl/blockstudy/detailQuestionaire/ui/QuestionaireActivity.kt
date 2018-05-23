@@ -19,7 +19,8 @@ import ec.edu.unl.blockstudy.detailQuestionaire.adapter.onQuestionAdapterListene
 import ec.edu.unl.blockstudy.entities.Question
 import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.newQuestion.ui.QuestionActivity
-import ec.edu.unl.blockstudy.newQuestionnaire.ui.NewQuestionnaireActivity
+import ec.edu.unl.blockstudy.questionnaireResume.servicie.DonwloadIntentService
+import ec.edu.unl.blockstudy.updateQuestionnaire.ui.UpdateQuestionnaireActivity
 import ec.edu.unl.blockstudy.util.BaseActivitys
 import kotlinx.android.synthetic.main.activity_questionaire.*
 import javax.inject.Inject
@@ -52,7 +53,6 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
         setupToolBar()
         setDataQuestionire();
         fab_new_question.setOnClickListener(this)
-        fab_edit_questionnaire.setOnClickListener(this)
     }
 
     private fun setDataQuestionire() {
@@ -105,11 +105,16 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
             R.id.action_delete -> {
                 createDeleteDialog().show()
             }
-            R.id.action_upload -> {
-                startActivity(Intent(this, NewQuestionnaireActivity::class.java).putExtra(NewQuestionnaireActivity.PARAM_QUESTIONNAIRE, questionaire))
+            R.id.action_update -> {
+                startActivity(Intent(this, UpdateQuestionnaireActivity::class.java).putExtra(UpdateQuestionnaireActivity.PARAM_QUESTIONNAIRE, questionaire))
             }
-            R.id.action_more_info -> {
 
+            R.id.action_download -> {
+                val intent = Intent(this, DonwloadIntentService::class.java)
+                intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
+                startService(intent)
+                showMessagge("Descargando Cuestionario")
+                finish()
             }
             android.R.id.home -> {
                 navigationBack()
@@ -125,7 +130,7 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
         builder.setTitle("Mensaje de confirmación")
                 .setMessage("Desea eliminar el cuestionario?")
                 .setPositiveButton("ACEPTAR"
-                ) { dialog, which ->
+                ) { _, which ->
                     presenter.onDeleteQuestionnnaire(questionaire.idCloud)
                 }
                 .setNegativeButton("CANCELAR",
@@ -142,11 +147,13 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
                 intent.putExtra(QuestionActivity.ID_QUESTIONNAIRE_PARAM, questionaire.idCloud)
                 startActivity(intent)
             }
-            R.id.fab_edit_questionnaire -> {
-                questionaire.description = tie_discription.text.toString()
-                questionaire.title = tie_title.text.toString()
-                presenter.updateBasicQuestionnaire(questionaire)
-            }
+        /*
+        R.id.fab_edit_questionnaire -> {
+            questionaire.description = tie_discription.text.toString()
+            questionaire.title = tie_title.text.toString()
+            presenter.updateBasicQuestionnaire(questionaire)
+        }
+        */
         }
     }
 
@@ -203,8 +210,8 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
         adapter.notifyDataSetChanged()
     }
 
-    override fun showProgress(show: Boolean) {
-
+    override fun showProgress(visibility: Int) {
+        progressbar.visibility = visibility
     }
 
     override fun none_results(show: Boolean) {

@@ -4,8 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
-import ec.edu.unl.blockstudy.domain.SharePreferencesApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
 import ec.edu.unl.blockstudy.entities.Question
@@ -60,11 +58,11 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
                 aux.documents.forEach {
                     var raiting = it.toObject(Raiting::class.java)
                     raiting!!.idRaiting = it.id
-                    raiting!!.me = it.id == firebaseApi.getUid()
+                    raiting.me = it.id == firebaseApi.getUid()
                     ratingsList.add(raiting)
                 }
                 Log.e("aa", "enviando" + ratingsList.size)
-                postEvent(QuestionnaireResumeEvents.ON_GET_RATINGS_SUCCESS, ratingsList!!)
+                postEvent(QuestionnaireResumeEvents.ON_GET_RATINGS_SUCCESS, ratingsList)
             }
 
             override fun onError(error: Any?) {

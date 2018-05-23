@@ -167,11 +167,14 @@
 
 
         <RadioGroup
+            android:id="@+id/rg_visibility"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_visibility">
@@ -180,13 +183,14 @@
                 android:id="@+id/rb_private"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Privado (Disponible solo para el autor)" />
+                android:layout_marginRight="16sp"
+                android:text="Privado" />
 
             <RadioButton
                 android:id="@+id/rb_public"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Publico (Disponible en el repositorio)" />
+                android:text="Público" />
 
         </RadioGroup>
 

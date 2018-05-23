@@ -14,6 +14,7 @@ class BlockResumeEvents(public var type: Int, public var any: Any) {
         val ON_SET_APPLICATIONS_SUCCESS = 5
         val ON_SET_APPLICATIONS_ERROR = 6
         val ON_GET_APPLICATIONS_SUCCESS=7
+
     }
 
 }

@@ -194,7 +194,7 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
         builder.setTitle("Mensaje de confirmación")
                 .setMessage("Desea salir?")
                 .setPositiveButton("ACEPTAR"
-                ) { dialog, which ->
+                ) { _, _ ->
                     val resultData = Intent()
                     setResult(0, resultData)
                     finish()
@@ -212,7 +212,7 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
         builder.setTitle("Mensaje de confirmación")
                 .setMessage("Desea Eliminar la pregunta?")
                 .setPositiveButton("ACEPTAR"
-                ) { dialog, which ->
+                ) { _, which ->
                     presenter.onDeteleQuestion(question.idCloud, idQuestionnaire)
                 }
                 .setNegativeButton("CANCELAR",
@@ -236,9 +236,9 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
 
     override fun setDataQuestion(ques: Question) {
         answerList!!.addAll(question.answers)
-        statement.put("statament", question.statement!!)
-        statement.put("photo", question.photoUrl!!)
-        adapter = SlidePagerAdapter(statement!!, answerList!!, supportFragmentManager)
+        statement.put("statament", question.statement)
+        statement.put("photo", question.photoUrl)
+        adapter = SlidePagerAdapter(statement, answerList!!, supportFragmentManager)
         vp_content_question.adapter = adapter
         tabs.setupWithViewPager(vp_content_question)
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(vp_content_question))
@@ -246,9 +246,9 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
 
     override fun setDataAnswers(anserws: List<Answer>) {
         answerList!!.addAll(anserws)
-        statement.put("statament", question.statement!!)
-        statement.put("photo", question.photoUrl!!)
-        adapter = SlidePagerAdapter(statement!!, answerList!!, supportFragmentManager)
+        statement.put("statament", question.statement)
+        statement.put("photo", question.photoUrl)
+        adapter = SlidePagerAdapter(statement, answerList!!, supportFragmentManager)
         vp_content_question.adapter = adapter
         tabs.setupWithViewPager(vp_content_question)
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(vp_content_question))

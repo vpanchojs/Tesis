@@ -63,7 +63,7 @@ class DbApi(var db: Db) {
     }
 
     fun insertQuestionnaire(questionnaireBd: QuestionnaireBd, callback: OnCallbackApis<Long>) {
-        var id: Long = 0
+        var id: Long
         Thread({
             id = db.questionnaireDao().insertQuestionnaire(questionnaireBd)
             callback.onSuccess(id)
@@ -72,7 +72,7 @@ class DbApi(var db: Db) {
     }
 
     fun insertQuestion(questionBd: QuestionBd, callback: OnCallbackApis<Long>) {
-        var id: Long = 0
+        var id: Long
         Thread({
             id = db.questionDao().insertQuestion(questionBd)
             callback.onSuccess(id)
@@ -90,7 +90,7 @@ class DbApi(var db: Db) {
     }
 
     fun deleteQuestionnaire(questionnaireBd: QuestionnaireBd, callcack: OnCallbackApis<Int>) {
-        var num: Int = 0
+        var num: Int
         doAsync {
             num = db.questionnaireDao().deleteQuestionnaire(questionnaireBd)
             if (num > 0)
@@ -178,7 +178,7 @@ class DbApi(var db: Db) {
     fun updateTimeBlock(time: Int, onCallbackApis: OnCallbackApis<Int>) {
         Thread({
             db.blockDao().updateTimeBlock(time)
-            //onCallbackApis.onSuccess(Int)
+            onCallbackApis.onSuccess(time)
         }).start()
     }
 

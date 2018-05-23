@@ -1,11 +1,11 @@
-package ec.edu.unl.blockstudy.newQuestionnaire
+package ec.edu.unl.blockstudy.updateQuestionnaire
 
 import ec.edu.unl.blockstudy.entities.Questionaire
 
 /**
  * Created by victor on 5/2/18.
  */
-class NewQuestionaireInteractorImp(var repository: NewQuestionaireRepository) : NewQuestionaireInteractor {
+class UpdateQuestionaireInteractorImp(var repository: UpdateQuestionaireRepository) : UpdateQuestionaireInteractor {
 
     override fun onUploadQuestionaire(questionaire: Questionaire) {
         repository.onUploadQuestionaire(questionaire)

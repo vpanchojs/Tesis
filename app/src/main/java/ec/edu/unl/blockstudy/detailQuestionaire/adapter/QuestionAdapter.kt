@@ -14,7 +14,7 @@ class QuestionAdapter(var data: ArrayList<Question>, var callback: onQuestionAda
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_my_question, parent, false)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_my_question, parent, false)
         return QuestionAdapter.ViewHolder(view)
     }
 
@@ -23,10 +23,10 @@ class QuestionAdapter(var data: ArrayList<Question>, var callback: onQuestionAda
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var question = data.get(position)
-        holder!!.view.tv_description.setText(question.statement)
-        holder!!.view.tv_num_question.setText("# " + (position + 1))
-        holder!!.onClickListener(question, position, callback)
+        val question = data.get(position)
+        holder.view.tv_description.setText(question.statement)
+        holder.view.tv_num_question.text = "# " + (position + 1)
+        holder.onClickListener(question, position, callback)
     }
 
     /*

@@ -114,7 +114,7 @@ class ProfileRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: Fir
                 var subjects = java.util.ArrayList<Subject>()
                 for (documentSnapshot in (response as QuerySnapshot).getDocuments()) {
                     Log.e("S", documentSnapshot.getData().toString())
-                    val a = documentSnapshot.toObject(Subject::class.java!!)
+                    val a = documentSnapshot.toObject(Subject::class.java)
                     a!!.id = documentSnapshot.getId()
                     subjects.add(a)
                 }

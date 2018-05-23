@@ -41,19 +41,15 @@ import ec.edu.unl.blockstudy.newQuestion.di.DaggerQuestionComponent
 import ec.edu.unl.blockstudy.newQuestion.di.QuestionComponent
 import ec.edu.unl.blockstudy.newQuestion.di.QuestionModule
 import ec.edu.unl.blockstudy.newQuestion.ui.QuestionView
-import ec.edu.unl.blockstudy.newQuestionnaire.di.DaggerNewQuestionaireComponent
-import ec.edu.unl.blockstudy.newQuestionnaire.di.NewQuestionaireComponent
-import ec.edu.unl.blockstudy.newQuestionnaire.di.NewQuestionaireModule
-import ec.edu.unl.blockstudy.newQuestionnaire.ui.NewQuestionaireView
+import ec.edu.unl.blockstudy.updateQuestionnaire.di.UpdateQuestionaireComponent
+import ec.edu.unl.blockstudy.updateQuestionnaire.di.UpdateQuestionaireModule
+import ec.edu.unl.blockstudy.updateQuestionnaire.ui.UpdateQuestionaireView
 import ec.edu.unl.blockstudy.profile.di.DaggerProfileComponent
 import ec.edu.unl.blockstudy.profile.di.ProfileComponent
 import ec.edu.unl.blockstudy.profile.di.ProfileModule
 import ec.edu.unl.blockstudy.profile.ui.ProfileView
 import ec.edu.unl.blockstudy.questionnaireResume.di.DaggerQuestionnaireResumeComponent
 import ec.edu.unl.blockstudy.questionnaireResume.di.QuestionnaireResumeComponent
-import ec.edu.unl.blockstudy.questionnaireResume.servicie.di.DaggerDownComponent
-import ec.edu.unl.blockstudy.questionnaireResume.servicie.di.DownComponent
-import ec.edu.unl.blockstudy.questionnaireResume.servicie.di.DownModule
 import ec.edu.unl.blockstudy.questionnaireResume.ui.QuestionnaireResumeView
 import ec.edu.unl.blockstudy.questionsComplete.di.DaggerQuestionCompleteComponent
 import ec.edu.unl.blockstudy.questionsComplete.di.QuestionCompleteComponent
@@ -66,6 +62,7 @@ import ec.edu.unl.blockstudy.signup.di.DaggerSignupComponent
 import ec.edu.unl.blockstudy.signup.di.SignupComponent
 import ec.edu.unl.blockstudy.signup.di.SignupModule
 import ec.edu.unl.blockstudy.signup.ui.SignupView
+import ec.edu.unl.blockstudy.updateQuestionnaire.di.DaggerUpdateQuestionaireComponent
 
 class MyApplication : MultiDexApplication() {
     val SHARED_PREFERENCES_NAME = "dsafio_preferences"
@@ -125,12 +122,12 @@ class MyApplication : MultiDexApplication() {
                 .build()
     }
 
-    fun getNewQuestionaireComponent(view: NewQuestionaireView): NewQuestionaireComponent {
-        return DaggerNewQuestionaireComponent
+    fun getNewQuestionaireComponent(view: UpdateQuestionaireView): UpdateQuestionaireComponent {
+        return DaggerUpdateQuestionaireComponent
                 .builder()
                 .domainModule(domainModule)
                 .libModule(LibModule())
-                .newQuestionaireModule(NewQuestionaireModule(view))
+                .updateQuestionaireModule(UpdateQuestionaireModule(view))
                 .build()
     }
 
@@ -196,14 +193,6 @@ class MyApplication : MultiDexApplication() {
                 .domainModule(domainModule)
                 .libModule(LibModule())
                 .questionnaireResumeModule(QuestionnaireResumeModule(view))
-                .build()
-    }
-
-    fun getDownComponent(): DownComponent {
-        return DaggerDownComponent
-                .builder()
-                .domainModule(domainModule)
-                .downModule(DownModule())
                 .build()
     }
 

@@ -9,7 +9,7 @@ interface QuestionnaireView {
     fun hideProgressDialog();
     fun showProgressDialog(message: Any)
     fun showMessagge(message: Any)
-    fun showProgress(show: Boolean)
+    fun showProgress(visibility: Int)
     fun none_results(show: Boolean)
     fun navigationBack()
     fun setQuestions(questionList: List<Question>)

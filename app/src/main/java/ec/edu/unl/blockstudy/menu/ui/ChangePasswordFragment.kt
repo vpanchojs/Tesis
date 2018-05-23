@@ -47,8 +47,6 @@ class ChangePasswordFragment : DialogFragment(), DialogInterface.OnShowListener 
 
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
             btn_change!!.setOnClickListener {
                 (parentFragment as MenuFragment).onUpdatePassword(tie_password!!.text.toString(), tie_passwordOdl!!.text.toString())
                 dismiss()
@@ -57,7 +55,6 @@ class ChangePasswordFragment : DialogFragment(), DialogInterface.OnShowListener 
             ib_close!!.setOnClickListener {
                 dismiss()
             }
-        }
     }
 
 

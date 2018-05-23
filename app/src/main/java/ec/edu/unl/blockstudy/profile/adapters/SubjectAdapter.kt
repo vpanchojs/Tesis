@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_subject.view.*
 class SubjectAdapter(var data: ArrayList<Subject>, var callback: onSubjectAdapterListener) : RecyclerView.Adapter<SubjectAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_subject, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subject, parent, false)
         return ViewHolder(view)
     }
 
@@ -24,9 +24,9 @@ class SubjectAdapter(var data: ArrayList<Subject>, var callback: onSubjectAdapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder!!.view.tv_name.text = data.get(position).name
-        holder!!.view.cb_subject.isChecked = data.get(position).active
-        holder!!.onClickItemListener(data.get(position), callback)
+        holder.view.tv_name.text = data.get(position).name
+        holder.view.cb_subject.isChecked = data.get(position).active
+        holder.onClickItemListener(data.get(position), callback)
     }
 
 

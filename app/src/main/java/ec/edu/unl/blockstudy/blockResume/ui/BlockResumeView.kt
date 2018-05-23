@@ -12,5 +12,5 @@ interface BlockResumeView {
     fun setApplicationsSelect(applicationsList: List<Application>)
     fun showProgress(show: Boolean)
     fun setQuestionnaries(questionnaire_list: List<QuestionnaireBd>)
-    fun none_results(show: Boolean)
+    fun none_results(visibility: Int)
 }

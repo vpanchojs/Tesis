@@ -35,7 +35,7 @@ class QuestionRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: Fi
                     // answer.idCloud = it.id
                     answers.add(answer!!)
                 }
-                postEvent(QuestionEvents.ON_GET_ANSWERS_SUCCESS, answers!!)
+                postEvent(QuestionEvents.ON_GET_ANSWERS_SUCCESS, answers)
             }
 
             override fun onError(error: Any?) {

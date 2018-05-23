@@ -2,7 +2,6 @@ package ec.edu.unl.blockstudy.myrepository
 
 import com.google.firebase.firestore.QuerySnapshot
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.entities.Questionaire
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
@@ -38,7 +37,7 @@ class MyRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi
     override fun onCreateQuestionaire(questionaire: Questionaire) {
         firebaseApi.createQuestionnaire(questionaire, object : OnCallbackApis<Questionaire> {
             override fun onSuccess(response: Questionaire) {
-                postEvent(MyRepositoryEvents.ON_CREATE_QUESTIONAIRE_SUCCESS, response!!)
+                postEvent(MyRepositoryEvents.ON_CREATE_QUESTIONAIRE_SUCCESS, response)
             }
 
             override fun onError(error: Any?) {

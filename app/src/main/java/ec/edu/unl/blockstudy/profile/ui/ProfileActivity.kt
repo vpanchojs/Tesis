@@ -79,7 +79,6 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
 
     override fun onResume() {
         super.onResume()
-        checkPermissions()
         presenter.onResume()
     }
 
@@ -98,7 +97,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
                 }
             }
             R.id.cl_time_activity -> {
-                var formationAcademicFragment: FormationAcademicFragment? = null
+                var formationAcademicFragment: FormationAcademicFragment
 
                 if (user!!.academics.size > 0) {
                     formationAcademicFragment = FormationAcademicFragment.newInstance(user!!.academics.get(0).school, user!!.academics.get(0).title)
@@ -195,7 +194,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
             result = contentURI.path
         } else {
             if (contentURI.toString().contains("mediaKey")) {
-                cursor!!.close()
+                cursor.close()
 
                 try {
                     val file = File.createTempFile("tempImg", ".jpg", getCacheDir())
@@ -220,10 +219,10 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
                 }
 
             } else {
-                cursor!!.moveToFirst()
-                val dataColumn = cursor!!.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-                result = cursor!!.getString(dataColumn)
-                cursor!!.close()
+                cursor.moveToFirst()
+                val dataColumn = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+                result = cursor.getString(dataColumn)
+                cursor.close()
             }
         }
         return result
@@ -333,7 +332,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
     override fun setInfoUser(user: User) {
         this.user!!.name = user.name
         this.user!!.lastname = user.lastname
-        tv_name_user.text = user!!.name + " " + user!!.lastname
+        tv_name_user.text = user.name + " " + user.lastname
     }
 
     override fun setDataProfile(user: User) {
@@ -342,8 +341,8 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
         this.user!!.photo = user.photo
         this.user!!.email = user.email
 
-        tv_name_user.text = user!!.name + " " + user!!.lastname
-        tv_email.text = user!!.email
+        tv_name_user.text = user.name + " " + user.lastname
+        tv_email.text = user.email
         setPhoto()
     }
 }

@@ -447,16 +447,16 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
     fun onCreateQuestion(question: Question, idQuestionnaire: String, callback: onDomainApiActionListener) {
 
-        var questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
-        var questionRef = questionaireRef.collection(QUESTIONS_PATH).document()
+        val questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
+        val questionRef = questionaireRef.collection(QUESTIONS_PATH).document()
 
 
-        uploadImageQuestion(question.photoUrl!!, idQuestionnaire, questionRef.id, object : onDomainApiActionListener {
+        uploadImageQuestion(question.photoUrl, idQuestionnaire, questionRef.id, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {
                 question.photoUrl = response.toString()
                 /*Empieza la transaccion*/
                 db.runTransaction {
-                    var documentSnapshot = it.get(questionaireRef)
+                    val documentSnapshot = it.get(questionaireRef)
                     var questionaire = documentSnapshot.toObject(Questionaire::class.java)
                     questionaire!!.refQuestions.add(questionRef)
 
@@ -608,7 +608,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                                         answer!!.idCloud = it.id
                                         answersList.add(answer)
                                     }
-                                    question!!.answers = answersList
+                                    question.answers = answersList
 
                                 }
                                 .addOnFailureListener {
@@ -707,7 +707,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
     fun getQuestionnarie(idQuestionnaire: String, callback: OnCallbackApis<DocumentSnapshot>) {
 
-        val questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire!!)
+        val questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
         //val questionsRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire!!).collection(QUESTIONS_PATH)
 
         questionaireRef.get()

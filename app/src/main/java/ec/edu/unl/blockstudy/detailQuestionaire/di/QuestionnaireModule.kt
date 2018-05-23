@@ -5,7 +5,6 @@ import dagger.Provides
 import ec.edu.unl.blockstudy.detailQuestionaire.*
 import ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionnaireView
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.lib.base.EventBusInterface
 import javax.inject.Singleton
 

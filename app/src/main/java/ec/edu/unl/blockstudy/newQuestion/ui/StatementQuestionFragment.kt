@@ -58,7 +58,7 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_statement_question, container, false)
+        return inflater.inflate(R.layout.fragment_statement_question, container, false)
 
     }
 
@@ -210,10 +210,10 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
                 }
 
             } else {
-                cursor!!.moveToFirst()
-                val dataColumn = cursor!!.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-                result = cursor!!.getString(dataColumn)
-                cursor!!.close()
+                cursor.moveToFirst()
+                val dataColumn = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+                result = cursor.getString(dataColumn)
+                cursor.close()
             }
         }
         return result

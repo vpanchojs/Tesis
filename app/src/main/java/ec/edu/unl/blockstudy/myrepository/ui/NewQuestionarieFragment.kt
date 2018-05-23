@@ -53,23 +53,20 @@ class NewQuestionarieFragment : DialogFragment(), DialogInterface.OnShowListener
 
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
             btn_create!!.setOnClickListener {
-                (parentFragment as MyRepositoryActivity).onCreateQuestionnaire(tie_description!!.text.toString(), tie_title!!.text.toString())
+                (activity as MyRepositoryActivity).onCreateQuestionnaire(tie_description!!.text.toString(), tie_title!!.text.toString())
                 btn_create!!.visibility = View.INVISIBLE
-                progress!!.visibility = View.VISIBLE
+                progress.visibility = View.VISIBLE
             }
 
             ib_close!!.setOnClickListener {
                 dismiss()
             }
-        }
     }
 
     fun showButtonCreate() {
         btn_create!!.visibility = View.VISIBLE
-        progress!!.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 
     companion object {

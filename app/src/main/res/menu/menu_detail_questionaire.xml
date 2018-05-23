@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionaireActivity">
     <item
-        android:id="@+id/action_more_info"
-        android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/action_more_info"
-        android:visible="false"
+        android:id="@+id/action_download"
+        android:icon="@drawable/ic_cloud_download_black_24dp"
+        android:title="@string/action_download"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_upload"
-        android:icon="@drawable/ic_cloud_upload_black_24dp"
+        android:id="@+id/action_update"
+        android:icon="@drawable/ic_edit"
         android:title="@string/upload_repository"
         app:showAsAction="always" />
     <item

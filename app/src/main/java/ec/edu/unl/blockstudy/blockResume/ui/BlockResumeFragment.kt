@@ -148,7 +148,7 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     private fun hasPermission(): Boolean {
         val appOps = activity!!.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        var mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+        val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                 android.os.Process.myUid(), activity!!.getPackageName())
         return mode == AppOpsManager.MODE_ALLOWED
     }
@@ -205,7 +205,8 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         adapter.notifyDataSetChanged()
     }
 
-    override fun none_results(show: Boolean) {
+    override fun none_results(visibility: Int) {
+        tv_none_questionnaires.visibility = visibility
 
     }
 
@@ -214,18 +215,6 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         setTimeActivity(block.timeActivity)
         applications.clear()
 
-        //questonnaireBlock.addAll(block.questionaire)
-
-        //adapter.notifyDataSetChanged()
-
-        /*
-        block.questionaire.forEach {
-            //applications.add(it.)
-            it.questionsPath.forEach {
-                Log.e("path", "${it.path}")
-            }
-        }
-        */
     }
 
 }

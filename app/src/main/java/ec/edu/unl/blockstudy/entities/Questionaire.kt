@@ -73,7 +73,7 @@ class Questionaire() : Parcelable {
         result["description"] = description!!
         result["postDate"] = FieldValue.serverTimestamp()
         result["numberQuest"] = numberQuest
-        result["post"] = true
+        result["post"] = post
         result["keywords"] = keywords
         result["assessment"] = assessment
         result["numAssessment"] = numAssessment

@@ -43,9 +43,10 @@
                     android:id="@+id/tie_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:hint="@string/title_questionnaire"
-                    android:inputType="text"
-                    android:maxLength="50" />
+                    android:inputType="none" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -65,9 +66,10 @@
                     android:id="@+id/tie_discription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:hint="@string/description_questionnaire"
-                    android:inputType="textMultiLine"
-                    android:maxLength="200" />
+                    android:inputType="none" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -75,17 +77,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_edit_questionnaire"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@color/colorWhite"
-        android:tint="@color/colorWhite"
-        app:fabSize="mini"
-        app:layout_anchor="@+id/appbar"
-        app:layout_anchorGravity="end|bottom"
-        app:srcCompat="@drawable/ic_edit" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -101,6 +92,20 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

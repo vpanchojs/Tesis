@@ -68,9 +68,9 @@
     <string name="subject">Preferencia</string>
     <string name="main_message_picture_source">Seleccione medio para  obtener imagen</string>
     <string name="message_update_user">Actualizando Información Básica</string>
-    <string name="message_update_academic">Actualizan formación académica</string>
+    <string name="message_update_academic">Actualizando formación académica</string>
     <string name="message_update_photo_user">Actualizando foto de perfil</string>
-    <string name="message_get_profile">Obtiendo información del perfil</string>
+    <string name="message_get_profile">Obteniendo información del perfil</string>
     <string name="empty_preferences">No tiene agregado temáticas</string>
     <string name="title_questionnaire">Título</string>
     <string name="tv_new_questionnaire">Nuevo Cuestionario</string>
@@ -91,7 +91,7 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="none_questionnaries">No tiene cuestionarios</string>
+    <string name="none_questionnaries">No tiene cuestionarios descargados</string>
     <string name="none_questions">No tiene preguntas</string>
     <string name="delete_question">Eliminar Pregunta</string>
     <string name="exist_correct_response">Deben existir respuestas correctas e incorrectas</string>
@@ -99,6 +99,7 @@
     <string name="action_more_info">Mas Información</string>
     <string name="delete_questionnaire">Eliminar Cuestionario</string>
     <string name="upload_repository">Subir al Repositorio</string>
+    <string name="update_questionnaire">Editar Cuestionario</string>
     <string name="title_activity_questions_view">QuestionsViewActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="tv_info_questionnnaire">Informacion Cuestionario</string>
@@ -120,4 +121,5 @@
     <string name="description_rating_questionnay">Indica que te parecio el cuestionario</string>
     <string name="tv_comment">Comentario(opcional)</string>
     <string name="button_rating">Calificar</string>
+    <string name="action_download">Descargar Cuestionario</string>
 </resources>

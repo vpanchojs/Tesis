@@ -87,7 +87,7 @@ class SignupActivity : AppCompatActivity(), SignupView, View.OnClickListener {
 
 
     override fun hideProgressDialog() {
-        progressDialog?.dismiss()
+        progressDialog.dismiss()
     }
 
 

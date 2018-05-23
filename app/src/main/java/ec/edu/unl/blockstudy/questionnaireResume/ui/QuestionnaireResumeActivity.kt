@@ -1,9 +1,13 @@
 package ec.edu.unl.blockstudy.questionnaireResume.ui
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -52,6 +56,10 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
             }
             R.id.btn_get_questionnaire -> {
                 Log.e("aa", "sasdasd")
+                showMessagge("Descargando Cuestionario")
+                btn_get_questionnaire.visibility = View.INVISIBLE
+                progressbar_down.visibility = View.VISIBLE
+
                 val intent = Intent(this, DonwloadIntentService::class.java)
                 intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
                 startService(intent)
@@ -69,6 +77,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     var questionList = ArrayList<Question>()
     var ratingsList = ArrayList<Raiting>()
 
+    lateinit var brDownLoad: BroadcastReceiver
+
     lateinit var application: MyApplication
     lateinit var adapter: QuestionAdapter
     lateinit var adapterRating: RatingsAdapter
@@ -81,6 +91,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
 
     companion object {
         val PARAM_QUESTIONNAIRE = "questionnaire"
+        val ACTION_NOTIFY_DOWNLOAD = "action_download"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,10 +102,24 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         toolbar.setTitle("Cuestionario")
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        setupBroadcast()
         setupInjection()
         setupEvents()
         setupBottomSheet()
         setupRecyclerView()
+    }
+
+    private fun setupBroadcast() {
+        brDownLoad = object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                if (p1!!.getBooleanExtra("success", false)) {
+                    progressbar_down.visibility = View.INVISIBLE
+                    btn_get_questionnaire.visibility = View.VISIBLE
+                    btn_get_questionnaire.isEnabled = false
+                    btn_get_questionnaire.text = "Descargado"
+                }
+            }
+        }
     }
 
     private fun setupEvents() {
@@ -144,8 +169,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     }
 
     fun setupRecyclerView() {
-        adapter = QuestionAdapter(questionList!!)
-        adapterRating = RatingsAdapter(ratingsList!!)
+        adapter = QuestionAdapter(questionList)
+        adapterRating = RatingsAdapter(ratingsList)
 
 
         val mDividerItemDecoration = DividerItemDecoration(this,
@@ -173,6 +198,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     override fun onPause() {
         super.onPause()
         presenter.onUnSuscribe()
+        LocalBroadcastManager.getInstance(this)
+                .unregisterReceiver(brDownLoad)
     }
 
     override fun onResume() {
@@ -181,6 +208,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         presenter.onGetQuestionAll(questionaire.idCloud)
         presenter.onGetUser(questionaire.idUser!!)
         presenter.onGetRaitingsAll(questionaire.idCloud)
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(brDownLoad, IntentFilter(ACTION_NOTIFY_DOWNLOAD))
     }
 
     override fun showMessagge(message: Any) {

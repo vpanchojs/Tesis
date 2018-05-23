@@ -73,8 +73,6 @@ class AddSubjectFragment : DialogFragment(), DialogInterface.OnShowListener, onS
 
 
     override fun onShow(dialog: DialogInterface?) {
-        val dialogo = getDialog() as AlertDialog
-        if (dialogo != null) {
             btn_add!!.setOnClickListener {
                 callback!!.onAddSubjects(subjects!!)
                 dismiss()
@@ -83,7 +81,6 @@ class AddSubjectFragment : DialogFragment(), DialogInterface.OnShowListener, onS
             ib_close!!.setOnClickListener {
                 dismiss()
             }
-        }
     }
 
     override fun onAttach(context: Context?) {

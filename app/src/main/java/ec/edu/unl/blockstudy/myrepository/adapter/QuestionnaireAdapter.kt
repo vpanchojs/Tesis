@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_my_questionnarie.view.*
 class QuestionnaireAdapter(var data: ArrayList<Questionaire>, var callback: onQuestionnaireAdapterListener) : RecyclerView.Adapter<QuestionnaireAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_my_questionnarie, parent, false)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_my_questionnarie, parent, false)
         return ViewHolder(view)
     }
 
@@ -24,10 +24,10 @@ class QuestionnaireAdapter(var data: ArrayList<Questionaire>, var callback: onQu
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var questionaire = data.get(position)
-        holder!!.view.tv_title.text = questionaire.title
-        holder!!.view.tv_description.text = questionaire.description
-        holder!!.view.tv_num_question.text = "${questionaire.numberQuest} preg"
-        holder!!.onClickListener(questionaire, callback)
+        holder.view.tv_title.text = questionaire.title
+        holder.view.tv_description.text = questionaire.description
+        holder.view.tv_num_question.text = "${questionaire.numberQuest} preg"
+        holder.onClickListener(questionaire, callback)
     }
 
 

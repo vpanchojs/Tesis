@@ -3,7 +3,6 @@ package ec.edu.unl.blockstudy.detailQuestionaire
 import com.google.firebase.firestore.QuerySnapshot
 import ec.edu.unl.blockstudy.detailQuestionaire.events.QuestionnaireEvents
 import ec.edu.unl.blockstudy.domain.FirebaseApi
-import ec.edu.unl.blockstudy.domain.ObjectBoxApi
 import ec.edu.unl.blockstudy.domain.listeners.OnCallbackApis
 import ec.edu.unl.blockstudy.domain.listeners.onDomainApiActionListener
 import ec.edu.unl.blockstudy.entities.Question
@@ -25,7 +24,7 @@ class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseA
                     questionsList.add(question)
                 }
 
-                postEvent(QuestionnaireEvents.ON_GET_QUESTIONS_SUCCESS, questionsList!!)
+                postEvent(QuestionnaireEvents.ON_GET_QUESTIONS_SUCCESS, questionsList)
             }
 
             override fun onError(error: Any?) {

@@ -1,5 +1,6 @@
 package ec.edu.unl.blockstudy.detailQuestionaire
 
+import android.view.View
 import ec.edu.unl.blockstudy.detailQuestionaire.events.QuestionnaireEvents
 import ec.edu.unl.blockstudy.detailQuestionaire.ui.QuestionnaireView
 import ec.edu.unl.blockstudy.entities.Question
@@ -21,7 +22,7 @@ class QuestionnariesPresenterImp(var eventBus: EventBusInterface, var view: Ques
     }
 
     override fun onGetDataQuestionnaire(any: Any) {
-        view.showProgress(true)
+        view.showProgress(View.VISIBLE)
         interactor.onGetDataQuestionnaire(any)
     }
 
@@ -43,7 +44,7 @@ class QuestionnariesPresenterImp(var eventBus: EventBusInterface, var view: Ques
     override fun onEventThread(event: QuestionnaireEvents) {
         when (event.type) {
             QuestionnaireEvents.ON_GET_QUESTIONS_SUCCESS -> {
-                view.showProgress(false)
+                view.showProgress(View.GONE)
 
                 var questionList = event.any as List<Question>
                 if (questionList.size > 0)
@@ -53,7 +54,7 @@ class QuestionnariesPresenterImp(var eventBus: EventBusInterface, var view: Ques
 
             }
             QuestionnaireEvents.ON_GET_QUESTIONS_ERROR -> {
-                view.showProgress(false)
+                view.showProgress(View.GONE)
 
             }
             QuestionnaireEvents.ON_UPDATE_BASIC_QUESTIONNAIRE -> {

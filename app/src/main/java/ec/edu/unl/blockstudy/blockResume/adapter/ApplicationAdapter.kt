@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.item_aplicaciones.view.*
 class ApplicationAdapter(var data: ArrayList<ApplicationInfo>, var appSelect: ArrayList<String>, var callback: onAplictionAdapterListener) : RecyclerView.Adapter<ApplicationAdapter.ViewHolder>() {
     lateinit var context: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        context = parent!!.context
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_aplicaciones, parent, false)
+        context = parent.context
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_aplicaciones, parent, false)
         return ApplicationAdapter.ViewHolder(view)
     }
 
@@ -30,16 +30,12 @@ class ApplicationAdapter(var data: ArrayList<ApplicationInfo>, var appSelect: Ar
         GlideApp.with(context)
                 .load(app.loadIcon(context.packageManager))
                 .centerCrop()
-                .into(holder!!.view.im_AppIcono)
+                .into(holder.view.im_AppIcono)
 
-        if (appSelect.contains(app.packageName)) {
-            holder!!.view.cb_app.isChecked = true
-        } else {
-            holder!!.view.cb_app.isChecked = false
-        }
+        holder.view.cb_app.isChecked = appSelect.contains(app.packageName)
 
-        holder!!.view.tv_AppNombre.setText(app.loadLabel(context.packageManager))
-        holder!!.onCheckListener(app, callback)
+        holder.view.tv_AppNombre.setText(app.loadLabel(context.packageManager))
+        holder.onCheckListener(app, callback)
 
 
     }
