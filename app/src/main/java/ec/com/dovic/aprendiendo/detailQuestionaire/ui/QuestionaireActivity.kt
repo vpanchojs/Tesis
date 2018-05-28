@@ -110,6 +110,7 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
             }
 
             R.id.action_download -> {
+                //CONTROLAR SI DESEA REMPLAZAR EL CUESTIONARIO
                 if (questionaire.numberQuest > 0) {
                     val intent = Intent(this, DonwloadIntentService::class.java)
                     intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)

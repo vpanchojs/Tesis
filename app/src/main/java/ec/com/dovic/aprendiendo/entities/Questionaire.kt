@@ -121,6 +121,12 @@ class Questionaire() : Parcelable {
         return 0
     }
 
+    fun toMapDownload(): MutableMap<String, Any> {
+        val result = HashMap<String, Any>()
+        result["numberDonwloads"] = numberDonwloads
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<Questionaire> {
         override fun createFromParcel(parcel: Parcel): Questionaire {
             return Questionaire(parcel)

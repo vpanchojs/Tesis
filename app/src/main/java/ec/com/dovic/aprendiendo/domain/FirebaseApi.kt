@@ -30,6 +30,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     private val USERS_PATH = "users"
 
     private val RATING_PATH = "ratings"
+    private val DOWNLOAD_PATH = "download"
 
     private val QUESTIONNAIRE_PATH = "questionnaires"
     private val QUESTIONS_PATH = "questions"
@@ -755,6 +756,50 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onError(it.toString())
                 }
 
+    }
+
+    fun getQuestionnaireComplete(idQuestionnaire: String, callback: OnCallbackApis<Questionaire>) {
+        val qRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
+
+        val dqRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire).collection(DOWNLOAD_PATH).document(getUid())
+
+        val dquRef = db.collection(USERS_PATH).document(getUid()).collection(DOWNLOAD_PATH).document(idQuestionnaire)
+
+        var downQuestionnnaireMap = HashMap<String, Any>()
+        downQuestionnnaireMap.put("date", FieldValue.serverTimestamp())
+        downQuestionnnaireMap.put("idUser", getUid())
+
+
+        var downUserMap = HashMap<String, Any>()
+        downUserMap.put("date", FieldValue.serverTimestamp())
+        downUserMap.put("idQuestionnaire", idQuestionnaire)
+
+
+        db.runTransaction(object : Transaction.Function<Questionaire> {
+            override fun apply(t: Transaction): Questionaire? {
+                var doc = t.get(qRef)
+                var questionnaire = doc.toObject(Questionaire::class.java)
+                questionnaire!!.idCloud = doc.id
+
+                // Aumentamos en 1 el numero de descargas
+                questionnaire!!.numberDonwloads = questionnaire!!.numberDonwloads + 1
+
+                t.update(qRef, questionnaire.toMapDownload())
+
+                t.set(dqRef, downQuestionnnaireMap)
+
+                t.set(dquRef, downUserMap)
+
+                return questionnaire
+            }
+        }).addOnSuccessListener {
+            Log.e(TAG, "todo bien ")
+            callback.onSuccess(it)
+
+        }.addOnFailureListener {
+            Log.e(TAG, it.cause.toString())
+            callback.onError(it.toString())
+        }
     }
 
 }
