@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import ec.com.dovic.aprendiendo.MyApplication
 import ec.com.dovic.aprendiendo.R
+import ec.com.dovic.aprendiendo.block.servicie.ServicieBlock
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.login.ui.LoginActivity
 import ec.com.dovic.aprendiendo.menu.MenusPresenter
@@ -145,6 +146,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
             }
             3 -> {
                 presenter.onSingOut()
+                activity!!.stopService(Intent(context, ServicieBlock::class.java))
             }
         }
     }

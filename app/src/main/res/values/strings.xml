@@ -36,7 +36,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank activity</string>
     <string name="menu_tv_my_profile">Mi perfil</string>
-    <string name="menu_option_menu">Terminos y Condiciones</string>
+    <string name="menu_option_menu">Términos y Condiciones</string>
     <string name="menu_option_termins_and_conditions">Términos y Condiciones</string>
     <string name="menu_option_update_password">Cambiar Contraseña</string>
     <string name="menu_option_help">Ayuda</string>
@@ -63,7 +63,7 @@
     <string name="tv_formation_Academic">Formación Académica</string>
     <string name="button_save">Guardar</string>
     <string name="tv_add_subject">Agregar Preferencia</string>
-    <string name="description_add_subject">Seleccione las tematicas de su prefencia</string>
+    <string name="description_add_subject">Seleccione las temáticas de su prefencia</string>
     <string name="button_add">Agregar</string>
     <string name="subject">Preferencia</string>
     <string name="main_message_picture_source">Seleccione medio para  obtener imagen</string>
@@ -102,7 +102,7 @@
     <string name="update_questionnaire">Editar Cuestionario</string>
     <string name="title_activity_questions_view">QuestionsViewActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="tv_info_questionnnaire">Informacion Cuestionario</string>
+    <string name="tv_info_questionnnaire">Información Cuestionario</string>
     <string name="tv_upload_questionnaire">Subir Cuestionario</string>
     <string name="button_upload">Subir</string>
     <string name="title_activity_questionnaire_repository">QuestionnaireRepositoryActivity</string>
@@ -112,7 +112,7 @@
     <string name="title_activity_block">BlockActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="description_new_questionnaire">Ingrese la informacion de su cuestionario</string>
+    <string name="description_new_questionnaire">Ingrese la información de su cuestionario</string>
     <string name="description_change_password">La proxima vez que inicie sesión, utilizara su nueva contraseña</string>
     <string name="description_update_basic_information">Modifique la información básica que desee actualizar</string>
     <string name="description_formation_academic">Ingrese su formación académica de mas alto nivel</string>

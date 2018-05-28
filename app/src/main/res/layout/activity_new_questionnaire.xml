@@ -69,20 +69,6 @@
         </android.support.design.widget.TextInputLayout>
 
 
-        <TextView
-            android:id="@+id/tv_keyword"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/keywords"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_description" />
-
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_keyword"
             android:layout_width="match_parent"
@@ -92,13 +78,13 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_keyword">
+            app:layout_constraintTop_toBottomOf="@+id/til_description">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/tie_keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingresar separadas por coma" />
+                android:hint="Palabras clave (separadas por coma)" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -173,8 +159,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal"
             android:gravity="center_horizontal"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_visibility">

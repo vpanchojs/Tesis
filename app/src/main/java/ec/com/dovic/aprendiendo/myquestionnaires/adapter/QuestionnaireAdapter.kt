@@ -26,7 +26,17 @@ class QuestionnaireAdapter(var data: ArrayList<QuestionnaireBd>, var callback: o
         var questionaire = data.get(position)
         holder.view.tv_title.text = questionaire.title
         holder.view.tv_description.text = questionaire.description
-        holder!!.view.tv_num_question.text = "${questionaire.numberQuest} preg"
+        holder.view.tv_num_question.text = "${questionaire.numberQuest} preg"
+        if (questionaire.me) {
+            holder.view.iv_me.visibility = View.VISIBLE
+        } else {
+            holder.view.iv_me.visibility = View.GONE
+        }
+        if (questionaire.blockId > 0) {
+            holder.view.iv_lock_active.visibility = View.VISIBLE
+        } else {
+            holder.view.iv_lock_active.visibility = View.GONE
+        }
         holder.onClickListener(questionaire, callback)
     }
 

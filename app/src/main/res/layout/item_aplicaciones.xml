@@ -44,6 +44,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:button="@drawable/button_lock_check"
         android:clickable="false"
         android:paddingBottom="12dp"
         android:paddingTop="0dp"

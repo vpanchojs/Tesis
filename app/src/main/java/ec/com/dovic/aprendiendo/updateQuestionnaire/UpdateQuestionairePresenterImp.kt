@@ -20,7 +20,7 @@ class UpdateQuestionairePresenterImp(var eventBus: EventBusInterface, var view: 
     }
 
     override fun onUploadQuestionaire(questionaire: Questionaire) {
-        view.showProgressDialog("Publicando Cuestionario")
+        view.showProgressDialog("Actualizando Cuestionario")
         interactor.onUploadQuestionaire(questionaire)
     }
 
@@ -34,7 +34,7 @@ class UpdateQuestionairePresenterImp(var eventBus: EventBusInterface, var view: 
         when (event.type) {
             UpdateQuestionaireEvents.ON_POST_QUESTIONAIRE_SUCCESS -> {
                 view.hideProgressDialog()
-                view.showMessagge("Cuestionario Publicado")
+                view.showMessagge("Cuestionario Actualizado")
                 view.navigationToQuestionaire()
             }
             UpdateQuestionaireEvents.ON_POST_QUESTIONAIRE_ERROR -> {

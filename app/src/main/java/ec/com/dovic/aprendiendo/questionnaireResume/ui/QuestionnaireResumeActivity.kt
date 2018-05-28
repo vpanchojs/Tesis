@@ -55,7 +55,6 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
                 ratingFragment.show(supportFragmentManager, "Calificar")
             }
             R.id.btn_get_questionnaire -> {
-                Log.e("aa", "sasdasd")
                 showMessagge("Descargando Cuestionario")
                 btn_get_questionnaire.visibility = View.INVISIBLE
                 progressbar_down.visibility = View.VISIBLE

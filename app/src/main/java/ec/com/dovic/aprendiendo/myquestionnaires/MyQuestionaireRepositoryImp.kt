@@ -1,7 +1,6 @@
 package ec.com.dovic.aprendiendo.myquestionnaires
 
 import android.util.Log
-import ec.com.dovic.aprendiendo.database.QuestionBd
 import ec.com.dovic.aprendiendo.database.QuestionnaireBd
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
 import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
@@ -21,17 +20,9 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
             override fun onSuccess(response: List<QuestionnaireBd>) {
                 Log.e("myq", "AAAAA")
 
-                /*
-                db.getQuestions(object : OnCallbackApis<List<QuestionBd>> {
-                    override fun onSuccess(response: List<QuestionBd>) {
-                        Log.e("question","preguntas ${response.size}")
-                    }
-
-                    override fun onError(error: Any?) {
-
-                    }
-                })
-                */
+                response.forEach {
+                    it.me = it.idUser.equals(firebaseApi.getUid())
+                }
                 postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
             }
 

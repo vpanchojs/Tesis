@@ -166,7 +166,7 @@ class ServicieBlock : Service() {
                     /*INICIO  HILO 2*/
                     //Este hilo busca la aplicacion a ejecutarse
                     while (activo_hilo2) {
-                        Log.e(TAG, "bucando aplicacion")
+                        //Log.e(TAG, "bucando aplicacion")
                         try {
 
                             aplicacionActual = obtenerAplicacionEjecutandoseL()
@@ -183,7 +183,7 @@ class ServicieBlock : Service() {
                                 temp = aplicacionActual
                                 /*LANZAMOS UNA LLAMDA AL BROADCASTRECIVIR QUE SE ENCARA DE INCIAR LA ACTIVIDAD DEL BLOQUEO*/
                                 //sendBroadcast(Intent("broadcast").putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, questionPathList!!))
-                                Thread.sleep(1500)
+                                Thread.sleep(2000)
                                 val mIntent = Intent(applicationContext, BlockActivity::class.java)
                                 mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 mIntent.putExtra(BlockActivity.QUESTIONNAIRE_PATH_PARAM, questionnnairesBlock)

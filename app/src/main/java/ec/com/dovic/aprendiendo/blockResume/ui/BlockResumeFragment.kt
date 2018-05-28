@@ -31,15 +31,12 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-        if (hasPermission()) {
-
-            if (p1)
-                activity!!.startService(Intent(context, ServicieBlock::class.java))
-            else
-                activity!!.stopService(Intent(context, ServicieBlock::class.java))
-
-        } else {
-            requestPermission()
+        if (p1) {
+            activity!!.startService(Intent(context, ServicieBlock::class.java))
+            showMessagge("Bloqueo activado")
+        }else {
+            activity!!.stopService(Intent(context, ServicieBlock::class.java))
+            showMessagge("Bloqueo desactivado")
         }
     }
 
@@ -49,7 +46,9 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     }
 
     fun getStateServicie() {
+        tobtn_block.setOnCheckedChangeListener(null)
         tobtn_block.isChecked = ServicieBlock.INSTANCE
+        tobtn_block.setOnCheckedChangeListener(this)
     }
 
     val MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS = 100
@@ -94,6 +93,7 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         super.onViewCreated(view, savedInstanceState)
         cl_time_activity.setOnClickListener(this)
         cl_apps.setOnClickListener(this)
+        btn_permission.setOnClickListener(this)
         tobtn_block.setOnClickListener(this)
         tobtn_block.setOnCheckedChangeListener(this)
         setupRecyclerView()
@@ -117,17 +117,36 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         application.getBlockResumeComponent(this).inject(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (hasPermission()) {
+            visibilityScreenPermission(View.GONE)
+            presenter.onSuscribe()
+            presenter.getDataBlock()
+            presenter.getQuestionnaires()
+            getStateServicie()
+        } else {
+            visibilityScreenPermission(View.VISIBLE)
+        }
+    }
+
+    fun visibilityScreenPermission(visibilty: Int) {
+        cl_presentation.visibility = visibilty
+    }
+
     override fun onStart() {
         super.onStart()
+        /*
         presenter.onSuscribe()
         presenter.getDataBlock()
         presenter.getQuestionnaires()
         getStateServicie()
+        */
 
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         presenter.onUnSuscribe()
     }
 
@@ -143,7 +162,26 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
                     selectTimeActivityFragment.show(childFragmentManager, "Time")
                 }
             }
+            R.id.btn_permission -> {
+                requestPermission()
+            }
         }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS -> {
+                /*
+                if (resultCode == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("permision", "bien"+ resultCode)
+                } else {
+                    Log.e("permision", "mal"+ resultCode)
+                }*/
+            }
+        }
+
     }
 
     private fun requestPermission() {

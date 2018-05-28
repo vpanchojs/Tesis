@@ -4,28 +4,31 @@
     android:layout_height="match_parent"
     android:background="@color/colorIcons">
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_time_activity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
         android:background="@color/colorWhite"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toStartOf="@+id/cl_apps"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_alarm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:tint="@color/colorIcons"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_time_activity"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_time_activity"
             app:srcCompat="@drawable/ic_alarm_black_24dp" />
 
 
@@ -35,12 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="Tiempo de Actividad"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_alarm"
-            app:layout_constraintEnd_toStartOf="@+id/iv_edit_1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_alarm"
-            app:layout_constraintTop_toTopOf="@+id/iv_alarm" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_time_activity"
@@ -51,22 +54,9 @@
             android:text="Sin Asignar"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iv_edit_1"
-            app:layout_constraintStart_toStartOf="@+id/tv_title_time_activity"
-            app:layout_constraintTop_toBottomOf="@+id/iv_alarm" />
-
-        <ImageView
-            android:id="@+id/iv_edit_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:tint="@color/colorIcons"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_edit" />
+            app:layout_constraintStart_toStartOf="@+id/tv_title_time_activity"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_time_activity" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -75,24 +65,27 @@
         android:id="@+id/cl_apps"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="2dp"
         android:background="@color/colorWhite"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_time_activity">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cl_time_activity"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_applications"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:tint="@color/colorIcons"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_num_applications"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_application"
             app:srcCompat="@drawable/ic_android_black_24dp" />
 
 
@@ -102,12 +95,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="Aplicaciones"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_applications"
-            app:layout_constraintEnd_toStartOf="@+id/iv_edit"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_applications"
-            app:layout_constraintTop_toTopOf="@+id/iv_applications" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_num_applications"
@@ -118,22 +111,9 @@
             android:text="Ninguna"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iv_edit"
-            app:layout_constraintStart_toStartOf="@+id/tv_title_application"
-            app:layout_constraintTop_toBottomOf="@+id/iv_applications" />
-
-        <ImageView
-            android:id="@+id/iv_edit_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:tint="@color/colorIcons"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_edit" />
+            app:layout_constraintStart_toStartOf="@+id/tv_title_application"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_application" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -150,30 +130,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_apps">
 
-        <ImageView
-            android:id="@+id/iv_questionnaires"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:tint="@color/colorIcons"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_android_black_24dp" />
-
 
         <TextView
             android:id="@+id/tv_title_questionnaire"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="13dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="Seleccione un Cuestionario"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_questionnaires"
-            app:layout_constraintEnd_toStartOf="@+id/iv_edit"
-            app:layout_constraintStart_toEndOf="@+id/iv_questionnaires"
-            app:layout_constraintTop_toTopOf="@+id/iv_questionnaires" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -182,7 +151,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="No ha descargado ningun cuestionario"
@@ -190,7 +158,6 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_questionnaires"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -199,13 +166,16 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/tobtn_block"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_title_questionnaire"
-            app:layout_constraintTop_toBottomOf="@+id/iv_questionnaires" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_questionnaire"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ToggleButton
             android:id="@+id/tobtn_block"
@@ -216,14 +186,70 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/bg_btn_signin"
             android:checked="false"
-            android:textOff="Desactivado"
-            android:textOn="Activado"
+            android:textOff="Bloqueo Desactivado"
+            android:textOn=" Bloqueo Activado"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_presentation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_lock_black_24dp"
+            android:tint="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.19999999" />
+
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Activar permiso (acceso a uso de datos) necesario para leer que aplicaciones se ejecutan."
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_icon" />
+
+        <Button
+            android:id="@+id/btn_permission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_btn_signin"
+            android:text="ACTIVAR"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
 

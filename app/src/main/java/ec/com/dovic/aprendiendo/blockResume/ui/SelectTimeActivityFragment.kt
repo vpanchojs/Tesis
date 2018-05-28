@@ -35,7 +35,7 @@ class SelectTimeActivityFragment : DialogFragment(), DialogInterface.OnShowListe
         numberPicker = view.np
 
         numberPicker!!.minValue = 1
-        numberPicker!!.maxValue = 20
+        numberPicker!!.maxValue = 10
 
         if (time > 0) {
             numberPicker!!.value = time
@@ -52,17 +52,17 @@ class SelectTimeActivityFragment : DialogFragment(), DialogInterface.OnShowListe
 
 
     override fun onShow(dialog: DialogInterface?) {
-            btn_action!!.setOnClickListener {
-                if (cb_none!!.isChecked) {
-                    (parentFragment as BlockResumeFragment).onSetTime(-1)
-                } else {
-                    (parentFragment as BlockResumeFragment).onSetTime(numberPicker!!.value)
-                }
-                dismiss()
+        btn_action!!.setOnClickListener {
+            if (cb_none!!.isChecked) {
+                (parentFragment as BlockResumeFragment).onSetTime(-1)
+            } else {
+                (parentFragment as BlockResumeFragment).onSetTime(numberPicker!!.value)
             }
-            ib_close!!.setOnClickListener {
-                dismiss()
-            }
+            dismiss()
+        }
+        ib_close!!.setOnClickListener {
+            dismiss()
+        }
 
     }
 
