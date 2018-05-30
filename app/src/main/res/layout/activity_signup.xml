@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/signup_editext_hint_name"
-                android:inputType="textPersonName"
+                android:inputType="textCapWords|textPersonName"
                 android:maxLength="20"
                 android:singleLine="true" />
 
@@ -74,9 +74,9 @@
                 android:id="@+id/tie_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
                 android:hint="@string/signup_editext_hint_lastname"
-                android:inputType="textPersonName"
+                android:inputType="textCapWords|textPersonName"
+                android:maxLength="20"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>

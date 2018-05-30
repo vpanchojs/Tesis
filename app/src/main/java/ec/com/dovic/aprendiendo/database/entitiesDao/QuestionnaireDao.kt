@@ -23,4 +23,7 @@ interface QuestionnaireDao {
 
     @Query(value = "SELECT * FROM questionnnaire where block_id=:id")
     fun getQuestionnaireByBlock(id: Long): List<QuestionnaireBd>
+
+    @Query(value = "SELECT * FROM questionnnaire where cloud_id=:idCloud")
+    fun getQuestionnairebyIdCloud(idCloud: String): List<QuestionnaireBd>
 }

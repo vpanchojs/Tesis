@@ -6,6 +6,7 @@ package ec.com.dovic.aprendiendo.login.ui
 interface LoginView {
     fun showMessagge(message: String)
     fun showProgressDialog(message: Int)
-    fun hideProgressDialog();
-    fun navigationMain();
+    fun hideProgressDialog()
+    fun navigationMain()
+    fun showSnackBar(message: String)
 }

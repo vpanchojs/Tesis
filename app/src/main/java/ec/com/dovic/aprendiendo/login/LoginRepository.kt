@@ -9,4 +9,5 @@ interface LoginRepository {
     fun onInSession()
     fun onInSessionRemove()
     fun onRecoveryPassword(email: String)
+    fun sendEmailVerify()
 }

@@ -15,8 +15,11 @@ interface LoginPresenter {
 
     fun onInSession()
     fun onInSessionRemove()
+
     fun onRecoveryPassword(email: String)
 
 
     fun onEventLoginThread(event: LoginEvents)
+
+    fun sendEmailVerify()
 }

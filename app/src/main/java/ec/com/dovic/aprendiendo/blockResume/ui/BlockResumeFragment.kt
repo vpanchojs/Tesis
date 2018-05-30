@@ -33,10 +33,10 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         if (p1) {
             activity!!.startService(Intent(context, ServicieBlock::class.java))
-            showMessagge("Bloqueo activado")
-        }else {
+            //  showMessagge("Bloqueo activado")
+        } else {
             activity!!.stopService(Intent(context, ServicieBlock::class.java))
-            showMessagge("Bloqueo desactivado")
+            //showMessagge("Bloqueo desactivado")
         }
     }
 

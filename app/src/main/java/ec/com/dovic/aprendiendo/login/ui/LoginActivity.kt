@@ -3,6 +3,7 @@ package ec.com.dovic.aprendiendo.login.ui
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
@@ -46,14 +47,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
         onTextChangedListener(fields, btn_sigin)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         presenter.onResume()
         presenter.onInSession()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         presenter.onPause()
         presenter.onInSessionRemove()
     }
@@ -102,5 +103,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
 
     override fun onRecoveryPassword(email: String) {
         presenter.onRecoveryPassword(email)
+    }
+
+    override fun showSnackBar(message: String) {
+
+        Snackbar.make(cl_body, message, Snackbar.LENGTH_INDEFINITE).setAction("Reenviar", View.OnClickListener {
+            presenter.sendEmailVerify()
+        }).show()
     }
 }

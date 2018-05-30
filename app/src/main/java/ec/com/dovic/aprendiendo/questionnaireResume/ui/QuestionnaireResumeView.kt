@@ -16,4 +16,7 @@ interface QuestionnaireResumeView {
     fun setUser(user: User)
     fun updateRating(rating: Double)
     fun setRatings(ratingList: List<Raiting>)
+    fun showButtonRaiting(visible: Int)
+    fun dowloadQuestionnaire()
+    fun confirmDownloadQuestionnaire()
 }

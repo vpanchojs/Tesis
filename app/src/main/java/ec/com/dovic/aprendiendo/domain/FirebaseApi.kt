@@ -47,10 +47,15 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     private val EXECUTOR = ThreadPoolExecutor(2, 4,
             60, TimeUnit.SECONDS, LinkedBlockingQueue<Runnable>())
 
-    fun signIn(email: String, password: String, callback: onDomainApiActionListener) {
+    fun signIn(email: String, password: String, callback: OnCallbackApis<Boolean>) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    callback.onSuccess(null)
+                    if (mAuth.currentUser!!.isEmailVerified) {
+                        Log.e(TAG, "si esta verificado")
+                        callback.onSuccess(true)
+                    } else {
+                        callback.onSuccess(false)
+                    }
                 }
                 .addOnFailureListener { e ->
                     callback.onError(e.toString())
@@ -64,7 +69,9 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                         override fun onSuccess(response: Any?) {
                             updateUser(user, object : onDomainApiActionListener {
                                 override fun onSuccess(response: Any?) {
-                                    callback.onSuccess(null)
+                                    mAuth.currentUser!!.sendEmailVerification().addOnSuccessListener {
+                                        callback.onSuccess(null)
+                                    }
                                 }
 
                                 override fun onError(error: Any?) {
@@ -128,9 +135,13 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
             val user = firebaseAuth.currentUser
             if (user != null) {
                 Log.e(TAG, "EL display" + mAuth.currentUser!!.displayName.toString())
-                callback.onSuccess(null)
+                if (user.isEmailVerified) {
+                    callback.onSuccess(null)
+                } else {
+                    callback.onError("Debe validar su correo")
+                }
             } else {
-                callback.onError("No user is signed in.")
+                callback.onError("")
             }
         }
         mAuth.addAuthStateListener(mAuthListener!!)
@@ -800,6 +811,20 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
             Log.e(TAG, it.cause.toString())
             callback.onError(it.toString())
         }
+    }
+
+    fun sendEmailVerify() {
+        mAuth.currentUser?.sendEmailVerification()
+    }
+
+    fun isDownLoadedQuestionnaire(idQuestionnaire: String, callbackApis: OnCallbackApis<Boolean>) {
+        db.collection(USERS_PATH).document(getUid()).collection(DOWNLOAD_PATH).document(idQuestionnaire).get()
+                .addOnSuccessListener {
+                    callbackApis.onSuccess(it.exists())
+                }
+                .addOnFailureListener {
+
+                }
     }
 
 }

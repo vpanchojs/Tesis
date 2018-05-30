@@ -12,4 +12,6 @@ interface QuestionnaireResumeRepository : Repository {
     fun setRaiting(raiting: Raiting)
     fun onGetUser(idUser: Any)
     fun getQuestionnaire(idQuestionnaire: String)
+    fun isDownloaded(idQuestionnaire: String)
+    fun isExistQuestionnnaireLocal(idCloud: String)
 }

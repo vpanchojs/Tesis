@@ -1,7 +1,6 @@
 package ec.com.dovic.aprendiendo.signup.ui
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
@@ -11,8 +10,8 @@ import android.view.View
 import android.widget.Toast
 import ec.com.dovic.aprendiendo.MyApplication
 import ec.com.dovic.aprendiendo.R
-import ec.com.dovic.aprendiendo.main.MainActivity
 import ec.com.dovic.aprendiendo.signup.SignupPresenter
+import ec.com.dovic.aprendiendo.util.BaseActivitys
 import ec.com.dovic.aprendiendo.util.BaseActivitys.Companion.onTextChangedListener
 import ec.com.dovic.aprendiendo.util.BaseActivitys.Companion.validateFieldEmail
 import kotlinx.android.synthetic.main.activity_signup.*
@@ -60,7 +59,8 @@ class SignupActivity : AppCompatActivity(), SignupView, View.OnClickListener {
 
     override fun navigationToMain() {
         Log.e("SingUp", "Iniciando session")
-        startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        BaseActivitys.showToastMessage(this, "Se ha enviando un enlance a su correo para verificarlo", Toast.LENGTH_LONG)
+        finish()
     }
 
 

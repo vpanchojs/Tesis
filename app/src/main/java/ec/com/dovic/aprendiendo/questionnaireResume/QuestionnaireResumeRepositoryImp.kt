@@ -6,6 +6,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
 import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
+import ec.com.dovic.aprendiendo.domain.services.DbApi
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Raiting
 import ec.com.dovic.aprendiendo.entities.User
@@ -13,7 +14,33 @@ import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.questionnaireResume.events.QuestionnaireResumeEvents
 
 
-class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : QuestionnaireResumeRepository {
+class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var dbApi: DbApi) : QuestionnaireResumeRepository {
+
+
+    override fun isExistQuestionnnaireLocal(idCloud: String) {
+        dbApi.isExistQuestionnaire(idCloud, object : OnCallbackApis<Boolean> {
+            override fun onSuccess(response: Boolean) {
+                Log.e("res", "repondio")
+                postEvent(QuestionnaireResumeEvents.ON_IS_EXIST_QUESTIONNNAIRE_LOCAL, response)
+            }
+
+            override fun onError(error: Any?) {
+
+            }
+        })
+    }
+
+    override fun isDownloaded(idQuestionnaire: String) {
+        firebaseApi.isDownLoadedQuestionnaire(idQuestionnaire, object : OnCallbackApis<Boolean> {
+            override fun onSuccess(response: Boolean) {
+                postEvent(QuestionnaireResumeEvents.ON_GET_IS_DOWNLOADED_SUCCESS, response)
+            }
+
+            override fun onError(error: Any?) {
+
+            }
+        })
+    }
 
     override fun getQuestionnaire(idQuestionnaire: String) {
         /*
@@ -28,6 +55,7 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
         })
         */
     }
+
 
     override fun onGetQuestionAll(idQuestionnaire: Any) {
         firebaseApi.getQuestions(idQuestionnaire.toString(), object : OnCallbackApis<QuerySnapshot> {

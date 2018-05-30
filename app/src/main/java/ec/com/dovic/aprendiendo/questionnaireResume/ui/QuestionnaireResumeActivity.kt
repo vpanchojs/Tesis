@@ -1,13 +1,11 @@
 package ec.com.dovic.aprendiendo.questionnaireResume.ui
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -55,13 +53,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
                 ratingFragment.show(supportFragmentManager, "Calificar")
             }
             R.id.btn_get_questionnaire -> {
-                showMessagge("Descargando Cuestionario")
-                btn_get_questionnaire.visibility = View.INVISIBLE
-                progressbar_down.visibility = View.VISIBLE
-
-                val intent = Intent(this, DonwloadIntentService::class.java)
-                intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
-                startService(intent)
+                //Consultar si existe un cuestionario
+                presenter.isExistQuestionnnaireLocal(questionaire.idCloud)
             }
         }
     }
@@ -207,6 +200,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         presenter.onGetQuestionAll(questionaire.idCloud)
         presenter.onGetUser(questionaire.idUser!!)
         presenter.onGetRaitingsAll(questionaire.idCloud)
+        presenter.isDownloaded(questionaire.idCloud)
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(brDownLoad, IntentFilter(ACTION_NOTIFY_DOWNLOAD))
     }
@@ -216,7 +210,6 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     }
 
     override fun showProgress(show: Boolean) {
-
     }
 
     override fun none_results(show: Boolean) {
@@ -250,5 +243,39 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         this.ratingsList.clear()
         this.ratingsList.addAll(ratingList)
         adapterRating.notifyDataSetChanged()
+    }
+
+    override fun showButtonRaiting(visible: Int) {
+        btn_raiting.visibility = visible
+    }
+
+    override fun dowloadQuestionnaire() {
+        showMessagge("Descargando Cuestionario")
+        btn_get_questionnaire.visibility = View.INVISIBLE
+        progressbar_down.visibility = View.VISIBLE
+        val intent = Intent(this, DonwloadIntentService::class.java)
+        intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
+        startService(intent)
+    }
+
+    override fun confirmDownloadQuestionnaire() {
+        createDeleteDialog().show()
+    }
+
+
+    fun createDeleteDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Mensaje de confirmación")
+                .setMessage("El cuestionario ya existe en su repositorio local, desea duplicarlo?")
+                .setPositiveButton("ACEPTAR"
+                ) { _, which ->
+                    dowloadQuestionnaire()
+                }
+                .setNegativeButton("CANCELAR",
+                        object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface, which: Int) {}
+                        })
+        return builder.create()
     }
 }

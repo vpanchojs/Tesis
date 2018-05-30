@@ -20,4 +20,8 @@ class LoginInteractorImp(var repository: LoginRepository) : LoginInteractor {
     override fun onRecoveryPassword(email: String) {
         repository.onRecoveryPassword(email)
     }
+
+    override fun sendEmailVerify() {
+        repository.sendEmailVerify()
+    }
 }

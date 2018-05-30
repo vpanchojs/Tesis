@@ -35,6 +35,10 @@ class LoginPresenterImp(var eventBus: EventBusInterface, var view: LoginView, va
         interactor.onRecoveryPassword(email)
     }
 
+    override fun sendEmailVerify() {
+        interactor.sendEmailVerify()
+    }
+
     @Subscribe
     override fun onEventLoginThread(event: LoginEvents) {
         when (event.type) {
@@ -52,6 +56,10 @@ class LoginPresenterImp(var eventBus: EventBusInterface, var view: LoginView, va
             LoginEvents.onRecoveryPasswordSuccess -> {
                 view.hideProgressDialog()
                 view.showMessagge(event.message)
+            }
+            LoginEvents.onSignInSuccessNoValidEmail -> {
+                view.hideProgressDialog()
+                view.showSnackBar("Debe validar su correo. Podemos reenviar un email con el enlace.")
             }
             LoginEvents.onRecoveryPasswordError -> {
                 view.hideProgressDialog()

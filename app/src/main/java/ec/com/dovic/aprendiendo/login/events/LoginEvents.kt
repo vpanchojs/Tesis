@@ -8,6 +8,7 @@ class LoginEvents(var type: Int, var any: Any, var message: String) {
         val onRecoverySession = 2
         val onRecoveryPasswordSuccess = 3
         val onRecoveryPasswordError = 4
+        val onSignInSuccessNoValidEmail = 5
     }
 
 }

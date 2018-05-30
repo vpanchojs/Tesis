@@ -299,7 +299,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
     }
 
     override fun hideProgressDialog() {
-        progressDialog.hide()
+        progressDialog.dismiss()
     }
 
     override fun setPreferences(preferences: ArrayList<Subject>) {

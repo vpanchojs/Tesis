@@ -13,5 +13,7 @@ interface QuestionnaireResumePresenter : Presenter {
     fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String)
     fun onEventThread(event: QuestionnaireResumeEvents)
     fun getQuestionnaire(idQuestionnaire: String)
+    fun isDownloaded(idQuestionnaire: String)
+    fun isExistQuestionnnaireLocal(idCloud: String)
 
 }

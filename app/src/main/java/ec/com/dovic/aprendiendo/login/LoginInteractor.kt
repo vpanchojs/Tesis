@@ -8,4 +8,5 @@ interface LoginInteractor {
     fun onInSession()
     fun onInSessionRemove()
     fun onRecoveryPassword(email: String)
+    fun sendEmailVerify()
 }

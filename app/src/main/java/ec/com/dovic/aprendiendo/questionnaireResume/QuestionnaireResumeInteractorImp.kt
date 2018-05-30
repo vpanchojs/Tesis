@@ -5,6 +5,15 @@ import ec.com.dovic.aprendiendo.entities.Raiting
 
 class QuestionnaireResumeInteractorImp(var repository: QuestionnaireResumeRepository) : QuestionnaireResumeInteractor {
 
+
+    override fun isExistQuestionnnaireLocal(idCloud: String) {
+        repository.isExistQuestionnnaireLocal(idCloud)
+    }
+
+    override fun isDownloaded(idQuestionnaire: String) {
+        repository.isDownloaded(idQuestionnaire)
+    }
+
     override fun getQuestionnaire(idQuestionnaire: String) {
 
     }

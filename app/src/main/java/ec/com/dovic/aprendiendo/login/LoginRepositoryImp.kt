@@ -1,7 +1,7 @@
 package ec.com.dovic.aprendiendo.login
 
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
-import ec.com.dovic.aprendiendo.domain.SharePreferencesApi
+import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.login.events.LoginEvents
@@ -9,10 +9,18 @@ import ec.com.dovic.aprendiendo.login.events.LoginEvents
 class LoginRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : LoginRepository {
 
     val TAG = "LoginRepository"
+
+    override fun sendEmailVerify() {
+        firebaseApi.sendEmailVerify()
+    }
+
     override fun onSignIn(email: String, password: String) {
-        firebaseApi.signIn(email, password, object : onDomainApiActionListener {
-            override fun onSuccess(response: Any?) {
-                postEvent(LoginEvents.onSignInSuccess, "", Any())
+        firebaseApi.signIn(email, password, object : OnCallbackApis<Boolean> {
+            override fun onSuccess(response: Boolean) {
+                if (response)
+                    postEvent(LoginEvents.onSignInSuccess, "", Any())
+                else
+                    postEvent(LoginEvents.onSignInSuccessNoValidEmail, "", Any())
             }
 
             override fun onError(error: Any?) {

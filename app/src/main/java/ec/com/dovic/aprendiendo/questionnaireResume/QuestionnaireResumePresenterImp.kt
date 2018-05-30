@@ -1,6 +1,7 @@
 package ec.com.dovic.aprendiendo.questionnaireResume
 
 import android.util.Log
+import android.view.View
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Raiting
 import ec.com.dovic.aprendiendo.entities.User
@@ -39,6 +40,14 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
         interactor.getQuestionnaire(idQuestionnaire)
     }
 
+    override fun isDownloaded(idQuestionnaire: String) {
+        interactor.isDownloaded(idQuestionnaire)
+    }
+
+    override fun isExistQuestionnnaireLocal(idCloud: String) {
+        interactor.isExistQuestionnnaireLocal(idCloud)
+    }
+
     @Subscribe
     override fun onEventThread(event: QuestionnaireResumeEvents) {
         when (event.type) {
@@ -52,6 +61,15 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
                 }
             }
             QuestionnaireResumeEvents.ON_GET_QUESTIONS_ERROR -> {
+
+            }
+
+            QuestionnaireResumeEvents.ON_GET_IS_DOWNLOADED_SUCCESS -> {
+                if (event.any as Boolean) {
+                    view.showButtonRaiting(View.VISIBLE)
+                } else {
+                    view.showButtonRaiting(View.INVISIBLE)
+                }
 
             }
 
@@ -83,6 +101,16 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
             QuestionnaireResumeEvents.ON_GET_RATINGS_ERROR -> {
 
             }
+
+            QuestionnaireResumeEvents.ON_IS_EXIST_QUESTIONNNAIRE_LOCAL -> {
+                Log.e("PRE", "SI HUBO RESPUESTA ${event.any as Boolean}")
+                if (event.any as Boolean) {
+                    view.confirmDownloadQuestionnaire()
+                } else {
+                    view.dowloadQuestionnaire()
+                }
+            }
+
         }
     }
 }

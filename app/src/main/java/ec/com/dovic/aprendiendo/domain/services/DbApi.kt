@@ -138,23 +138,6 @@ class DbApi(var db: Db) {
 
         }).start()
 
-
-        /*
-        doAsync {
-
-
-            num = db.applicationDao().insert(app).size
-
-            if (num > 0) {
-                Log.e("db", "success aplicaciontions")
-                onCallbackApis.onSuccess(num)
-            } else {
-                Log.e("db", "error aplicaciontions")
-                onCallbackApis.onSuccess(num)
-            }
-
-        }
-        */
     }
 
     fun getApplicationsbyIdBlock(id: Long, onCallbackApis: OnCallbackApis<List<Application>>) {
@@ -180,6 +163,26 @@ class DbApi(var db: Db) {
             db.blockDao().updateTimeBlock(time)
             onCallbackApis.onSuccess(time)
         }).start()
+    }
+
+    fun isExistQuestionnaire(idCloud: String, onCallbackApis: OnCallbackApis<Boolean>) {
+        Log.e("db", "llegue al mtodo")
+
+        var questionnaireBd: List<QuestionnaireBd>
+        doAsync {
+            questionnaireBd = db.questionnaireDao().getQuestionnairebyIdCloud(idCloud)
+
+            uiThread {
+
+                if (questionnaireBd == null) {
+                    //  no existe
+                    onCallbackApis.onSuccess(false)
+                } else {
+                    onCallbackApis.onSuccess(true)
+                }
+            }
+        }
+
     }
 
 
