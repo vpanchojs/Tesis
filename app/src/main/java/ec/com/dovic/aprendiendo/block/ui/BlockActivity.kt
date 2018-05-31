@@ -82,6 +82,9 @@ class BlockActivity : AppCompatActivity(), BlockView, View.OnClickListener {
         getQuestion()
     }
 
+    override fun onBackPressed() {
+
+    }
 
     fun getQuestion() {
         var idsQuestionnaire = ArrayList<Long>()

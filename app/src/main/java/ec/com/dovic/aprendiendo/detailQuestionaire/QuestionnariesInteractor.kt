@@ -11,4 +11,5 @@ interface QuestionnariesInteractor {
     fun onSaveQuestion(idQuestionarie: Long, question: Question)
     fun updateBasicQuestionnaire(questionaire: Questionaire)
     fun onDeleteQuestionnnaire(idQuestionaire: Any)
+    fun isExistQuestionnnaireLocal(idCloud: String)
 }

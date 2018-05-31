@@ -64,8 +64,10 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
 
                 var questionnaireBd = QuestionnaireBd()
                 questionnaireBd.idCloud = response.idCloud
-                questionnaireBd.description = questionaire!!.description
+                questionnaireBd.description = questionaire.description
                 questionnaireBd.idUser = questionaire.idUser
+                questionnaireBd.idUserLocal = firebaseApi.getUid()
+                questionnaireBd.me = questionaire.idUser.equals(firebaseApi.getUid())
                 questionnaireBd.title = questionaire.title
                 questionnaireBd.numberQuest = questionaire.numberQuest
 
@@ -137,7 +139,7 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
 
                             override fun onError(error: Any?) {
                                 cicle = false
-                                correct=false
+                                correct = false
                                 BaseActivitys.showToastMessage(applicationContext, "Error descargando", Toast.LENGTH_LONG)
                             }
                         })

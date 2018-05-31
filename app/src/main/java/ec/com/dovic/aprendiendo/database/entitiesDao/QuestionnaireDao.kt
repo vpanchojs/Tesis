@@ -12,8 +12,8 @@ interface QuestionnaireDao {
     @Insert
     fun insertQuestionnaire(questionnaireBd: QuestionnaireBd): Long
 
-    @Query(value = "SELECT * FROM questionnnaire")
-    fun getQuestionnaireAll(): List<QuestionnaireBd>
+    @Query(value = "SELECT * FROM questionnnaire where idUserLocal=:idUser")
+    fun getQuestionnaireAll(idUser: String): List<QuestionnaireBd>
 
     @Delete
     fun deleteQuestionnaire(id: QuestionnaireBd): Int
@@ -24,6 +24,6 @@ interface QuestionnaireDao {
     @Query(value = "SELECT * FROM questionnnaire where block_id=:id")
     fun getQuestionnaireByBlock(id: Long): List<QuestionnaireBd>
 
-    @Query(value = "SELECT * FROM questionnnaire where cloud_id=:idCloud")
-    fun getQuestionnairebyIdCloud(idCloud: String): List<QuestionnaireBd>
+    @Query(value = "SELECT * FROM questionnnaire where cloud_id=:idCloud and idUserLocal=:idUser")
+    fun getQuestionnairebyIdCloud(idCloud: String, idUser: String): List<QuestionnaireBd>
 }

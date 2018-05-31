@@ -9,18 +9,16 @@ import org.jetbrains.anko.uiThread
 
 class DbApi(var db: Db) {
 
-
-    fun getMyQuestionnaires(callback: OnCallbackApis<List<QuestionnaireBd>>) {
+    fun getMyQuestionnaires(idUser: String, callback: OnCallbackApis<List<QuestionnaireBd>>) {
         Log.e("bd", "consultado en la bd")
         var questionnaires: List<QuestionnaireBd>
         doAsync {
-            questionnaires = db.questionnaireDao().getQuestionnaireAll()
+            questionnaires = db.questionnaireDao().getQuestionnaireAll(idUser)
             uiThread {
                 callback.onSuccess(questionnaires)
             }
         }
     }
-
 
     fun getQuestionsAllForQuestionnairesAll(idsQuestionnaires: ArrayList<Long>, callback: OnCallbackApis<List<QuestionBd>>) {
         var questionsList = arrayListOf<QuestionBd>()
@@ -165,16 +163,16 @@ class DbApi(var db: Db) {
         }).start()
     }
 
-    fun isExistQuestionnaire(idCloud: String, onCallbackApis: OnCallbackApis<Boolean>) {
+    fun isExistQuestionnaire(idUser: String, idCloud: String, onCallbackApis: OnCallbackApis<Boolean>) {
         Log.e("db", "llegue al mtodo")
 
         var questionnaireBd: List<QuestionnaireBd>
         doAsync {
-            questionnaireBd = db.questionnaireDao().getQuestionnairebyIdCloud(idCloud)
+            questionnaireBd = db.questionnaireDao().getQuestionnairebyIdCloud(idCloud, idUser)
 
             uiThread {
 
-                if (questionnaireBd == null) {
+                if (questionnaireBd.size <= 0) {
                     //  no existe
                     onCallbackApis.onSuccess(false)
                 } else {

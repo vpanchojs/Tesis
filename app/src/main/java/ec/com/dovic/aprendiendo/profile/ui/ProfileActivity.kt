@@ -325,9 +325,9 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener, UpdateMyInfoF
     override fun setPhoto() {
         GlideApp.with(this)
                 .load(user!!.photo)
-                .placeholder(R.drawable.ic_person_black_24dp)
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
                 .centerCrop()
-                .error(R.drawable.ic_person_black_24dp)
+                .error(R.drawable.ic_account_circle_black_24dp)
                 .into(civ_photo_user)
     }
 

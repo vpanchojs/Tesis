@@ -33,7 +33,6 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         if (p1) {
             activity!!.startService(Intent(context, ServicieBlock::class.java))
-            //  showMessagge("Bloqueo activado")
         } else {
             activity!!.stopService(Intent(context, ServicieBlock::class.java))
             //showMessagge("Bloqueo desactivado")
@@ -75,6 +74,10 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
     lateinit var adapter: QuestionnaireSelectAdapter
 
     var data = ArrayList<QuestionnaireBd>()
+
+    fun getQuestionnaireSelect(): Int {
+        return data.filter { it.blockId > 0 }.size
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

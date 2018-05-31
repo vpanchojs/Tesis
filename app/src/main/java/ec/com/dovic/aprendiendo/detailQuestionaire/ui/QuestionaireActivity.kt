@@ -110,16 +110,8 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
             }
 
             R.id.action_download -> {
+                presenter.isExistQuestionnnaireLocal(questionaire.idCloud)
                 //CONTROLAR SI DESEA REMPLAZAR EL CUESTIONARIO
-                if (questionaire.numberQuest > 0) {
-                    val intent = Intent(this, DonwloadIntentService::class.java)
-                    intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
-                    startService(intent)
-                    showMessagge("Descargando Cuestionario")
-                    finish()
-                } else {
-                    showMessagge("No tiene suficientes preguntas")
-                }
             }
             android.R.id.home -> {
                 navigationBack()
@@ -133,10 +125,28 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
         val builder = AlertDialog.Builder(this)
 
         builder.setTitle("Mensaje de confirmación")
-                .setMessage("Desea eliminar el cuestionario?")
+                .setMessage("¿Desea eliminar el cuestionario?")
                 .setPositiveButton("ACEPTAR"
                 ) { _, which ->
                     presenter.onDeleteQuestionnnaire(questionaire.idCloud)
+                }
+                .setNegativeButton("CANCELAR",
+                        object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface, which: Int) {}
+                        })
+        return builder.create()
+    }
+
+
+    fun createDeleteDialogDuplicateQuestionnaire(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Mensaje de confirmación")
+                .setMessage("El cuestionario ya existe en su repositorio local. ¿Desea duplicarlo?")
+                .setPositiveButton("ACEPTAR"
+                ) { _, which ->
+                    // presenter.onDeleteQuestionnnaire(questionaire.idCloud)
+                    dowloadQuestionnaire()
                 }
                 .setNegativeButton("CANCELAR",
                         object : DialogInterface.OnClickListener {
@@ -229,5 +239,21 @@ class QuestionaireActivity : AppCompatActivity(), View.OnClickListener, onQuesti
 
     override fun navigationBack() {
         finish()
+    }
+
+    override fun dowloadQuestionnaire() {
+        if (questionaire.numberQuest > 0) {
+            val intent = Intent(this, DonwloadIntentService::class.java)
+            intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
+            startService(intent)
+            showMessagge("Descargando Cuestionario")
+            finish()
+        } else {
+            showMessagge("No tiene suficientes preguntas")
+        }
+    }
+
+    override fun confirmDownloadQuestionnaire() {
+        createDeleteDialogDuplicateQuestionnaire().show()
     }
 }

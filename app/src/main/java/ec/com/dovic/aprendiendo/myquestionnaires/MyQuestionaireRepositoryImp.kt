@@ -16,13 +16,14 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
 
     override fun onGetMyQuestionnaires() {
 
-        db.getMyQuestionnaires(object : OnCallbackApis<List<QuestionnaireBd>> {
+        db.getMyQuestionnaires(firebaseApi.getUid(), object : OnCallbackApis<List<QuestionnaireBd>> {
             override fun onSuccess(response: List<QuestionnaireBd>) {
                 Log.e("myq", "AAAAA")
-
+                /*
                 response.forEach {
                     it.me = it.idUser.equals(firebaseApi.getUid())
                 }
+                */
                 postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
             }
 
@@ -30,17 +31,6 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
 
             }
         })
-        /*
-        objectBoxApi.getMyQuestionnaries(object : OnCallbackApis<List<QuestionnaireBd>> {
-            override fun onSuccess(response: List<QuestionnaireBd>) {
-                postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
-            }
-
-            override fun onError(error: Any?) {
-
-            }
-        })
-       */
     }
 
     override fun onCreateQuestionaire(questionaire: Questionaire) {

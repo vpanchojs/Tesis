@@ -91,7 +91,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         setContentView(R.layout.activity_questionnaire_resume)
         questionaire = intent.getParcelableExtra(PARAM_QUESTIONNAIRE)
         setDataQuestionnaire()
-        toolbar.setTitle("Cuestionario")
+        toolbar.setTitle("Resumen Cuestionario")
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         setupBroadcast()

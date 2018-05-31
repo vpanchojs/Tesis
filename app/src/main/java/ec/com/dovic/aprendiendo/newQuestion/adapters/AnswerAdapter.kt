@@ -1,5 +1,6 @@
 package ec.com.dovic.aprendiendo.newQuestion.adapters;
 
+import android.support.design.widget.TextInputEditText
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
@@ -53,6 +54,17 @@ class AnswerAdapter(var data: ArrayList<Answer>, var callback: onAnswerAdapterLi
                 answer.correct = isChecked
             }
 
+            view.ib_mic_answer.setOnClickListener {
+                callback.onRequestStatament(view.tie_answer)
+            }
+
+            view.tie_answer.setOnFocusChangeListener { it, b ->
+                if (b)
+                    view.ib_mic_answer.visibility = View.VISIBLE
+                else
+                    view.ib_mic_answer.visibility = View.GONE
+            }
+
             view.tie_answer.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     answer.statement = s.toString()
@@ -69,4 +81,5 @@ class AnswerAdapter(var data: ArrayList<Answer>, var callback: onAnswerAdapterLi
 
 interface onAnswerAdapterListener {
     fun onRemoveAnswer(position: Answer)
+    fun onRequestStatament(tie_answer: TextInputEditText)
 }

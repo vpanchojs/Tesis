@@ -2,7 +2,6 @@ package ec.com.dovic.aprendiendo.database
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
@@ -17,9 +16,9 @@ class QuestionnaireBd() : Parcelable {
     var idCloud = ""
     var title: String? = null
     var idUser: String? = null
+    var idUserLocal: String? = null
     var description: String? = null
     var numberQuest: Int = 0
-    @Ignore
     var me = false
 
 

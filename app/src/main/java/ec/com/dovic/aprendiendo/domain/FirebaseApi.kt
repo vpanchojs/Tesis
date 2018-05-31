@@ -560,7 +560,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
     }
 
-    fun updateQuestion(question: Question, callback: OnCallbackApis<Void>) {
+    fun updateQuestion(question: Question, callback: OnCallbackApis<Unit>) {
         var anwersList = ArrayList<Map<String, Any>>()
 
         question.answers.forEach { a ->
@@ -571,7 +571,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         db.collection(QUESTIONNAIRE_PATH).document(question.idQuestionnnaire).collection(QUESTIONS_PATH).document(question.idCloud)
                 .update(question.toMapPost())
                 .addOnCompleteListener {
-                    callback.onSuccess(it.result)
+                    callback.onSuccess(Unit)
                 }
                 .addOnFailureListener {
                     callback.onError(it.toString())

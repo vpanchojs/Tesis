@@ -4,7 +4,7 @@
     <string name="login_chip_createAccount">Crear Cuenta</string>
     <string name="login_button_sigin">Iniciar Sesión</string>
     <string name="login_edittext_hint_password">Contraseña</string>
-    <string name="login_button_forget_password">Olvide mi contraseña</string>
+    <string name="login_button_forget_password">Olvidé mi contraseña</string>
     <string name="login_edittext_hint_email">Correo electrónico</string>
     <string name="login_edittext_error_invalid_password">Ingrese un correo válido</string>
     <string name="login_edittext_error_field_blank">El campo no puede estar vacio</string>

@@ -1,6 +1,7 @@
 package ec.com.dovic.aprendiendo.newQuestion.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -31,6 +33,7 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
     private var photo: String = ""
     private val MY_PERMISSIONS_REQUEST_CODE = 1
     private val REQUEST_GET_IMAGE = 100
+    private val REQ_CODE_SPEECH_INPUT = 0
 
     companion object {
         private val ARG_PHOTO = "photo"
@@ -76,8 +79,18 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
                     getPhoto()
                 }
             }
+            R.id.fab_mic_statament -> {
+                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Dicte el enunciado de su pregunta")
+
+                startActivityForResult(intent, REQ_CODE_SPEECH_INPUT)
+
+            }
         }
     }
+
 
     private fun setData() {
         tie_statement.setText(mStatement.get("statament"))
@@ -96,6 +109,17 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
     private fun setupEvent() {
         tie_statement.addTextChangedListener(this)
         fab_add_photo.setOnClickListener(this)
+        tie_statement.setOnFocusChangeListener { view, b ->
+            if (b) {
+                fab_mic_statament.visibility = View.VISIBLE
+            } else {
+                fab_mic_statament.visibility = View.GONE
+            }
+        }
+
+        fab_mic_statament.setOnClickListener(this)
+
+
     }
 
     override fun afterTextChanged(p0: Editable?) {
@@ -231,23 +255,33 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_GET_IMAGE) {
-            if (resultCode == AppCompatActivity.RESULT_OK) {
-                val fromCamera = data == null || data.data == null
-                if (fromCamera) {
-                    addToGallery()
-                } else {
-                    photo = getRealPathFromURI(data!!.data).toString()
+
+        when (requestCode) {
+            REQUEST_GET_IMAGE -> {
+                if (resultCode == AppCompatActivity.RESULT_OK) {
+                    val fromCamera = data == null || data.data == null
+                    if (fromCamera) {
+                        addToGallery()
+                    } else {
+                        photo = getRealPathFromURI(data!!.data).toString()
+                    }
+
+                    mStatement.put("photo", photo)
+
+                    tv_none_photo.visibility = View.GONE
+                    GlideApp.with(context!!)
+                            .load(photo)
+                            .centerCrop()
+                            .into(iv_photo_question)
+
                 }
-
-                mStatement.put("photo", photo)
-
-                tv_none_photo.visibility = View.GONE
-                GlideApp.with(context!!)
-                        .load(photo)
-                        .centerCrop()
-                        .into(iv_photo_question)
-
+            }
+            REQ_CODE_SPEECH_INPUT -> {
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    val result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    tie_statement.setText(result.get(0).toString())
+                }
             }
         }
     }
@@ -261,6 +295,8 @@ class StatementQuestionFragment : Fragment(), View.OnClickListener, TextWatcher 
                         else
                             Toast.makeText(context, "Permisos necesarios para funcionamiento mostrar el mapa ", Toast.LENGTH_LONG).show()
                 }
+
+
             }
         }
     }

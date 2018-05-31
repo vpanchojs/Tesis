@@ -13,4 +13,6 @@ interface QuestionnaireView {
     fun none_results(show: Boolean)
     fun navigationBack()
     fun setQuestions(questionList: List<Question>)
+    fun dowloadQuestionnaire()
+    fun confirmDownloadQuestionnaire()
 }

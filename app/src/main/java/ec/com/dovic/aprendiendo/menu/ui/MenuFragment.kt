@@ -169,9 +169,9 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
         tv_email.text = user.email
         GlideApp.with(context!!)
                 .load(user.photo)
-                .placeholder(R.drawable.ic_person_black_24dp)
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
                 .centerCrop()
-                .error(R.drawable.ic_person_black_24dp)
+                .error(R.drawable.ic_account_circle_black_24dp)
                 .into(civ_user)
 
 

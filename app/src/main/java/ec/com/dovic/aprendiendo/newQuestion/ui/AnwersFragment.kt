@@ -1,7 +1,11 @@
 package ec.com.dovic.aprendiendo.newQuestion.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,6 +21,9 @@ import ec.com.dovic.aprendiendo.util.BaseActivitys
 import kotlinx.android.synthetic.main.fragment_anwers.view.*
 
 class AnwersFragment : Fragment(), onAnswerAdapterListener, View.OnClickListener {
+
+    private val REQ_CODE_SPEECH_INPUT = 0
+    lateinit var tie_answer: TextInputEditText
 
     override fun onClick(v: View?) {
         when (v!!.id) {
@@ -77,6 +84,28 @@ class AnwersFragment : Fragment(), onAnswerAdapterListener, View.OnClickListener
         return mAnswers!!
     }
 
+    override fun onRequestStatament(tie_answer: TextInputEditText) {
+        this.tie_answer = tie_answer
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Dicte el enunciado de la respuesta")
+
+        startActivityForResult(intent, REQ_CODE_SPEECH_INPUT)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQ_CODE_SPEECH_INPUT -> {
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    val result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    tie_answer.setText(result[0].toString())
+                }
+            }
+        }
+    }
 
     companion object {
 

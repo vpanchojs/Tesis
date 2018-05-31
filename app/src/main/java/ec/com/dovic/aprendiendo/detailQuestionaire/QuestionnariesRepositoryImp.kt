@@ -1,10 +1,12 @@
 package ec.com.dovic.aprendiendo.detailQuestionaire
 
+import android.util.Log
 import com.google.firebase.firestore.QuerySnapshot
 import ec.com.dovic.aprendiendo.detailQuestionaire.events.QuestionnaireEvents
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
 import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
+import ec.com.dovic.aprendiendo.domain.services.DbApi
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
@@ -12,7 +14,23 @@ import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 /**
  * Created by victor on 25/2/18.
  */
-class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : QuestionnariesRepository {
+class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var dbApi: DbApi) : QuestionnariesRepository {
+
+
+    override fun isExistQuestionnnaireLocal(idCloud: String) {
+        dbApi.isExistQuestionnaire(firebaseApi.getUid(), idCloud, object : OnCallbackApis<Boolean> {
+            override fun onSuccess(response: Boolean) {
+                Log.e("res", "repondio")
+                postEvent(QuestionnaireEvents.ON_IS_EXIST_QUESTIONNNAIRE_LOCAL, response)
+            }
+
+            override fun onError(error: Any?) {
+
+            }
+        })
+    }
+
+
     override fun onGetDataQuestionnaire(any: Any) {
         firebaseApi.getQuestions(any.toString(), object : OnCallbackApis<QuerySnapshot> {
             override fun onSuccess(response: QuerySnapshot) {
@@ -31,37 +49,10 @@ class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseA
 
             }
         })
-        /*
-        firebaseApi.getQuestions(any as String, object : FirebaseEventListenerCallback {
-
-            override fun onDocumentRemoved(snapshot: DocumentSnapshot) {}
-
-            override fun onError(error: Any) {
-
-            }
-
-            override fun onDocumentAdded(snapshot: DocumentSnapshot) {
-                var question = snapshot.toObject(Question::class.java)
-                question.idCloud = snapshot.id
-                postEvent(QuestionnaireEvents.ON_GET_QUESTIONS_SUCCESS, question!!)
-            }
-
-            override fun onDocumentModified(snapshot: DocumentSnapshot) {}
-        })
-        */
     }
 
     override fun onSaveQuestion(idQuestionarie: Long, question: Question) {
-        /* objectBoxApi.onSaveQuestion(idQuestionarie, question, object : onDomainApiActionListener {
-             override fun onSuccess(response: Any?) {
-                 Log.e("Pregunta", (response as Question).idQuestion.toString())
-             }
 
-             override fun onError(error: Any?) {
-
-             }
-         })
-         */
     }
 
     override fun updateBasicQuestionnaire(questionaire: Questionaire) {
@@ -76,18 +67,6 @@ class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseA
             }
         })
 
-        /*objectBoxApi.updateQuestionnaire(questionaire, object : onDomainApiActionListener {
-            override fun onSuccess(response: Any?) {
-
-                postEvent(QuestionnaireEvents.ON_UPDATE_BASIC_QUESTIONNAIRE, response!!)
-
-            }
-
-            override fun onError(error: Any?) {
-
-            }
-        })
-        */
     }
 
     override fun onDeleteQuestionnnaire(idQuestionaire: Any) {
@@ -102,21 +81,9 @@ class QuestionnariesRepositoryImp(var eventBus: EventBusInterface, var firebaseA
             }
         })
 
-        /*
-        objectBoxApi.deleteQuestionnnaire(idQuestionaire as Long, object : onDomainApiActionListener {
-            override fun onSuccess(response: Any?) {
-                postEvent(QuestionnaireEvents.ON_DELETE_QUESTIONNAIRE_SUCCESS, response!!)
-            }
-
-            override fun onError(error: Any?) {
-
-            }
-        })
-        */
     }
 
     private fun postEvent(type: Int, any: Any) {
-        var event = QuestionnaireEvents(type, any)
-        eventBus.post(event)
+        eventBus.post(QuestionnaireEvents(type, any))
     }
 }

@@ -1,5 +1,6 @@
 package ec.com.dovic.aprendiendo.detailQuestionaire
 
+import android.util.Log
 import android.view.View
 import ec.com.dovic.aprendiendo.detailQuestionaire.events.QuestionnaireEvents
 import ec.com.dovic.aprendiendo.detailQuestionaire.ui.QuestionnaireView
@@ -40,6 +41,10 @@ class QuestionnariesPresenterImp(var eventBus: EventBusInterface, var view: Ques
         interactor.onDeleteQuestionnnaire(idQuestionaire)
     }
 
+    override fun isExistQuestionnnaireLocal(idCloud: String) {
+        interactor.isExistQuestionnnaireLocal(idCloud)
+    }
+
     @Subscribe
     override fun onEventThread(event: QuestionnaireEvents) {
         when (event.type) {
@@ -65,6 +70,14 @@ class QuestionnariesPresenterImp(var eventBus: EventBusInterface, var view: Ques
                 view.hideProgressDialog()
                 view.showMessagge("Cuestionario Eliminado")
                 view.navigationBack()
+            }
+            QuestionnaireEvents.ON_IS_EXIST_QUESTIONNNAIRE_LOCAL -> {
+                Log.e("PRE", "SI HUBO RESPUESTA ${event.any as Boolean}")
+                if (event.any as Boolean) {
+                    view.confirmDownloadQuestionnaire()
+                } else {
+                    view.dowloadQuestionnaire()
+                }
             }
         }
     }

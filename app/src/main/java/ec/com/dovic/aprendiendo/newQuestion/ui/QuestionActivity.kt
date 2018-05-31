@@ -192,7 +192,7 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
         val builder = AlertDialog.Builder(this)
 
         builder.setTitle("Mensaje de confirmación")
-                .setMessage("Desea salir?")
+                .setMessage("¿Desea salir?")
                 .setPositiveButton("ACEPTAR"
                 ) { _, _ ->
                     val resultData = Intent()
@@ -210,7 +210,7 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
         val builder = AlertDialog.Builder(this)
 
         builder.setTitle("Mensaje de confirmación")
-                .setMessage("Desea Eliminar la pregunta?")
+                .setMessage("¿Desea eliminar la pregunta?")
                 .setPositiveButton("ACEPTAR"
                 ) { _, which ->
                     presenter.onDeteleQuestion(question.idCloud, idQuestionnaire)
@@ -276,7 +276,7 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
                     Manifest.permission.WRITE_EXTERNAL_STORAGE ->
                         if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                         else
-                            Toast.makeText(this, "Permisos necesarios para funcionamiento mostrar el mapa ", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Permisos necesarios para obtener la galleria ", Toast.LENGTH_LONG)
                 }
             }
         }

@@ -8,6 +8,10 @@ import ec.com.dovic.aprendiendo.entities.Questionaire
  */
 class QuestionnariesInteractorImp(var repository: QuestionnariesRepository) : QuestionnariesInteractor {
 
+    override fun isExistQuestionnnaireLocal(idCloud: String) {
+        repository.isExistQuestionnnaireLocal(idCloud)
+    }
+
     override fun onGetDataQuestionnaire(any: Any) {
         repository.onGetDataQuestionnaire(any)
     }

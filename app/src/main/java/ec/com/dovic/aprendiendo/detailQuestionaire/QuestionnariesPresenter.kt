@@ -22,4 +22,6 @@ interface QuestionnariesPresenter {
     fun updateBasicQuestionnaire(questionaire: Questionaire)
 
     fun onDeleteQuestionnnaire(idQuestionaire: Any)
+
+    fun isExistQuestionnnaireLocal(idCloud: String)
 }

@@ -10,6 +10,7 @@ class QuestionnaireEvents(var type: Int, var any: Any) {
         val ON_GET_QUESTIONS_ERROR = 1
         val ON_UPDATE_BASIC_QUESTIONNAIRE = 2
         val ON_DELETE_QUESTIONNAIRE_SUCCESS = 3
+        val ON_IS_EXIST_QUESTIONNNAIRE_LOCAL = 4
     }
 
 }

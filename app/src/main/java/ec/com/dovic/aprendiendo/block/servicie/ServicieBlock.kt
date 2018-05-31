@@ -110,7 +110,7 @@ class ServicieBlock : Service() {
     private fun obtenerAplicacionEjecutandoseL(): String {
         val endCal = Calendar.getInstance()
         val beginCal = Calendar.getInstance()
-        beginCal.add(Calendar.MINUTE, -1)
+        beginCal.add(Calendar.MINUTE, -5)
         val manager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
         val stats = manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,
@@ -128,6 +128,7 @@ class ServicieBlock : Service() {
         super.onDestroy()
         activo_hilo2 = false
         activo_hilo1 = false
+        INSTANCE = false
     }
 
 
@@ -148,7 +149,7 @@ class ServicieBlock : Service() {
                         /*VERIFICACION LA EXISTENCIA DE FRECUENCIA DE BLOQUEO Y QUE LA APLICACION SEA IGUAL PARA LANZAR NUEVAMENTE EL BLOQUEO*/
                         if (aplicacionActual == temp && timeActivity > 0) {
                             cont++
-                            // Log.e("HILO 1", "Aplicacion contador: " + cont + " fre:" + timeActivity);
+                           // Log.e("HILO 1", "Aplicacion contador: " + cont + " fre:" + timeActivity);
                             /*TIEMPO DE ESPERA PARA INCIAR NUEVAMENTE EL BLOQUEO MIENTRAS NOS ENCONTRAMOS EN LA APLICACION ANTERIOR BLOQUEADA*/
                             if (cont > timeActivity) {
                                 cont = 0
@@ -171,7 +172,7 @@ class ServicieBlock : Service() {
 
                             aplicacionActual = obtenerAplicacionEjecutandoseL()
 
-                            // Log.d("HILO 2", "Aplicacion: " + aplicacionActual);
+                            //Log.e("HILO 2", "Aplicacion: " + aplicacionActual);
                             /*VERIFICAMOS QUE LA APLICACION EJECUTADA ACTUALMENTE, DEBA SER BLOQUEADA*/
 
                             var verify = applicationsBlock.any {

@@ -1,11 +1,13 @@
 package ec.com.dovic.aprendiendo.questionsComplete.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -117,12 +119,28 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
             }
             R.id.action_delete -> {
-                presenter.deleteQuestionnarie(questionaire)
+                createDeleteDialog().show()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+
+    fun createDeleteDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Mensaje de confirmación")
+                .setMessage("¿Desea eliminar el cuestionario?")
+                .setPositiveButton("ACEPTAR"
+                ) { _, which ->
+                    presenter.deleteQuestionnarie(questionaire)
+                }
+                .setNegativeButton("CANCELAR",
+                        object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface, which: Int) {}
+                        })
+        return builder.create()
+    }
 
     override fun showMessagge(message: Any) {
         BaseActivitys.showToastMessage(this, message, Toast.LENGTH_SHORT)

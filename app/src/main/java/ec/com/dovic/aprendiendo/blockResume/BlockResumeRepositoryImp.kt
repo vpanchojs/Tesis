@@ -37,7 +37,7 @@ class BlockResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi:
     }
 
     override fun getQuestionnaires() {
-        db.getMyQuestionnaires(object : OnCallbackApis<List<QuestionnaireBd>> {
+        db.getMyQuestionnaires(firebaseApi.getUid(), object : OnCallbackApis<List<QuestionnaireBd>> {
             override fun onSuccess(response: List<QuestionnaireBd>) {
                 postEvent(BlockResumeEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
             }

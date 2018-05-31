@@ -64,6 +64,7 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
     private fun setDataQuestionnaire() {
         tie_title.setText(questionaire.title)
         tie_discription.setText(questionaire.description)
+        tie_keyword.setText(questionaire.keywords)
         setDifficulty(questionaire.difficulty)
         publicOrPrivate(questionaire.post)
     }

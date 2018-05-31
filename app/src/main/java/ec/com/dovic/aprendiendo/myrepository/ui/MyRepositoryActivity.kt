@@ -105,7 +105,6 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
     }
 
     override fun navigationToDetailQuestionnarie(any: Any) {
-        //startActivity(Intent(this, QuestionsCompleteActivity::class.java).putExtra(QuestionsCompleteActivity.QUESTIONNAIRE_PARAM, any as Questionaire))
         startActivity(Intent(this, QuestionaireActivity::class.java).putExtra(QuestionaireActivity.QUESTIONNAIRE, any as Questionaire))
     }
 

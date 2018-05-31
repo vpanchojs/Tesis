@@ -56,8 +56,8 @@ class QuestionRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: Fi
     }
 
     override fun onUpdateQuestion(question: Question) {
-        firebaseApi.updateQuestion(question, object : OnCallbackApis<Void> {
-            override fun onSuccess(response: Void) {
+        firebaseApi.updateQuestion(question, object : OnCallbackApis<Unit> {
+            override fun onSuccess(response: Unit) {
                 Log.e("uppdate", "se ha actualizado")
                 postEvent(QuestionEvents.ON_UPDATE_QUESTION_SUCCESS, response!!)
             }

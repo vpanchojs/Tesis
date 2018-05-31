@@ -18,7 +18,7 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
 
 
     override fun isExistQuestionnnaireLocal(idCloud: String) {
-        dbApi.isExistQuestionnaire(idCloud, object : OnCallbackApis<Boolean> {
+        dbApi.isExistQuestionnaire(firebaseApi.getUid(), idCloud, object : OnCallbackApis<Boolean> {
             override fun onSuccess(response: Boolean) {
                 Log.e("res", "repondio")
                 postEvent(QuestionnaireResumeEvents.ON_IS_EXIST_QUESTIONNNAIRE_LOCAL, response)

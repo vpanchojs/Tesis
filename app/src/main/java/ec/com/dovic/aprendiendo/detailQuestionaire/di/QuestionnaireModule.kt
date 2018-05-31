@@ -5,6 +5,7 @@ import dagger.Provides
 import ec.com.dovic.aprendiendo.detailQuestionaire.*
 import ec.com.dovic.aprendiendo.detailQuestionaire.ui.QuestionnaireView
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
+import ec.com.dovic.aprendiendo.domain.services.DbApi
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import javax.inject.Singleton
 
@@ -33,7 +34,7 @@ class QuestionnaireModule(var view: QuestionnaireView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi): QuestionnariesRepository {
-        return QuestionnariesRepositoryImp(eventBus, firebaseApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, dbApi: DbApi): QuestionnariesRepository {
+        return QuestionnariesRepositoryImp(eventBus, firebaseApi,dbApi)
     }
 }
