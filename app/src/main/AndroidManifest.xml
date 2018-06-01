@@ -7,6 +7,7 @@
         android:name="android.hardware.Camera"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -23,6 +24,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".login.ui.LoginActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -36,10 +38,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".main.MainActivity"
+            android:name=".main.ui.MainActivity"
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:excludeFromRecents="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".updateQuestionnaire.ui.UpdateQuestionnaireActivity"

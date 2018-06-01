@@ -58,7 +58,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     }
                 }
                 .addOnFailureListener { e ->
-                    callback.onError(e.toString())
+                    callback.onError(e.message)
                 }
     }
 
@@ -86,7 +86,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     })
                 }
                 .addOnFailureListener { e ->
-                    callback.onError(e.toString())
+                    callback.onError(e.message)
                 }
     }
 
@@ -172,7 +172,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                             }
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -182,7 +182,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess("El enlace de recuperación se envio a su cuenta de correo")
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -198,7 +198,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 }
                 .addOnFailureListener {
                     Log.e(TAG, it.toString())
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
 
     }
@@ -215,7 +215,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         storage.child(STORAGE_USER_PHOTO_PATH).child(mAuth.currentUser!!.uid).putBytes(data)
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
                 .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
                     override fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
@@ -239,7 +239,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                                 }
                                 .addOnFailureListener {
                                     Log.e(TAG, it.toString())
-                                    callback.onError(it.toString())
+                                    callback.onError(it.message)
                                 }
                     }
                 })
@@ -254,7 +254,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 }
                 .addOnFailureListener {
                     Log.e(TAG, it.toString())
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -276,7 +276,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                         }
                         .addOnFailureListener { e ->
                             Log.e(TAG, "malos" + e)
-                            callback.onError(e.toString())
+                            callback.onError(e.message)
                         }
             } else {
                 Log.e(TAG, "error borrando")
@@ -294,7 +294,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 })
                 .addOnFailureListener(OnFailureListener {
                     Log.e(TAG, it.toString())
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 })
     }
 
@@ -418,7 +418,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(questionaire)
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -429,7 +429,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -440,7 +440,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
 
     }
@@ -452,7 +452,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(Any())
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
 
     }
@@ -493,7 +493,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                         }
                         .addOnFailureListener {
                             Log.e("error", it.toString())
-                            callback.onError(it.toString())
+                            callback.onError(it.message)
                         }
             }
 
@@ -585,7 +585,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(Any())
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -596,7 +596,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(Any())
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -641,7 +641,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -652,7 +652,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -700,7 +700,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 }
                 .addOnFailureListener {
                     Log.e("R", it.toString())
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -713,7 +713,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 }
                 .addOnFailureListener {
                     Log.e("aa", "mal" + it.toString())
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
     }
 
@@ -727,7 +727,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                     Log.e(TAG, it.toString())
                 }
 
@@ -764,7 +764,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 }
                 .addOnFailureListener {
                     Log.e(TAG, it.toString())
-                    callback.onError(it.toString())
+                    callback.onError(it.message)
                 }
 
     }
@@ -809,7 +809,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         }.addOnFailureListener {
             Log.e(TAG, it.cause.toString())
-            callback.onError(it.toString())
+            callback.onError(it.message)
         }
     }
 

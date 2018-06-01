@@ -12,7 +12,7 @@ import android.widget.Toast
 import ec.com.dovic.aprendiendo.MyApplication
 import ec.com.dovic.aprendiendo.R
 import ec.com.dovic.aprendiendo.login.LoginPresenter
-import ec.com.dovic.aprendiendo.main.MainActivity
+import ec.com.dovic.aprendiendo.main.ui.MainActivity
 import ec.com.dovic.aprendiendo.signup.ui.SignupActivity
 import ec.com.dovic.aprendiendo.util.BaseActivitys.Companion.onTextChangedListener
 import ec.com.dovic.aprendiendo.util.BaseActivitys.Companion.validateFieldEmail
@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
     }
 
     override fun navigationMain() {
-        startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     override fun onRecoveryPassword(email: String) {

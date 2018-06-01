@@ -25,6 +25,10 @@ import ec.com.dovic.aprendiendo.login.di.DaggerLoginComponent
 import ec.com.dovic.aprendiendo.login.di.LoginComponent
 import ec.com.dovic.aprendiendo.login.di.LoginModule
 import ec.com.dovic.aprendiendo.login.ui.LoginView
+import ec.com.dovic.aprendiendo.main.di.DaggerMainComponent
+import ec.com.dovic.aprendiendo.main.di.MainComponent
+import ec.com.dovic.aprendiendo.main.di.MainModule
+import ec.com.dovic.aprendiendo.main.ui.MainView
 import ec.com.dovic.aprendiendo.menu.di.DaggerMenusComponent
 import ec.com.dovic.aprendiendo.menu.di.MenusComponent
 import ec.com.dovic.aprendiendo.menu.di.MenusModule
@@ -211,6 +215,15 @@ class MyApplication : MultiDexApplication() {
                 .domainModule(domainModule)
                 .libModule(LibModule())
                 .blockModule(BlockModule(view))
+                .build()
+    }
+
+    fun getMainComponent(view: MainView): MainComponent {
+        return DaggerMainComponent
+                .builder()
+                .domainModule(domainModule)
+                .libModule(LibModule())
+                .mainModule(MainModule(view))
                 .build()
     }
 

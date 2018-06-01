@@ -65,7 +65,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="No volver a bloquear dentro de una aplicación"
+        android:text="Bloquear unicamente al abrir una aplicacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/np" />
@@ -77,7 +77,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Seleccione el tiempo de actividad dentro de una aplicación, antes de volver a ejecutar el bloqueo"
+        android:text="Selecione el tiempo para bloquear una aplicacion abierta frecuentemente."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ib_back" />

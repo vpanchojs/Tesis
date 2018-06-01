@@ -53,7 +53,13 @@ class BaseActivitys() {
         }
 
         fun showToastMessage(context: Context, message: Any, duration: Int) {
-            Toast.makeText(context, getStringMessage(context, message), duration).show()
+            try {
+                if (message != null)
+                    Toast.makeText(context, getStringMessage(context, message), duration).show()
+            } catch (e: Exception) {
+
+            }
+
         }
 
         fun getStringMessage(context: Context, message: Any): String {
