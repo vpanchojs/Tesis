@@ -26,12 +26,12 @@ class QuestionnaireResumeInteractorImp(var repository: QuestionnaireResumeReposi
         repository.onGetRaitingsAll(idQuestionnaire)
     }
 
-    override fun setRaiting(idQuestionnaire: Any, value: Double, message: String) {
+    override fun setRaiting(idQuestionnaire: Any, value: Double, message: String, update: Boolean, oldRaiting: Double) {
         var rating = Raiting()
         rating.comment = message
         rating.value = value
         rating.idQuestionaire = idQuestionnaire.toString()
-        repository.setRaiting(rating)
+        repository.setRaiting(rating,update,oldRaiting)
 
     }
 

@@ -10,7 +10,7 @@ interface QuestionnaireResumePresenter : Presenter {
     fun onGetQuestionAll(idQuestionnaire: Any)
     fun onGetRaitingsAll(idQuestionnaire: Any)
     fun onGetUser(idUser: Any)
-    fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String)
+    fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String, update: Boolean, oldRaiting: Double)
     fun onEventThread(event: QuestionnaireResumeEvents)
     fun getQuestionnaire(idQuestionnaire: String)
     fun isDownloaded(idQuestionnaire: String)

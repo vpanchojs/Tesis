@@ -21,6 +21,7 @@ class Questionaire() : Parcelable {
     var description: String? = null
     var createDate: Date? = null
     var difficulty: Int = 0
+    var category: String = ""
     var postDate: Date? = null
     var numberQuest: Int = 0
     var assessment: Double = 0.0
@@ -45,6 +46,21 @@ class Questionaire() : Parcelable {
         result["idUser"] = idUser!!
         result["createDate"] = FieldValue.serverTimestamp()
         result["numberQuest"] = numberQuest
+        result["category"] = category
+        result["post"] = post
+        return result
+    }
+
+    @Exclude
+    fun toMapAux(): Map<String, Any> {
+        val result = HashMap<String, Any>()
+        result["title"] = title!!
+        result["description"] = description!!
+        result["idUser"] = idUser!!
+        result["createDate"] = FieldValue.serverTimestamp()
+        result["postDate"] = FieldValue.serverTimestamp()
+        result["numberQuest"] = numberQuest
+        result["category"] = category
         result["post"] = post
         return result
     }
@@ -78,6 +94,7 @@ class Questionaire() : Parcelable {
         result["assessment"] = assessment
         result["numAssessment"] = numAssessment
         result["difficulty"] = difficulty
+        result["category"] = category
         return result
     }
 
@@ -102,6 +119,7 @@ class Questionaire() : Parcelable {
         numberQuest = parcel.readInt()
         assessment = parcel.readDouble()
         numberDonwloads = parcel.readInt()
+        category = parcel.readString()
         post = parcel.readByte() != 0.toByte()
     }
 
@@ -116,6 +134,7 @@ class Questionaire() : Parcelable {
         parcel.writeInt(numberQuest)
         parcel.writeDouble(assessment)
         parcel.writeInt(numberDonwloads)
+        parcel.writeString(category)
         parcel.writeByte(if (post) 1 else 0)
     }
 

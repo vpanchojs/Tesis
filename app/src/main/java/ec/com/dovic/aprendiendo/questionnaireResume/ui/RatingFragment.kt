@@ -10,8 +10,10 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.AppCompatRatingBar
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import ec.com.dovic.aprendiendo.R
 import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.util.BaseActivitys
 import ec.com.dovic.aprendiendo.util.BaseActivitys.Companion.onTextChangedListener
 import kotlinx.android.synthetic.main.fragment_raiting.view.*
 
@@ -22,6 +24,8 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     private var tie_comment: TextInputEditText? = null
     private var callback: OnRatingListener? = null
     private var raiting: Raiting? = null
+    private var update: Boolean = false
+    private var oldRaiting = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +51,11 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
 
     private fun setRating() {
         if (raiting != null) {
+            oldRaiting = raiting!!.value
             ratingBar!!.rating = raiting!!.value.toFloat()
             tie_comment!!.setText(raiting!!.comment)
             btn_action!!.text = "Actualizar"
+            update = true
         } else {
 
         }
@@ -63,15 +69,19 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
 
 
     override fun onShow(dialog: DialogInterface?) {
-            btn_action!!.setOnClickListener {
-                //callback!!.onRecoveryPassword(tie_email!!.text.toString())
-                callback!!.onSetRaiting(ratingBar!!.rating.toDouble(), tie_comment!!.text.toString())
+        btn_action!!.setOnClickListener {
+            //callback!!.onRecoveryPassword(tie_email!!.text.toString())
+            if (ratingBar!!.rating > 0) {
+                callback!!.onSetRaiting(ratingBar!!.rating.toDouble(), tie_comment!!.text.toString(), update, oldRaiting)
                 dismiss()
+            } else {
+                BaseActivitys.showToastMessage(context!!, "Calificación incorrecta", Toast.LENGTH_SHORT)
             }
+        }
 
-            ib_close!!.setOnClickListener {
-                dismiss()
-            }
+        ib_close!!.setOnClickListener {
+            dismiss()
+        }
 
     }
 
@@ -103,7 +113,7 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     }
 
     interface OnRatingListener {
-        fun onSetRaiting(value: Double, comment: String)
+        fun onSetRaiting(value: Double, comment: String, update: Boolean, oldRaiting: Double)
     }
 
 

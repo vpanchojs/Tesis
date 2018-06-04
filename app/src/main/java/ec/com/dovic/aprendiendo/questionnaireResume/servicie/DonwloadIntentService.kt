@@ -31,10 +31,12 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
     lateinit var firebaseApi: FirebaseApi
     lateinit var dbApi: DbApi
     lateinit var questionaire: Questionaire
+    var isDownLoad = false
 
     companion object {
         val IDQUESTIONNAIRE = "id"
         val TAG = "DowloadServicie"
+        val ISDOWNLOAD = "isdownload"
     }
 
     override fun onCreate() {
@@ -53,12 +55,13 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
         var cicle = true
         var cont = 0
         var questionsSize = -1
-        var idQuestionnaire = p0!!.getStringExtra(IDQUESTIONNAIRE)
+        val idQuestionnaire = p0!!.getStringExtra(IDQUESTIONNAIRE)
+        val isDownLoad = p0!!.getBooleanExtra(ISDOWNLOAD, false)
         Log.e("servicie", idQuestionnaire)
 
 
         /*Solicitamos el cuestionario al servidor*/
-        firebaseApi.getQuestionnaireComplete(idQuestionnaire, object : OnCallbackApis<Questionaire> {
+        firebaseApi.getQuestionnaireComplete(idQuestionnaire, isDownLoad, object : OnCallbackApis<Questionaire> {
             override fun onSuccess(response: Questionaire) {
                 questionaire = response
 

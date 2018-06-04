@@ -7,13 +7,13 @@
     android:clickable="true"
     android:elevation="4dp"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="60dp"
+    app:behavior_peekHeight="50dp"
     app:layout_behavior="ec.com.dovic.aprendiendo.questionnaireResume.ui.BottomSheetCustom">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_header_bs"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:background="@drawable/bg_header_bs">
 
         <TextView

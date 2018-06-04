@@ -15,6 +15,8 @@ interface MenusPresenter {
 
     fun getMyProfile()
 
+    fun crearCuestionario()
+
     fun onUpdatePassword(password: String, passwordOld: String)
 
     fun onEventMenuThread(event: MenusEvents)

@@ -31,9 +31,9 @@ import javax.inject.Inject
 
 class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView, View.OnClickListener, RatingFragment.OnRatingListener {
 
-    override fun onSetRaiting(value: Double, comment: String) {
+    override fun onSetRaiting(value: Double, comment: String, update: Boolean, oldRaiting: Double) {
         Log.e("RA", "VALUE" + value)
-        presenter.setRaiting(questionaire.idCloud, value, comment)
+        presenter.setRaiting(questionaire.idCloud, value, comment, update, oldRaiting)
     }
 
     override fun onClick(p0: View?) {
@@ -68,7 +68,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     var questionList = ArrayList<Question>()
     var ratingsList = ArrayList<Raiting>()
-
+    var is_download = false
     lateinit var brDownLoad: BroadcastReceiver
 
     lateinit var application: MyApplication
@@ -209,7 +209,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         BaseActivitys.showToastMessage(this, message, Toast.LENGTH_SHORT)
     }
 
-    override fun showProgress(show: Boolean) {
+    override fun showProgress(visibility: Int) {
+        progressbar_questions.visibility = visibility
     }
 
     override fun none_results(show: Boolean) {
@@ -233,8 +234,20 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         tv_user.text = "${user.name}  ${user.lastname}"
     }
 
-    override fun updateRating(rating: Double) {
-        tv_raiting.setText(rating.toString())
+    override fun updateRating(rating: Raiting) {
+
+        tv_raiting.setText(rating.value.toString())
+
+        val raitingMe = getRaitingMe()
+
+        if (raitingMe == null) {
+            ratingsList.add(rating)
+        } else {
+            raitingMe.comment = rating.comment
+            raitingMe.value = rating.value
+        }
+        adapterRating.notifyDataSetChanged()
+        tv_subtitle_bs.text = "${ratingsList.size} calificaciones"
     }
 
     override fun setRatings(ratingList: List<Raiting>) {
@@ -255,6 +268,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         progressbar_down.visibility = View.VISIBLE
         val intent = Intent(this, DonwloadIntentService::class.java)
         intent.putExtra(DonwloadIntentService.IDQUESTIONNAIRE, questionaire.idCloud)
+        intent.putExtra(DonwloadIntentService.ISDOWNLOAD, is_download)
         startService(intent)
     }
 
@@ -277,5 +291,9 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
                             override fun onClick(dialog: DialogInterface, which: Int) {}
                         })
         return builder.create()
+    }
+
+    override fun setDownload(b: Boolean) {
+        is_download = b
     }
 }

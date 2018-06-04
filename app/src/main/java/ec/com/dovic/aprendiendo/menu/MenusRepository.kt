@@ -7,4 +7,5 @@ interface MenusRepository {
     fun onSingOut()
     fun onUpdatePassword(password: String, passwordOld: String)
     fun getMyProfile()
+    fun crearCuestionario()
 }

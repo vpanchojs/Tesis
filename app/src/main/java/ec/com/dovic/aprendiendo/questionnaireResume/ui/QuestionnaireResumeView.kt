@@ -9,14 +9,15 @@ import ec.com.dovic.aprendiendo.entities.User
  */
 interface QuestionnaireResumeView {
     fun showMessagge(message: Any)
-    fun showProgress(show: Boolean)
+    fun showProgress(view: Int)
     fun none_results(show: Boolean)
     fun navigationBack()
     fun setQuestions(questionList: List<Question>)
     fun setUser(user: User)
-    fun updateRating(rating: Double)
+    fun updateRating(rating: Raiting)
     fun setRatings(ratingList: List<Raiting>)
     fun showButtonRaiting(visible: Int)
     fun dowloadQuestionnaire()
     fun confirmDownloadQuestionnaire()
+    fun setDownload(b: Boolean)
 }

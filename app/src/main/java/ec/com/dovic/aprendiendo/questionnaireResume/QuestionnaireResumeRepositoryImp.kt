@@ -99,8 +99,8 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
         })
     }
 
-    override fun setRaiting(raiting: Raiting) {
-        firebaseApi.onSetRaiting(raiting, object : onDomainApiActionListener {
+    override fun setRaiting(raiting: Raiting, update: Boolean, oldRaiting: Double) {
+        firebaseApi.onSetRaiting(raiting, update,oldRaiting, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {
                 postEvent(QuestionnaireResumeEvents.ON_SET_RATING_SUCCESS, response!!)
             }

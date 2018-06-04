@@ -107,7 +107,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
     }
 
     override fun hideProgressDialog() {
-        progressDialog.hide()
+        progressDialog.dismiss()
     }
 
     override fun showMessagge(message: String) {
@@ -139,6 +139,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
                 changePasswordFragment.show(childFragmentManager, "Cambiar Contrasena")
             }
             1 -> {
+                presenter.crearCuestionario()
                 showMessagge("Términos y Condiciones")
             }
             2 -> {

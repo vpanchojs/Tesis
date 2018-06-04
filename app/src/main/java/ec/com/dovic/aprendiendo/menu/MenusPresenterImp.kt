@@ -32,6 +32,10 @@ class MenusPresenterImp(var eventBus: EventBusInterface, var view: MenusView, va
         interactor.onUpdatePassword(password, passwordOld)
     }
 
+    override fun crearCuestionario() {
+        interactor.crearCuestionario()
+    }
+
     @Subscribe
     override fun onEventMenuThread(event: MenusEvents) {
         when (event.type) {

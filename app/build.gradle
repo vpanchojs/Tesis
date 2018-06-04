@@ -12,7 +12,7 @@ android {
         applicationId "ec.com.dovic.aprendiendo"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 7
+        versionCode 8
         versionName "0.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

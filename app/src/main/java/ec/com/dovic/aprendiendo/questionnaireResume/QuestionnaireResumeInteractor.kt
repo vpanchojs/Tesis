@@ -6,7 +6,7 @@ package ec.com.dovic.aprendiendo.questionnaireResume
 interface QuestionnaireResumeInteractor {
     fun onGetQuestionAll(idQuestionnaire: Any)
     fun onGetRaitingsAll(idQuestionnaire: Any)
-    fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String)
+    fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String, update: Boolean, oldRaiting: Double)
     fun onGetUser(idUser: Any)
     fun getQuestionnaire(idQuestionnaire: String)
     fun isDownloaded(idQuestionnaire: String)

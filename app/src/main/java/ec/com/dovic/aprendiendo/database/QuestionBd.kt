@@ -14,7 +14,7 @@ import android.os.Parcelable
 class QuestionBd() : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
-    var statement: String = ""
+    var statement: String = "Sin preguntas. Debe Seleccionar un cuestionario"
     var photoUrl: String = ""
 
     @Ignore

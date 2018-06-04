@@ -2,7 +2,6 @@ package ec.com.dovic.aprendiendo.menu
 
 import com.google.firebase.auth.FirebaseUser
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
-import ec.com.dovic.aprendiendo.domain.SharePreferencesApi
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
@@ -12,6 +11,10 @@ import ec.com.dovic.aprendiendo.menu.events.MenusEvents
  * Created by victor on 27/1/18.
  */
 class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : MenusRepository {
+
+    override fun crearCuestionario() {
+       // firebaseApi.crearCuestionarios()
+    }
 
     override fun onSingOut() {
         firebaseApi.signOut()

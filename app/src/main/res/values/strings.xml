@@ -119,7 +119,7 @@
     <string name="visibility_questionnaire">Visibilidad</string>
     <string name="tv_rating_questionnay">Calificar Cuestionario</string>
     <string name="description_rating_questionnay">Indica que te parecio el cuestionario</string>
-    <string name="tv_comment">Comentario(opcional)</string>
+    <string name="tv_comment">Comentario</string>
     <string name="button_rating">Calificar</string>
     <string name="action_download">Descargar Cuestionario</string>
     <string name="none_questionnaries_repository">Lo sentimos no tenemos cuestionarios</string>

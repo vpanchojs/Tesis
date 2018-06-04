@@ -9,7 +9,7 @@ import ec.com.dovic.aprendiendo.util.Repository
 interface QuestionnaireResumeRepository : Repository {
     fun onGetQuestionAll(idQuestionnaire: Any)
     fun onGetRaitingsAll(idQuestionnaire: Any)
-    fun setRaiting(raiting: Raiting)
+    fun setRaiting(raiting: Raiting, update: Boolean, oldRaiting: Double)
     fun onGetUser(idUser: Any)
     fun getQuestionnaire(idQuestionnaire: String)
     fun isDownloaded(idQuestionnaire: String)

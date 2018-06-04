@@ -15,4 +15,8 @@ class MenusInteractorImp(var repository: MenusRepository) : MenusInteractor {
     override fun getMyProfile() {
         repository.getMyProfile()
     }
+
+    override fun crearCuestionario() {
+        repository.crearCuestionario()
+    }
 }

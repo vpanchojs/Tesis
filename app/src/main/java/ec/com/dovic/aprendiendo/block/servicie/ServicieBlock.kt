@@ -1,14 +1,22 @@
 package ec.com.dovic.aprendiendo.block.servicie
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.graphics.PixelFormat
+import android.os.Build
 import android.os.Handler
 import android.os.IBinder
+import android.support.annotation.RequiresApi
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationCompat.PRIORITY_HIGH
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -55,9 +63,18 @@ class ServicieBlock : Service(), View.OnClickListener {
     val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            plataform(),
+            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT)
+
+
+    fun plataform(): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            return WindowManager.LayoutParams.TYPE_PHONE;
+        }
+    }
 
 
     internal var activo_hilo1: Boolean = false
@@ -147,7 +164,7 @@ class ServicieBlock : Service(), View.OnClickListener {
                     removeView()
                 } else {
                     visibilyWindowsInfo(View.VISIBLE)
-                    setDataQuestion(randomQuestions())
+                    //setDataQuestion(randomQuestions())
                 }
             }
             R.id.ib_change_question -> {
@@ -163,6 +180,7 @@ class ServicieBlock : Service(), View.OnClickListener {
     private fun setupViewBlock() {
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         mblockView = LayoutInflater.from(this).inflate(R.layout.block_widget, null)
+        params.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
         mWindowManager!!.addView(mblockView, params)
         getElementsView()
         setupEvents()
@@ -224,8 +242,10 @@ class ServicieBlock : Service(), View.OnClickListener {
             while (aux == numQuestion) {
                 numQuestion = (Math.random() * questionsList.size).toInt()
             }
+        } else if (questionsList.size > 0) {
+
         }
-        return questionsList.get(numQuestion)
+        return if (questionsList.size > 0) questionsList.get(numQuestion) else QuestionBd()
     }
 
     private fun setupRecycler() {
@@ -313,17 +333,45 @@ class ServicieBlock : Service(), View.OnClickListener {
 
 
     fun startForeground() {
-        val notification = NotificationCompat.Builder(this)
+
+        val channelId =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    createNotificationChannel()
+                } else {
+                    // If earlier version channel ID is not used
+                    // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+                    ""
+                }
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+
+        val notification = notificationBuilder
+                .setOngoing(true)
+                .setCategory(Notification.CATEGORY_SERVICE)
                 .setContentTitle(resources.getString(R.string.app_name))
                 .setTicker(resources.getString(R.string.app_name))
                 .setContentText("Bloqueo Activo")
                 .setContentInfo("Abre una aplicacion y estudia")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(null)
-                .setOngoing(true)
+                .setPriority(PRIORITY_HIGH)
                 .build()
         startForeground(9999, notification)
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(): String {
+        val channelId = "my_service"
+        val channelName = "My Background Service"
+        val chan = NotificationChannel(channelId,
+                channelName, NotificationManager.IMPORTANCE_NONE)
+        chan.lightColor = Color.BLUE
+        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.createNotificationChannel(chan)
+        return channelId
+    }
+
 
     private fun obtenerAplicacionEjecutandoseL(): String {
         val endCal = Calendar.getInstance()

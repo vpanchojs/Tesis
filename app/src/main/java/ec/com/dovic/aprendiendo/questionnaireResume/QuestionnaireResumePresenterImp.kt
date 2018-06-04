@@ -21,6 +21,7 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
     }
 
     override fun onGetQuestionAll(idQuestionnaire: Any) {
+        view.showProgress(View.VISIBLE)
         interactor.onGetQuestionAll(idQuestionnaire)
     }
 
@@ -32,8 +33,9 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
         interactor.onGetRaitingsAll(idQuestionnaire)
     }
 
-    override fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String) {
-        interactor.setRaiting(idQuestionnaire, raiting, message)
+    override fun setRaiting(idQuestionnaire: Any, raiting: Double, message: String, update: Boolean, oldRaiting: Double) {
+        view.showButtonRaiting(View.INVISIBLE)
+        interactor.setRaiting(idQuestionnaire, raiting, message, update, oldRaiting)
     }
 
     override fun getQuestionnaire(idQuestionnaire: String) {
@@ -52,6 +54,7 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
     override fun onEventThread(event: QuestionnaireResumeEvents) {
         when (event.type) {
             QuestionnaireResumeEvents.ON_GET_QUESTIONS_SUCCESS -> {
+                view.showProgress(View.GONE)
                 var questionList = event.any as List<Question>
                 if (questionList.size > 0) {
                     view.none_results(false)
@@ -61,15 +64,18 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
                 }
             }
             QuestionnaireResumeEvents.ON_GET_QUESTIONS_ERROR -> {
-
+                view.showProgress(View.GONE)
+                view.showMessagge("Problemas obteniendo preguntas")
             }
 
             QuestionnaireResumeEvents.ON_GET_IS_DOWNLOADED_SUCCESS -> {
+
                 if (event.any as Boolean) {
                     view.showButtonRaiting(View.VISIBLE)
                 } else {
                     view.showButtonRaiting(View.INVISIBLE)
                 }
+                view.setDownload(event.any as Boolean)
 
             }
 
@@ -81,11 +87,12 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
 
             }
             QuestionnaireResumeEvents.ON_SET_RATING_SUCCESS -> {
-                view.showMessagge("Calificado")
-                view.updateRating(event.type.toDouble())
+                view.showButtonRaiting(View.VISIBLE)
+                view.showMessagge("Calificado ")
+                view.updateRating(event.any as Raiting)
             }
             QuestionnaireResumeEvents.ON_SET_RATING_ERROR -> {
-
+                view.showButtonRaiting(View.VISIBLE)
             }
 
             QuestionnaireResumeEvents.ON_GET_RATINGS_SUCCESS -> {

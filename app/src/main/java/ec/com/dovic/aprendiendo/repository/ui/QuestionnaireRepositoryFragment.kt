@@ -3,6 +3,7 @@ package ec.com.dovic.aprendiendo.repository.ui
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import ec.com.dovic.aprendiendo.repository.QuestionnaireRepositoryPresenter
 import ec.com.dovic.aprendiendo.repository.adapter.QuestionnaireRepositoryAdapter
 import ec.com.dovic.aprendiendo.util.BaseActivitys
 import kotlinx.android.synthetic.main.activity_questionnaire_repository.view.*
+import kotlinx.android.synthetic.main.fragment_questions_view.*
 import javax.inject.Inject
 
 class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView, ec.com.dovic.aprendiendo.repository.adapter.onQuestionnaireAdapterListener {
@@ -61,7 +63,11 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.activity_questionnaire_repository, container, false)
+
         view.rv_questionnaire.layoutManager = LinearLayoutManager(context)
+        val mDividerItemDecoration = DividerItemDecoration(context,
+                DividerItemDecoration.VERTICAL)
+        view.rv_questionnaire.addItemDecoration(mDividerItemDecoration)
         view.rv_questionnaire.adapter = adapter
         progresbar = view.progressbar
         tv_none_questionnaires = view.tv_none_questionnaires
