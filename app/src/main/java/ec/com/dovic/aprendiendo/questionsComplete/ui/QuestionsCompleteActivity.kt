@@ -83,6 +83,7 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
         setupInjection()
         presenter.onSuscribe()
         setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, questions)
         container.adapter = mSectionsPagerAdapter
@@ -113,6 +114,9 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
             R.id.action_more_info -> {
                 var infoQuestionnaireFragment = InfoQuestionnaireFragment.newInstance(questionaire)
                 infoQuestionnaireFragment.show(supportFragmentManager, "info")

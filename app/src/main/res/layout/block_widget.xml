@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorIcons"
+    android:theme="@style/AppTheme.NoActionBar"
     android:visibility="visible">
 
     <View
@@ -186,6 +187,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_btn_signin"
             android:text="Nueva Pregunta"
+            android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

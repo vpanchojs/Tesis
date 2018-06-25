@@ -638,6 +638,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         db.collection(QUESTIONNAIRE_PATH).whereEqualTo("post", true)
                 .get()
                 .addOnSuccessListener {
+                    Log.e(TAG, "succes" + it.toString())
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
@@ -657,8 +658,10 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
     fun onSetRaiting(raiting: Raiting, update: Boolean, oldRaiting: Double, callback: onDomainApiActionListener) {
+
         raiting.nameUser = getNameUser()
         raiting.me = true
+
         var newAvgRating: Double = 0.0
         /*Referencia al cuestionrio a calificar */
         var questionaireRef = db.collection(QUESTIONNAIRE_PATH).document(raiting.idQuestionaire)
@@ -836,11 +839,16 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    fun cuestionario1(): Questionaire {
+    /*******************LISTA DE CUESTIONARIOS*******************/
+
+
+    /*DESARROLLO MOVIL*/
+
+    fun cuestionario_dm1(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Conociendo Android", "Aprendiendo sobre la plataforma android", "Programación Móvil", 5)
+        val questionnaire = crearCuestionario("Conociendo Android", "Aprendiendo sobre la plataforma android", "DESARROLLO MOVIL", 5)
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -914,11 +922,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
     }
 
-    fun cuestionario2(): Questionaire {
+    fun cuestionario_dm2(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Android Básico.", "Conceptos básicos sobre la plataforma Android.", "Programación Móvil", 5)
+        val questionnaire = crearCuestionario("Android Básico.", "Conceptos básicos sobre la plataforma Android.", "DESARROLLO MOVIL", 5)
 
 
         /* Primera pregunta*/
@@ -980,11 +988,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario3(): Questionaire {
+    fun cuestionario_dm3(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Android Studio", "Conceptos básicos sobre el IDE Android Studio.", "Programación Móvil", 3)
+        val questionnaire = crearCuestionario("Android Studio", "Conceptos básicos sobre el IDE Android Studio.", "DESARROLLO MOVIL", 3)
 
 
         /* Primera pregunta*/
@@ -1020,11 +1028,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario4(): Questionaire {
+    fun cuestionario_dm4(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Recursos Android.", "Identificación de los recursos utilizados por Android.", "Programación Móvil", 4)
+        val questionnaire = crearCuestionario("Recursos Android.", "Identificación de los recursos utilizados por Android.", "PDESARROLLO MOVIL", 4)
 
 
         /* Primera pregunta*/
@@ -1074,11 +1082,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario5(): Questionaire {
+    fun cuestionario_dm5(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Aprendiendo  Kotlin.", "Introducción al desarrollo con Kotlin.", "Programación Móvil", 4)
+        val questionnaire = crearCuestionario("Aprendiendo  Kotlin.", "Introducción al desarrollo con Kotlin.", "DESARROLLO MOVIL", 4)
 
 
         /* Primera pregunta*/
@@ -1128,53 +1136,495 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario6(): Questionaire {
+    fun cuestionario_dm6(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Programación Básica.", "Conceptos sobre programación básica", "Programación Básica", 3)
+        val questionnaire = crearCuestionario("Sdk Android ", "Introdución al sdk de Android", "DESARROLLO MOVIL", 2)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Si", true))
+        answers1.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers1, "Las versiones android estan identificadas por un sdk"))
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("compileSdkVersion.", true))
+        answers2.add(crearRespuesta("targetSdkVersion", true))
+        answers2.add(crearRespuesta("minSdkVersion", true))
+        answers2.add(crearRespuesta("mediumSdkVersion.", false))
+
+        questionList.add(crearPregunta("", answers2, "En el desarrollo de android usamos la version de sdk para configurar atributos como"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionario_dm7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Despliegue de una aplicación Android", "Nociones básicas para el despliegue de una aplicacion en la Play Store", "DESARROLLO MOVIL", 2)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Debug", false))
+        answers1.add(crearRespuesta("Release", true))
+
+        questionList.add(crearPregunta("", answers1, "Para poder desplegar una apliacion necesitamos una compilacion de tipo"))
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "El apk que sera desplegado en la Play store debe estar firmado por un desarrollador"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionario_dm8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Plataformas Móvil", "Plataformas utilizadas para desarrollar aplicaciones moviles", "DESARROLLO MOVIL", 2)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Android", false))
+        answers1.add(crearRespuesta("Ios", false))
+        answers1.add(crearRespuesta("React Native", true))
+        answers1.add(crearRespuesta("Ionic", true))
+        answers1.add(crearRespuesta("Flutter", true))
+
+
+        questionList.add(crearPregunta("", answers1, "Seleccion las plataformas utilizadas para el desarrollo multiplaforma"))
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "Google desarrollo flutter para el desarrollo multiplaforma"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionario_dm9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Firebase", "Conociendo firebase para desarrollo móvil", "DESARROLLO MOVIL", 2)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Herramienta para desarrollo multiplaforma", false))
+        answers1.add(crearRespuesta("Servidor como servicio", true))
+        answers1.add(crearRespuesta("Sistema operativo", true))
+
+
+        questionList.add(crearPregunta("", answers1, "Firebase es"))
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "Firebase es un producto de google"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionario_dm10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Cloud Firestore", "Introducción a la base de datos firestore para desarrollo móvil", "DESARROLLO MOVIL", 2)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Si", true))
+        answers1.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers1, "Firestore es una base de datos de tipo NoSql"))
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "Firestore es una base de datos a tiempo a real"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+    /*DESARROLLO WEB FRONTEND*/
+
+    fun cuestionariodw1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Html", "Etiquetas de forma general", "DESARROLLO WEB FRONTEND", 3)
 
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("Sentencias de control.", true))
-        answers1.add(crearRespuesta("Tipos de datos.", false))
-        answers1.add(crearRespuesta("Ninguno.", false))
+        answers1.add(crearRespuesta("<script>, <link> ,<title> ", true))
+        answers1.add(crearRespuesta("<base>,<meta>", true))
+        answers1.add(crearRespuesta("<input><script><label> ", false))
+        answers1.add(crearRespuesta(" <head>,<script>, <link> ", false))
+
 
         //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
-        questionList.add(crearPregunta("", answers1, "If, else son"))
+        questionList.add(crearPregunta("", answers1, "Que etiquetas pueden ir dentro de <head>"))
 
 
         /*Segunda Pregunta*/
         val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("Ciclos repetitivos.", false))
-        answers2.add(crearRespuesta("Tipos de datos.", false))
-        answers2.add(crearRespuesta("Ninguno.", true))
+        answers2.add(crearRespuesta("Para presentar texto en la página web", false))
+        answers2.add(crearRespuesta("Muestra un título en la barra del navegador ", true))
+        answers2.add(crearRespuesta("Presenta título general en la página web", false))
 
-        questionList.add(crearPregunta("", answers2, "While, for, foreach "))
+        questionList.add(crearPregunta("", answers2, "Para qué sirve la etiqueta <title>"))
 
         //val question2 = crearPregunta("", answers2, "Seleccione el archivo de configuración de una aplicación en android")
 
 
         /*Tercera Pregunta*/
         val answers3 = ArrayList<Answer>()
-        answers3.add(crearRespuesta("Tipos de datos.", true))
-        answers3.add(crearRespuesta("Sentencias de control.", false))
-        answers3.add(crearRespuesta("Ciclos repetitivos.", false))
+        answers3.add(crearRespuesta("<hr>,<p>,<label>,<textarea>", false))
+        answers3.add(crearRespuesta("<input>, <br>,<hr>  ", true))
 
 
-        questionList.add(crearPregunta("", answers3, "int, char, float, string y boolean son"))
+        questionList.add(crearPregunta("", answers3, "Que etiquetas no necesitan ser cerradas"))
         //val question3 = crearPregunta("", answers3, "Seleccione los lenguajes oficiales para desarrollo nativo en Android.")
 
         questionnaire.questions = questionList
         return questionnaire
     }
 
-    fun cuestionario7(): Questionaire {
+    fun cuestionariodw2(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Redes y Telecomunicaciones.", "Conceptos sobre redes y telecomunicaciones.", "Telemática", 5)
+        val questionnaire = crearCuestionario("Html", "Etiqueta input", "DESARROLLO WEB FRONTEND", 4)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("placeholder, name, id", false))
+        answers1.add(crearRespuesta("url, email, text, tel, number ", true))
+
+
+        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
+        questionList.add(crearPregunta("", answers1, "El atributo “type” que tipo de restricciones permite la etiqueta <input>"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("button", false))
+        answers2.add(crearRespuesta("submit ", true))
+        answers2.add(crearRespuesta("input", false))
+
+        questionList.add(crearPregunta("", answers2, "Cual es el atributo que permite que la etiqueta <input> se convierta en un botón que envía el formulario"))
+
+        //val question2 = crearPregunta("", answers2, "Seleccione el archivo de configuración de una aplicación en android")
+
+
+        /*Tercera Pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("text ", true))
+        answers3.add(crearRespuesta("number ", false))
+        answers3.add(crearRespuesta("placeholder ", false))
+
+
+        questionList.add(crearPregunta("", answers3, "Cual es el valor predeterminado que obtienen el atributo “type” en la etiqueta <input>"))
+        //val question3 = crearPregunta("", answers3, "Seleccione los lenguajes oficiales para desarrollo nativo en Android.")
+
+
+        /*Pregunta 4*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("file", true))
+        answers4.add(crearRespuesta("images", false))
+        answers4.add(crearRespuesta("source", false))
+
+
+        questionList.add(crearPregunta("", answers4, "Que atributo permite que la etiqueta <input> solo ingresar archivos "))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw3(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Html", "Restricciones en los atributos ", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("maxlength, placeholder, name, id", false))
+        answers1.add(crearRespuesta("type, pattern, min, max, required, maxlength ", true))
+
+
+        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
+        questionList.add(crearPregunta("", answers1, "Que atributos permiten validar o restringir el ingreso de cualquier tipo, tamaño o cadena de caracteres en las etiquetas"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("<label>,<b>,<p>,<body> ", true))
+        answers2.add(crearRespuesta("<input>,<select>,<label>", false))
+
+        questionList.add(crearPregunta("", answers2, "Que etiquetas no necesitan restricciones para el ingreso de datos "))
+
+        //val question2 = crearPregunta("", answers2, "Seleccione el archivo de configuración de una aplicación en android")
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw4(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Angular CLI", "Introducción a Angular CLI", "DESARROLLO WEB FRONTEND", 3)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Es un lenguaje de programación.", false))
+        answers1.add(crearRespuesta("Es un gestor de paquetes", false))
+        answers1.add(crearRespuesta("Es una herramienta para gestionar proyectos de angular ", true))
+
+
+        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
+        questionList.add(crearPregunta("", answers1, "Que es angular cli"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("ng new nombre proyecto", true))
+        answers2.add(crearRespuesta("npm new nombre proyecto ", false))
+        answers2.add(crearRespuesta("npm new nombre proyecto", false))
+
+
+        questionList.add(crearPregunta("", answers2, "Cual es el comando que permite crear un proyecto angular"))
+
+
+        /*Tercera Pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("ng serve ", true))
+        answers3.add(crearRespuesta("ng server", false))
+        answers3.add(crearRespuesta("npm start", false))
+
+
+        questionList.add(crearPregunta("", answers3, "Como se puede ejecutar un proyecto angular con angular cli"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Angular ", "Conceptos generales", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Es un lenguaje de programación", false))
+        answers1.add(crearRespuesta("Es gestor de paquetes", false))
+        answers1.add(crearRespuesta("Es un framework de desarrollo  para javascript  ", true))
+
+
+        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
+        questionList.add(crearPregunta("", answers1, "Que es angular"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Verdadero ", true))
+        answers2.add(crearRespuesta("Falso", false))
+
+
+        questionList.add(crearPregunta("", answers2, "Un componente va a controlar un trozo de pantalla o de vista"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("CSS Básico", "Conceptos básicos sobre css desarrollo web", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("text-type", false))
+        answers1.add(crearRespuesta("font-type", false))
+        answers1.add(crearRespuesta("text-family", false))
+        answers1.add(crearRespuesta("font-family", true))
+
+
+        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
+        questionList.add(crearPregunta("", answers1, "¿Qué propiedad de CSS se emplea para cambiar el tipo de letra de un elemento?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("a {underline:no-underline} ", false))
+        answers2.add(crearRespuesta("a {underline:none}", false))
+        answers2.add(crearRespuesta("a {text-decoration:no-underline} ", false))
+        answers2.add(crearRespuesta("a {text-decoration:none} ", true))
+
+
+        questionList.add(crearPregunta("", answers2, "¿Cómo se hace en CSS para que un enlace se muestre sin el subrayado?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Javascript Básico", "Nociones basicas de javascript", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("<script>", true))
+        answers1.add(crearRespuesta("<javascript>", false))
+        answers1.add(crearRespuesta("<scripting>", false))
+        answers1.add(crearRespuesta("<js>", false))
+
+
+        questionList.add(crearPregunta("", answers1, "¿Qué etiqueta de HTML se emplea para escribir código JavaScript?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Compilado", false))
+        answers2.add(crearRespuesta("Interpretado ", true))
+        answers2.add(crearRespuesta("No estructurado ", false))
+        answers2.add(crearRespuesta("a {text-decoration:none} ", false))
+
+
+        questionList.add(crearPregunta("", answers2, "JavaScript es un lenguaje de programación"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Javascript Básico", "Funciones básicas utilizadas", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("alert(\"Hola mundo!\"); ", true))
+        answers1.add(crearRespuesta("msgBox(\"Hola mundo!); ", false))
+
+        questionList.add(crearPregunta("", answers1, "¿cómo se muestra una ventana con el mensaje:  Hola mundo ?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("function miFuncion() ", correct = true))
+        answers2.add(crearRespuesta("function:miFuncion() ", correct = false))
+        answers2.add(crearRespuesta("function->miFuncion() ", correct = false))
+
+
+        questionList.add(crearPregunta("", answers2, "En JavaScript, ¿cómo se define una función llamada \"miFuncion\"?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Javascript Variables", "Declaracion y tipos de variables", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Siempre hay que declarar el tipo de dato", false))
+        answers1.add(crearRespuesta("No se declara el tipo de dato", true))
+
+        questionList.add(crearPregunta("", answers1, "Respecto a la declaración de variables"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("No", correct = true))
+        answers2.add(crearRespuesta("Si", correct = false))
+
+
+        questionList.add(crearPregunta("", answers2, "Javascrip es fuertemente tipado"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariodw10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Comentarios en javascript", "Utilizacion de comentarios sola linea y multilinea", "DESARROLLO WEB FRONTEND", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("//", true))
+        answers1.add(crearRespuesta("/", false))
+        answers1.add(crearRespuesta("/*", false))
+
+        questionList.add(crearPregunta("", answers1, "Comentario de una sola linea se define con"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("/*  ---  */", correct = true))
+        answers2.add(crearRespuesta("/ ------ /", correct = false))
+
+
+        questionList.add(crearPregunta("", answers2, "Comentario multinea se define con"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+    /*TELEMÁTICA*/
+
+    fun cuestionariot1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Redes y Telecomunicaciones.", "Conceptos sobre redes y telecomunicaciones.", "TELEMÁTICA", 5)
 
 
         /* Primera pregunta*/
@@ -1232,11 +1682,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario8(): Questionaire {
+    fun cuestionariot2(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Tipos de Redes", "Redes tipo wan, pan, lan, can", "Telemática", 5)
+        val questionnaire = crearCuestionario("Tipos de Redes", "Redes tipo wan, pan, lan, can", "TELEMÁTICA", 5)
 
 
         /* Primera pregunta*/
@@ -1296,11 +1746,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario9(): Questionaire {
+    fun cuestionariot3(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Topologia de Redes.", "Introducción a las topologías en redes y telecomunicaciones.", "Telemática", 5)
+        val questionnaire = crearCuestionario("Topologia de Redes.", "Introducción a las topologías en redes y telecomunicaciones.", "TELEMÁTICA", 5)
 
 
         /* Primera pregunta*/
@@ -1360,11 +1810,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario10(): Questionaire {
+    fun cuestionariot4(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Tipos de cables Redes.", "Introducción a los tipos de cables utilizados en redes.", "Telemática", 5)
+        val questionnaire = crearCuestionario("Tipos de cables Redes.", "Introducción a los tipos de cables utilizados en redes.", "TELEMÁTICA", 5)
 
 
         /* Primera pregunta*/
@@ -1421,11 +1871,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario11(): Questionaire {
+    fun cuestionariot5(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Modelo Osi", "Introducción a las capas del modelo OSI.", "Telemática", 5)
+        val questionnaire = crearCuestionario("Modelo Osi", "Introducción a las capas del modelo OSI.", "TELEMÁTICA", 5)
 
 
         /* Primera pregunta*/
@@ -1487,11 +1937,154 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario12(): Questionaire {
+    fun cuestionariot6(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Sentencias Mysql", "Sentencias basicas para base de datos mysql", "Base de Datos", 5)
+        val questionnaire = crearCuestionario("Direccion IP", "Conceptos básicos sobre direcciones ip", "TELEMÁTICA", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta(" Direccionamiento y control de paquetes.", false))
+        answers1.add(crearRespuesta("Direccionamiento y fragmentación. ", true))
+        answers1.add(crearRespuesta(" Direccionamiento, fragmentación y control de paquetes.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué funciones básicas proporciona el protocolo IP?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("No tener un tamaño fijo. ", false))
+        answers2.add(crearRespuesta("No está garantizada la entrega en el destino.  ", true))
+        answers2.add(crearRespuesta(" No tener un tamaño fijo. ", false))
+
+        questionList.add(crearPregunta("", answers2, "El protocolo IP no se considera fiable por"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariot7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Protocolo TCP/IP", "Conceptos básicos sobre tcp/ip", "TELEMÁTICA", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Lenguaje WI-FI de comunicación.", false))
+        answers1.add(crearRespuesta("Un protocolo de transmisión de datos. ", true))
+        answers1.add(crearRespuesta("Un tipo de red.", false))
+
+        questionList.add(crearPregunta("", answers1, "Las siglas TCP/IP se corresponden a"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta(" Aplicación, Físico, Red.", false))
+        answers2.add(crearRespuesta("Presentación, Sesión, Transporte.", true))
+        answers2.add(crearRespuesta(" Red, Enlace a Datos, Aplicación.", false))
+
+        questionList.add(crearPregunta("", answers2, "A que 3 capas del modelo OSI equivale la capa de transporte del modelo TCP/IP."))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariot8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Topogolias de Red", "Caracterisitcas de las topologias de red", "TELEMÁTICA", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Solo podrían comunicarse 3 de los ordenadores", false))
+        answers1.add(crearRespuesta("La red dejaría de funcionar", true))
+        answers1.add(crearRespuesta("La red funcionará con normalidad", false))
+
+        questionList.add(crearPregunta("", answers1, "¿si tenemos una red en topología de anillo, y se rompe el cable entre el primer y el segundo ordenador que pasaría?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta(" Alto nivel de colisiones", false))
+        answers2.add(crearRespuesta("Fallo en un nodo afecta a la red completa.", true))
+        answers2.add(crearRespuesta(" Para redes pequeñas con poco tráfico", false))
+
+        questionList.add(crearPregunta("", answers2, "Indique la respuesta incorrecta sobre las redes con topología de Bus"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariot9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Arquitectura de una red", "Caracterisitcas de la arquitectura de red", "TELEMÁTICA", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta(" Transporte, aplicación y topología.", false))
+        answers1.add(crearRespuesta("Topologia, metodo de acceso y Protocolos de comunicación.", true))
+        answers1.add(crearRespuesta("Red, topología y datos.", false))
+
+        questionList.add(crearPregunta("", answers1, "Cuáles son las tres características de la arquitectura de una red:"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta(" Método de acceso a la red, protocolo de comunicación y servidor.", false))
+        answers2.add(crearRespuesta("Topología de red, método de acceso a la red y protocolo de comunicación.", true))
+        answers2.add(crearRespuesta("  Servidor, hardware de red y protocolo de comunicación.", false))
+
+        questionList.add(crearPregunta("", answers2, "Las tres características que definen la arquitectura de una red son:"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariot10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Dirección IP", "Caracterisitcas de las direcciones ip", "TELEMÁTICA", 2)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("8 bytes.8 bytes.8 bytes.8 bytes", false))
+        answers1.add(crearRespuesta("8 bits.8 bits.8 bits.8 bits", true))
+        answers1.add(crearRespuesta("24 cifras en binario", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué formato sigue una dirección IP de IPv4?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta(" 16 bits", false))
+        answers2.add(crearRespuesta("32 bits", true))
+        answers2.add(crearRespuesta("64 bits", false))
+
+        questionList.add(crearPregunta("", answers2, "¿Cuantos bits componen una IP?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+    /*BASE DE DATOS*/
+
+    fun cuestionariobd1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Sentencias Mysql", "Sentencias basicas para base de datos mysql", "BASE DE DATOS", 5)
 
 
         /* Primera pregunta*/
@@ -1546,11 +2139,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario13(): Questionaire {
+    fun cuestionariobd2(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Introducción MongoDB", "Conceptos básicos sobre la base de datos mongo db.", "Base de Datos", 5)
+        val questionnaire = crearCuestionario("Introducción MongoDB", "Conceptos básicos sobre la base de datos mongo db.", "BASE DE DATOS", 5)
 
 
         /* Primera pregunta*/
@@ -1604,11 +2197,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario14(): Questionaire {
+    fun cuestionariobd3(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Introducción Base de Datos", "Fundamentos básicos sobre base de datos", "Base de Datos", 5)
+        val questionnaire = crearCuestionario("Introducción Base de Datos", "Fundamentos básicos sobre base de datos", "BASE DE DATOS", 5)
 
 
         /* Primera pregunta*/
@@ -1666,204 +2259,761 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         return questionnaire
     }
 
-    fun cuestionario15(): Questionaire {
+    fun cuestionariobd4(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Html", "Etiquetas de forma general", "Programación Web", 3)
+        val questionnaire = crearCuestionario("Base de Datos Relacional", "Fundamentos básicos sobre base de datos relacionales", "BASE DE DATOS", 5)
 
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("<script>, <link> ,<title> ", true))
-        answers1.add(crearRespuesta("<base>,<meta>", true))
-        answers1.add(crearRespuesta("<input><script><label> ", false))
-        answers1.add(crearRespuesta(" <head>,<script>, <link> ", false))
+        answers1.add(crearRespuesta("Registro", false))
+        answers1.add(crearRespuesta("Tabla", true))
+        answers1.add(crearRespuesta("Archivos", false))
 
 
-        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
-        questionList.add(crearPregunta("", answers1, "Que etiquetas pueden ir dentro de <head>"))
+        questionList.add(crearPregunta("", answers1, "Conjunto de campos realacionados"))
 
 
         /*Segunda Pregunta*/
         val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("Para presentar texto en la página web", false))
-        answers2.add(crearRespuesta("Muestra un título en la barra del navegador ", true))
-        answers2.add(crearRespuesta("Presenta título general en la página web", false))
+        answers2.add(crearRespuesta("Codigo del empleado", true))
+        answers2.add(crearRespuesta("Nombre del Empleado", false))
+        answers2.add(crearRespuesta("Dirección", false))
 
-        questionList.add(crearPregunta("", answers2, "Para qué sirve la etiqueta <title>"))
+        questionList.add(crearPregunta("", answers2, "Ejemplo de una llave primaria"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariobd5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Base de Datos Relacional", "Caracteristicas de  base de datos relacionales", "BASE DE DATOS", 5)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Representar la informaciòn por medio de nodos", false))
+        answers1.add(crearRespuesta("Realizar conexiones para relacionar los datos", true))
+        answers1.add(crearRespuesta("Utilizar arboles para representar los datos", false))
+
+
+        questionList.add(crearPregunta("", answers1, "Las base de datos relacionales se caracteriza por"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "¿Una tabla es un lugar donde se almacenan datos sobre un determinado tema, como por ejemplo clientes?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariobd6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Modelo de Base de datos", " Modelos de base de datos existentes", "BASE DE DATOS", 5)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Modelo jerárquico", false))
+        answers1.add(crearRespuesta("Modelo en red", true))
+        answers1.add(crearRespuesta("Modelo relacional", false))
+
+
+        questionList.add(crearPregunta("", answers1, "¿Cual no es un modelo de base de datos?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("MongoDb", true))
+        answers2.add(crearRespuesta("Mysql", true))
+        answers2.add(crearRespuesta("TensorFlow", false))
+
+        questionList.add(crearPregunta("", answers2, "Seleccion cuales son plataformas o gestores de base de datos"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariobd7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Base de datos no relacionales", " Introducción base de datos no relacionales.", "BASE DE DATOS", 5)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("No", false))
+        answers1.add(crearRespuesta("Si", true))
+
+
+        questionList.add(crearPregunta("", answers1, "¿En base de datos no relaciones existe duplicidad de datos?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("MongoDb", true))
+        answers2.add(crearRespuesta("Mysql", false))
+        answers2.add(crearRespuesta("Firestore", true))
+
+        questionList.add(crearPregunta("", answers2, "Seleccion cuales son plataformas o gestores de base de datos no relacionales"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariobd8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Base de datos no relacionales", " Caracteristicas base de datos no relacionales.", "BASE DE DATOS", 5)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("No", false))
+        answers1.add(crearRespuesta("Si", true))
+
+
+        questionList.add(crearPregunta("", answers1, "¿En base de datos no relaciones existe duplicidad de datos?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("No", true))
+        answers2.add(crearRespuesta("Si", false))
+
+        questionList.add(crearPregunta("", answers2, "Las consultas se ejecutan mediante lenguaje Sql"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariobd9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Base de datos relacionales", " Caracteristicas base de datos relacionales.", "BASE DE DATOS", 5)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("No", true))
+        answers1.add(crearRespuesta("Si", false))
+
+
+        questionList.add(crearPregunta("", answers1, "¿En base de datos relaciones existe duplicidad de datos?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "Las consultas se ejecutan mediante lenguaje Sql"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariobd10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Clave primaria", " Caracteristica de una clave primaria", "BASE DE DATOS", 5)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Si", true))
+        answers1.add(crearRespuesta("No", false))
+
+
+        questionList.add(crearPregunta("", answers1, "¿La clave primera debe ser unica?"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Si", true))
+        answers2.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers2, "La clave primera puede estar compuesto de mas de un campo"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+    /*PROGRAMACION BÁSICA*/
+
+    fun cuestionariopb1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Programación Básica.", "Conceptos sobre programación básica", "Programación Básica", 3)
+
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Sentencias de control.", true))
+        answers1.add(crearRespuesta("Tipos de datos.", false))
+        answers1.add(crearRespuesta("Ninguno.", false))
+
+        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
+        questionList.add(crearPregunta("", answers1, "If, else son"))
+
+
+        /*Segunda Pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Ciclos repetitivos.", false))
+        answers2.add(crearRespuesta("Tipos de datos.", false))
+        answers2.add(crearRespuesta("Ninguno.", true))
+
+        questionList.add(crearPregunta("", answers2, "While, for, foreach "))
 
         //val question2 = crearPregunta("", answers2, "Seleccione el archivo de configuración de una aplicación en android")
 
 
         /*Tercera Pregunta*/
         val answers3 = ArrayList<Answer>()
-        answers3.add(crearRespuesta("<hr>,<p>,<label>,<textarea>", false))
-        answers3.add(crearRespuesta("<input>, <br>,<hr>  ", true))
+        answers3.add(crearRespuesta("Tipos de datos.", true))
+        answers3.add(crearRespuesta("Sentencias de control.", false))
+        answers3.add(crearRespuesta("Ciclos repetitivos.", false))
 
 
-        questionList.add(crearPregunta("", answers3, "Que etiquetas no necesitan ser cerradas"))
+        questionList.add(crearPregunta("", answers3, "int, char, float, string y boolean son"))
         //val question3 = crearPregunta("", answers3, "Seleccione los lenguajes oficiales para desarrollo nativo en Android.")
 
         questionnaire.questions = questionList
         return questionnaire
     }
 
-    fun cuestionario16(): Questionaire {
+    fun cuestionariopb2(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Html", "Etiqueta input", "Programación Web", 4)
-
+        val questionnaire = crearCuestionario("Lenguajes de Programacion.", "Definición de un lenguaje de programación", "Programación Básica", 1)
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("placeholder, name, id", false))
-        answers1.add(crearRespuesta("url, email, text, tel, number ", true))
+        answers1.add(crearRespuesta("Es un lenguaje o Software diseñado para describir un conjunto de acciones consecutivas que un equipo debe ejecutar.", true))
+        answers1.add(crearRespuesta("Es un Programa que define un medio de comunicación compartido por un grupo de personas y la PC", false))
 
-
-        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
-        questionList.add(crearPregunta("", answers1, "El atributo “type” que tipo de restricciones permite la etiqueta <input>"))
+        questionList.add(crearPregunta("", answers1, "¿Que es un lenguaje de programación?"))
 
 
         /*Segunda Pregunta*/
         val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("button", false))
-        answers2.add(crearRespuesta("submit ", true))
-        answers2.add(crearRespuesta("input", false))
+        answers2.add(crearRespuesta("Si.", true))
+        answers2.add(crearRespuesta("No", false))
 
-        questionList.add(crearPregunta("", answers2, "Cual es el atributo que permite que la etiqueta <input> se convierta en un botón que envía el formulario"))
-
-        //val question2 = crearPregunta("", answers2, "Seleccione el archivo de configuración de una aplicación en android")
-
-
-        /*Tercera Pregunta*/
-        val answers3 = ArrayList<Answer>()
-        answers3.add(crearRespuesta("text ", true))
-        answers3.add(crearRespuesta("number ", false))
-        answers3.add(crearRespuesta("placeholder ", false))
-
-
-        questionList.add(crearPregunta("", answers3, "Cual es el valor predeterminado que obtienen el atributo “type” en la etiqueta <input>"))
-        //val question3 = crearPregunta("", answers3, "Seleccione los lenguajes oficiales para desarrollo nativo en Android.")
-
-
-        /*Pregunta 4*/
-        val answers4 = ArrayList<Answer>()
-        answers4.add(crearRespuesta("file", true))
-        answers4.add(crearRespuesta("images", false))
-        answers4.add(crearRespuesta("source", false))
-
-
-        questionList.add(crearPregunta("", answers4, "Que atributo permite que la etiqueta <input> solo ingresar archivos "))
+        questionList.add(crearPregunta("", answers2, "Un lenguaje de programación utiliza palabras reservadas que son propias de cada lenguaje"))
 
         questionnaire.questions = questionList
         return questionnaire
     }
 
-    fun cuestionario17(): Questionaire {
+    fun cuestionariopb3(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Html", "Restricciones en los atributos ", "Programación Web", 2)
-
-
-        /* Primera pregunta*/
-        val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("maxlength, placeholder, name, id", false))
-        answers1.add(crearRespuesta("type, pattern, min, max, required, maxlength ", true))
-
-
-        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
-        questionList.add(crearPregunta("", answers1, "Que atributos permiten validar o restringir el ingreso de cualquier tipo, tamaño o cadena de caracteres en las etiquetas"))
-
-
-        /*Segunda Pregunta*/
-        val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("<label>,<b>,<p>,<body> ", true))
-        answers2.add(crearRespuesta("<input>,<select>,<label>", false))
-
-        questionList.add(crearPregunta("", answers2, "Que etiquetas no necesitan restricciones para el ingreso de datos "))
-
-        //val question2 = crearPregunta("", answers2, "Seleccione el archivo de configuración de una aplicación en android")
-
-        questionnaire.questions = questionList
-        return questionnaire
-    }
-
-    fun cuestionario18(): Questionaire {
-
-        val questionList = ArrayList<Question>()
-
-        val questionnaire = crearCuestionario("Angular CLI", "Introduccion a Angular CLI", "Programación Web", 3)
-
+        val questionnaire = crearCuestionario("Tipos de lenguaje de Programacion.", "Clasificación de lenguajes como alto nivel, bajo nivel.", "Programación Básica", 1)
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("Es un lenguaje de programación.", false))
-        answers1.add(crearRespuesta("Es un gestor de paquetes", false))
-        answers1.add(crearRespuesta("Es una herramienta para gestionar proyectos de angular ", true))
+        answers1.add(crearRespuesta("El lenguaje máquina, Lenguajes ensambladores y de lenguajes de alto nivel.", true))
+        answers1.add(crearRespuesta("Únicamente de bajo nivel y lenguajes de alto nivel.", false))
 
-
-        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
-        questionList.add(crearPregunta("", answers1, "Que es angular cli"))
-
-
-        /*Segunda Pregunta*/
-        val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("ng new nombre proyecto", true))
-        answers2.add(crearRespuesta("npm new nombre proyecto ", false))
-        answers2.add(crearRespuesta("npm new nombre proyecto", false))
-
-
-        questionList.add(crearPregunta("", answers2, "Cual es el comando que permite crear un proyecto angular"))
-
-
-        /*Tercera Pregunta*/
-        val answers3 = ArrayList<Answer>()
-        answers3.add(crearRespuesta("ng serve ", true))
-        answers3.add(crearRespuesta("ng server", false))
-        answers3.add(crearRespuesta("npm start", false))
-
-
-        questionList.add(crearPregunta("", answers3, "Como se puede ejecutar un proyecto angular con angular cli"))
+        questionList.add(crearPregunta("", answers1, "¿Cuáles son los tipos de lenguaje de programación?"))
 
 
         questionnaire.questions = questionList
         return questionnaire
     }
 
-    fun cuestionario19(): Questionaire {
+    fun cuestionariopb4(): Questionaire {
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Angular ", "Conceptos generales", "Programación Web", 2)
-
+        val questionnaire = crearCuestionario("Lenguaje Emsamblador", "Definición de lenguaje emsamblador", "Programación Básica", 1)
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("Es un lenguaje de programación", false))
-        answers1.add(crearRespuesta("Es gestor de paquetes", false))
-        answers1.add(crearRespuesta("Es un framework de desarrollo  para javascript  ", true))
+        answers1.add(crearRespuesta("Es un lenguaje de programación de bajo nivel para los computadores, microprocesadores, microcontroladores y otros circuitos integrados programables.", true))
+        answers1.add(crearRespuesta("Sistema de códigos directamente interpretable (0 y 1) por un circuito microprogramable, como el microprocesador de una computadora.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Que es un Lenguaje Máquina?"))
 
 
-        //val question1 = crearPregunta("", answers1, "Seleccione el IDE oficial para el desarrollo de aplicaciones nativas Android.")
-        questionList.add(crearPregunta("", answers1, "Que es angular"))
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariopb5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Lenguaje Máquina", "Definición de lenguaje máquina", "Programación Básica", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Sistema de códigos directamente interpretable por un circuito microprogramable, como el microprocesador de una computadora o el microcontrolador de un autómata", true))
+        answers1.add(crearRespuesta("Sistema de códigos para programar juegos de computadora de una manera mas entendible para el ser humano", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Que es un Lenguaje Máquina?"))
 
 
-        /*Segunda Pregunta*/
-        val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("Verdadero ", true))
-        answers2.add(crearRespuesta("Falso", false))
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariopb6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Lenguaje Alto Nivel", "Definición de lenguaje de alto nivel", "Programación Básica", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Se caracteriza por expresar los algoritmos de una manera adecuada a la capacidad cognitiva humana, en lugar de la capacidad ejecutora de las máquinas", true))
+        answers1.add(crearRespuesta("Es un lenguaje de programación de bajo nivel para los computadores, microprocesadores, microcontroladores y otros circuitos integrados programables.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Que es un Lenguaje de Alto nivel?"))
 
 
-        questionList.add(crearPregunta("", answers2, "Un componente va a controlar un trozo de pantalla o de vista"))
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariopb7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Programacion Orientada a objetos", "Lenguajes de programación con paradigma orientado a objetos", "Programación Básica", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Java, Kotlin, C#,", true))
+        answers1.add(crearRespuesta("HTML, XML, VML, Java, PHP, C++, Fortran, Cobol, Lisp, entre otros", false))
+
+        questionList.add(crearPregunta("", answers1, "Son lenguajes de programación orientado a objetos"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariopb8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Tipos de Datos", "Principales tipos de datos usados en programación", "Programación Básica", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Cadena, Boleano, Carácter, Numeros, Entero.", true))
+        answers1.add(crearRespuesta("Simbólicos, de estructura, de cadena, de complemento, generales, particulares, entre otros.", false))
+
+        questionList.add(crearPregunta("", answers1, "Son  tipos de datos que se utlizan en Programación."))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariopb9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Clases", "Definción de una clase en programación", "Programación Básica", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Un modelo donde se definen caracteristicas, metodos", true))
+        answers1.add(crearRespuesta("Una caracterisitca que pueder compartir varios objetos.", false))
+
+        questionList.add(crearPregunta("", answers1, "Una clases es"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionariopb10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Atributos", "Definción de una atributo de una clase en programación", "Programación Básica", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Un modelo donde se definen caracteristicas, metodos", false))
+        answers1.add(crearRespuesta("Una caracteristica", true))
+
+        questionList.add(crearPregunta("", answers1, "Un Atributo es"))
+
 
         questionnaire.questions = questionList
         return questionnaire
     }
 
 
+    /*ARQUITECTURA DE COMPUTADORES*/
+
+    fun cuestionarioac1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Perificos de entrada", "Perificos de entrada de un computador", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("wepcam, microfono, teclado, mouse, escaner", true))
+        answers1.add(crearRespuesta("microfono, impresora, bocinas", false))
+        answers1.add(crearRespuesta("bocinas, impresora, monitor", false))
+
+        questionList.add(crearPregunta("", answers1, "Son perifericos de Entrada de una Computadora"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac2(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Perificos de salida", "Perificos de salida de un computador", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("bosinas, impresora, monitor, audifonos", true))
+        answers1.add(crearRespuesta("microfono, impresora, bocinas", false))
+        answers1.add(crearRespuesta("bocinas, escaner, monitor", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Cuales de los siguientes son Perifericos de Salida?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac3(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("CPU", "Deficion de cpu", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Unidad Central de Procesos", true))
+        answers1.add(crearRespuesta("Control de Procesamiento Unidireccional", false))
+        answers1.add(crearRespuesta("Unidad de Control de Procesos", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Cual es el significado de C.P.U?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac4(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("CPU", "Composicion del cpu", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("ALU, registros, sección de control y bus lógico", true))
+        answers1.add(crearRespuesta("Disco duro, ALU, perifericos", false))
+        answers1.add(crearRespuesta("El mouse y teclado, bus lógico", false))
+
+        questionList.add(crearPregunta("", answers1, "¿De qué está compuesto el CPU?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Composcion de una computadora", "Componentes principales de una computadora", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Tarjeta madre, disco duro, memoria ram y procesador", true))
+        answers1.add(crearRespuesta("Mouse, teclado, monitor", false))
+        answers1.add(crearRespuesta("Mouse y teclado, bus lógico", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Cuales son los principales componentes internos de una computadora?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Unidades de almacenamiento", "Tipo de unidades de almacenamiento", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("petabyte, kilobyte, bits, megabyte, gigabyte, terabyte", true))
+        answers1.add(crearRespuesta("kilobyte, megabyte, yardabyte, terabyte", false))
+
+        questionList.add(crearPregunta("", answers1, "Son las unidades de medida de almacenamiento o capacidad"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Disco Duro", "Velocidad de un disco duro", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("RPM.", true))
+        answers1.add(crearRespuesta("MHz.", false))
+
+        questionList.add(crearPregunta("", answers1, "La velocidad de un disco duro se mide en"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Disco Duro", "Capacidad de un disco duro", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("GB", true))
+        answers1.add(crearRespuesta("RPM", false))
+
+        questionList.add(crearPregunta("", answers1, "La capacidad de almacenamiento de un disco duro se mide en"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Bios", "Funciones principales de la bios", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Realizar una verificación de periféricos en el arranque del computador", true))
+        answers1.add(crearRespuesta("Almacena la información del computador", false))
+
+        questionList.add(crearPregunta("", answers1, " La BIOS es la encargada de"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioac10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Procesador", "Funcion principal de la CPU", "ARQUITECTURA DE COMPUTADORES", 3)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Si", true))
+        answers1.add(crearRespuesta("No", false))
+
+        questionList.add(crearPregunta("", answers1, " El procesador es el cerebro del computador"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+    /*SISTEMAS OPERATIVOS*/
+    fun cuestionarioaSO1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Procesos", "Definición de los procesos", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Un programa en ejecución que necesita recursos para realizar su tarea", true))
+        answers1.add(crearRespuesta("Son colecciones de información relacionada, definidas por sus creadores.", false))
+        answers1.add(crearRespuesta("Es una gran tabla de palabras o bytes que se referencia cada una mediante una dirección única", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué es un proceso?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO2(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Sistema Operativo", "Definición de un sistema operativo", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Sistema Operativo", true))
+        answers1.add(crearRespuesta("Sistema Operacional", false))
+        answers1.add(crearRespuesta("Sistema de Gestión de Programas", false))
+
+        questionList.add(crearPregunta("", answers1, "Es un programa o conjunto de programas de un sistema informático que gestiona los recursos de hardware y provee servicios a los programas de aplicación de software"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO3(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Sistema Operativo", "Objetivos de un sistema operativo", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Lograr que el sistema de computación se use de manera cómoda", true))
+        answers1.add(crearRespuesta("Hacer que todos los drivers se instalen de la manera mas facil", false))
+        answers1.add(crearRespuesta("Gestión de tareas", false))
+
+        questionList.add(crearPregunta("", answers1, "El objetivo principal de un sistema operativo es:"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO4(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Sistema Operativo Multitarea", "Definición de un sistema operativo multitarea", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Permite ejecutar diversos programas al mismo tiempo.", true))
+        answers1.add(crearRespuesta("Que un mismo ordenador pueda tener varios microprocesadores que deben utilizarse simultáneamente.", false))
+        answers1.add(crearRespuesta("permite que varios usuarios puedan ejecutar programas a la vez.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué es un sistema multitarea?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Sistema Multiusuario", "Definición de un sistema multiusuario", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Permite que varios usuarios puedan ejecutar programas a la vez.", true))
+        answers1.add(crearRespuesta("Que un mismo ordenador pueda tener varios microprocesadores que deben utilizarse simultáneamente.", false))
+        answers1.add(crearRespuesta("Permite ejecutar diversos programas al mismo tiempo ", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué es un sistema multiusuario?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Sistema Multiprocesador", "Definición de un sistema multiprocesor", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Que un mismo ordenador pueda tener varios microprocesadores que deben utilizarse simultáneamente. ", true))
+        answers1.add(crearRespuesta("Permite que varios usuarios puedan ejecutar programas a la vez.", false))
+        answers1.add(crearRespuesta("Permite ejecutar diversos programas al mismo tiempo ", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué es un sistema multiprocesador?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Interrumpciones", "Interrupciones en un sistema operativo", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("El sistema operativo guarda el estado del proceso interrumpido. En muchos sistemas esta información se guarda en el bloque de control de proceso interno ", true))
+        answers1.add(crearRespuesta("Se reinicia el equipo perdiendo la información de los programas que se están ejecutando", false))
+        answers1.add(crearRespuesta("Controlar el uso de los dispositivos físicos de ordenador y detectar los posibles errores que se produzcan en su funcionamiento", false))
+
+        questionList.add(crearPregunta("", answers1, " ¿Qué ocurre con el S.O ante una interrupción?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Memoria cache", "Funcione de la memoria cache", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Mantener la informacion en algún sistema de almacenamiento y en la medida que se usa es copiada en una memoria más rápida temporalmente. ", true))
+        answers1.add(crearRespuesta("Arrancar el sistema operativo a traves de ms dos\n", false))
+        answers1.add(crearRespuesta("Controlar el uso de los dispositivos físicos de ordenador y detectar los posibles errores que se produzcan en su funcionamiento", false))
+
+        questionList.add(crearPregunta("", answers1, " ¿Cual es la función de la memoria cache?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Memoria cache", "Funcione de la memoria cache", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Mantener la informacion en algún sistema de almacenamiento y en la medida que se usa es copiada en una memoria más rápida temporalmente. ", true))
+        answers1.add(crearRespuesta("Arrancar el sistema operativo a traves de ms dos\n", false))
+        answers1.add(crearRespuesta("Controlar el uso de los dispositivos físicos de ordenador y detectar los posibles errores que se produzcan en su funcionamiento", false))
+
+        questionList.add(crearPregunta("", answers1, " ¿Cual es la función de la memoria cache?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+
+
+    /*
     fun crearCuestionarios() {
         Log.e(TAG, "VOY A guardar mis cuesitonarios")
 
@@ -1915,6 +3065,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         }
     }
 
+    */
 
     fun crearCuestionario(title: String, descripcion: String, category: String, num_preg: Int): Questionaire {
         val q = Questionaire()

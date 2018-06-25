@@ -1,7 +1,14 @@
 package ec.com.dovic.aprendiendo.questionnaireResume.servicie
 
 import android.app.IntentService
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.LocalBroadcastManager
@@ -278,17 +285,46 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
 
 
     fun setNotification(titleQuestionnnaire: String) {
-        val mBuilder = NotificationCompat.Builder(this, "download")
+
+        val channelId =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    createNotificationChannel()
+                } else {
+                    // If earlier version channel ID is not used
+                    // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+                    ""
+                }
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+
+        val notification = notificationBuilder
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Cuestionario descargado")
                 .setContentText(titleQuestionnnaire)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .build()
 
         val notificationManager = NotificationManagerCompat.from(this)
 
-        notificationManager.notify(999, mBuilder.build())
+
+        notificationManager.notify(1, notification)
+        Log.e("DES", "si llegue")
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(): String {
+        val channelId = "my_service"
+        val channelName = "My Background Service"
+        val chan = NotificationChannel(channelId,
+                channelName, NotificationManager.IMPORTANCE_NONE)
+        chan.lightColor = Color.BLUE
+        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.createNotificationChannel(chan)
+        return channelId
+    }
 
     private fun sendStatusBroadcast(success: Boolean) {
         val intent = Intent(QuestionnaireResumeActivity.ACTION_NOTIFY_DOWNLOAD)

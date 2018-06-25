@@ -99,6 +99,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
 
     override fun navigationMain() {
         startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        finish()
+
     }
 
     override fun onRecoveryPassword(email: String) {
