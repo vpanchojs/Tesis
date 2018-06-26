@@ -24,6 +24,7 @@ import java.util.concurrent.*
 /**
  * Created by victor on 23/1/18.
  */
+
 class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storage: StorageReference) {
 
     private val TAG = "FirebaseApi"
@@ -842,7 +843,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     /*******************LISTA DE CUESTIONARIOS*******************/
 
 
-    /*DESARROLLO MOVIL*/
+    /*DESARROLLO MOVIL 10*/
 
     fun cuestionario_dm1(): Questionaire {
 
@@ -1270,7 +1271,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*DESARROLLO WEB FRONTEND*/
+    /*DESARROLLO WEB FRONTEND 20*/
 
     fun cuestionariodw1(): Questionaire {
 
@@ -1618,7 +1619,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*TELEMÁTICA*/
+    /*TELEMÁTICA 30*/
 
     fun cuestionariot1(): Questionaire {
 
@@ -2078,7 +2079,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*BASE DE DATOS*/
+    /*BASE DE DATOS 40*/
 
     fun cuestionariobd1(): Questionaire {
 
@@ -2455,7 +2456,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*PROGRAMACION BÁSICA*/
+    /*PROGRAMACION BÁSICA 50*/
 
     fun cuestionariopb1(): Questionaire {
 
@@ -2669,7 +2670,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*ARQUITECTURA DE COMPUTADORES*/
+    /*ARQUITECTURA DE COMPUTADORES 60 */
 
     fun cuestionarioac1(): Questionaire {
 
@@ -2847,7 +2848,8 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*SISTEMAS OPERATIVOS*/
+    /*SISTEMAS OPERATIVOS 70*/
+
     fun cuestionarioaSO1(): Questionaire {
 
         val questionList = ArrayList<Question>()
@@ -2996,22 +2998,224 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Memoria cache", "Funcione de la memoria cache", "SISTEMAS OPERATIVOS", 1)
+        val questionnaire = crearCuestionario("Procesos", "Estados de un proceso ", "SISTEMAS OPERATIVOS", 1)
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("Mantener la informacion en algún sistema de almacenamiento y en la medida que se usa es copiada en una memoria más rápida temporalmente. ", true))
-        answers1.add(crearRespuesta("Arrancar el sistema operativo a traves de ms dos\n", false))
-        answers1.add(crearRespuesta("Controlar el uso de los dispositivos físicos de ordenador y detectar los posibles errores que se produzcan en su funcionamiento", false))
+        answers1.add(crearRespuesta("Nuevo,Listo,Ejecucion,Bloqueado,Zombie,Terminado ", true))
+        answers1.add(crearRespuesta("Nuevo,Listo,Ejecucion,Terminado ", false))
+        answers1.add(crearRespuesta("Nuevo,Listo,Ejecucion,Bloqueado,Terminado ", false))
 
-        questionList.add(crearPregunta("", answers1, " ¿Cual es la función de la memoria cache?"))
+        questionList.add(crearPregunta("", answers1, " Un proceso, a lo largo de su vida, alterna entre diferentes estados de ejecución que son."))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaSO10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Información Procesos", "Informacion asociada a un proceso. ", "SISTEMAS OPERATIVOS", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("La siguiente instrucción a ser ejecutada por el proceso. ", true))
+        answers1.add(crearRespuesta("La ultima instrucción ejecutada por el proceso. ", false))
+        answers1.add(crearRespuesta("La primera instrucción en ser ejecutada por el proceso. ", false))
+
+        questionList.add(crearPregunta("", answers1, " Contador de programa es"))
 
         questionnaire.questions = questionList
         return questionnaire
     }
 
 
+    /*INTELIGENCIA ARTIFICAL 80*/
 
+    fun cuestionarioaIA1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", " Introducción a la Inteligencia artificial", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Rama de la cienca informatica dedicada al desarrollo de agentes racionales no vivos", true))
+        answers1.add(crearRespuesta("Rama de la cienca informatica dedicada al desarrollo de agentes racionales vivos", false))
+        answers1.add(crearRespuesta("Cienca informatica que evita  el desarrollo de agentes racionales no vivos", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué es la inteligencia artifical?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA2(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "División de la inteligencia artificial", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Inteligencia artifical convencial", true))
+        answers1.add(crearRespuesta("Inteligencia computacional", true))
+        answers1.add(crearRespuesta("Intelengia empirica", false))
+
+        questionList.add(crearPregunta("", answers1, "¿La inteligencia artificial se divide en?"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA3(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", " Aplicaciones y Técnicas", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Programacion extrema", false))
+        answers1.add(crearRespuesta("Representacion del conocimiento", true))
+        answers1.add(crearRespuesta("Redes neuronales", true))
+
+        questionList.add(crearPregunta("", answers1, "Seleccione las tecnicas usadas en inteligencia artifical"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA4(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Fundamentos básicos", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Química", false))
+        answers1.add(crearRespuesta("Filosfia", true))
+        answers1.add(crearRespuesta("Matemáticas", true))
+
+        questionList.add(crearPregunta("", answers1, "La inteligencia artifical se fundamente en "))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Campos de Aplicación", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Ninguna", false))
+        answers1.add(crearRespuesta("Procesamiento de Lenguaje natural", true))
+        answers1.add(crearRespuesta("Robotica", true))
+
+        questionList.add(crearPregunta("", answers1, "La inteligencia artifical puede ser usada en"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Personajes influyentes", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Tomas Edison", false))
+        answers1.add(crearRespuesta("Alan Turing", true))
+        answers1.add(crearRespuesta("Nicolas Tesla", false))
+
+        questionList.add(crearPregunta("", answers1, "El padre de la inteligencia artificial es"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Objetivos principales", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Comprender y construir entidades no racionales", false))
+        answers1.add(crearRespuesta("Comprender y construir entidades inteligentes. ", true))
+        answers1.add(crearRespuesta("Hacer que las computadoras sean capaces de mostrar un comportamiento que sea considerado como inteligente por parte de un observador humano ", true))
+
+        questionList.add(crearPregunta("", answers1, "Seleccione objetivos que tiene la inteligencia artifical"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Métodos utilizados para el desarrollo y aprendizaje", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Distancia euclidiana", false))
+        answers1.add(crearRespuesta("Maquina de vectores de soporte ", true))
+        answers1.add(crearRespuesta("Redes neuronales", true))
+
+        questionList.add(crearPregunta("", answers1, "Seleccione los métodos utlizados en inteligencia artifical "))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Categoria de sistemas", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Sistemas que actuan irracionalmente", false))
+        answers1.add(crearRespuesta("Sistemas que actuan racionalmente", true))
+        answers1.add(crearRespuesta("Sistemas que piensan racionalmente", true))
+
+        questionList.add(crearPregunta("", answers1, "Seleccione las categorias de la inteligencia artifical "))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaIA10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Agentes inteligentes", "INTELIGENCIA ARTIFICAL", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Verdadero", true))
+        answers1.add(crearRespuesta("Falso", false))
+
+        questionList.add(crearPregunta("", answers1, "Un agente inteligente, es una entidad capaz de percibir su entorno, procesar tales percepciones y responder o actuar en su entorno de manera racional, es decir, de manera correcta y tendiendo a maximizar un resultado esperado. "))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    /*COMPILADORES 90*/
+
+
+    /*CONTROL AUTOMATIZADO 100*/
 
     /*
     fun crearCuestionarios() {
