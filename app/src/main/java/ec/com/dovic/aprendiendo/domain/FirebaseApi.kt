@@ -3214,8 +3214,701 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
     /*COMPILADORES 90*/
 
+    fun cuestionarioaC1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Conceptos generales de compiladores", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Reportar cualquier error en el programa fuente que detecte en el proceso de traducción.", true))
+        answers1.add(crearRespuesta("Detectar la inconsistencia en el programa destino y reportarlo.", false))
+        answers1.add(crearRespuesta("Trasformar los lexemas del programa destino en tokens.", false))
+
+        questionList.add(crearPregunta("", answers1, "Cual es una función importante del compilador"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC2(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Análisis léxico conceptos generales", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("El proceso de un analizador léxico en leer los caracteres de la entrada del programa fuente, agruparlos en lexemas y produce como salida una secuencia de tokens para cada lexema.", true))
+        answers1.add(crearRespuesta("El proceso del analizador léxico en leer los tokens del programa, agruparlos en lexemas, separa los caracteres y produce una salida de tokens y lexemas.", false))
+
+        questionList.add(crearPregunta("", answers1, "Qué proceso realiza un analizar léxico"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC3(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Análisis léxico", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Tabla de símbolos", true))
+        answers1.add(crearRespuesta("Tabla de caracteres", false))
+        answers1.add(crearRespuesta("Tabla de tokens", false))
+
+        questionList.add(crearPregunta("", answers1, "Para leer la información de un lexema el analizador léxico que interactúa."))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC4(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Análisis sintáctico", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Gramática", true))
+        answers1.add(crearRespuesta("Árbol sintáctico", false))
+        answers1.add(crearRespuesta("Generador de código intermedio.", false))
+
+        questionList.add(crearPregunta("", answers1, "Quien describe la estructura jerárquica de las instrucciones de un lenguaje de programación, en forma natural."))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Análisis semántico", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Comprobar la consistencia semántica del programa fuente con la definición del lenguaje.", true))
+        answers1.add(crearRespuesta("Realizar comparaciones entre ellos y verificar la semántica del programa.", false))
+        answers1.add(crearRespuesta("Comparar los tokens y en la tabla de símbolos.", false))
+
+        questionList.add(crearPregunta("", answers1, "El analizador semántico utiliza el árbol sintáctico y la información en la tabla de símbolos para:"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Gramática libre de contexto (LLI)", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Ambigüedad", true))
+        answers1.add(crearRespuesta("Recursividad", false))
+        answers1.add(crearRespuesta("Gramática libre de contexto.", false))
+
+        questionList.add(crearPregunta("", answers1, "Cuál es el nombre que se da, cuando a una cadena se puede asociar dos árboles sintácticos diferentes."))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Analizador sintáctico predictivo dirigido por tabla", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Buffer de entrada, pila de análisis sintáctico, tabla de análisis sintáctico, salida", true))
+        answers1.add(crearRespuesta("Tokens, gramática libre de contexto, tabla de análisis sintáctico.", false))
+        answers1.add(crearRespuesta("Tokens, árbol sintáctico y tabla semántica.", false))
+
+        questionList.add(crearPregunta("", answers1, "Cuál es el esquema de un analizador sintáctico descendente dirigido por tabla"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Generación de código intermedio", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Gramática", false))
+        answers1.add(crearRespuesta("Código intermedio", true))
+        answers1.add(crearRespuesta("Traductor", false))
+
+        questionList.add(crearPregunta("", answers1, "Estructura de código que posee una complejidad comprendida entre el código fuente y el código máquina."))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Introducción a compiladores", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("El intérprete traduce y ejecuta instrucción a instrucción el código fuente", true))
+        answers1.add(crearRespuesta("El intérprete traduce de golpe el programa fuente y crea el fichero ejecutable", false))
+        answers1.add(crearRespuesta("El compilador no genera el código ejecutable", false))
+
+        questionList.add(crearPregunta("", answers1, "Señale la opción correcta con respecto a los intérpretes y compiladores"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaC10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Estructura de un compilador", "COMPILADORES", 1)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Analizador léxico, analizador sintáctico, analizador semántico, Generador de código intermedio, optimizador de código independiente de la máquina, Generador de código, Optimización de código independiente de la máquina.", true))
+        answers1.add(crearRespuesta("Analizador léxico, tabla de símbolos, analizador sintáctico, árbol sintáctico, analizador semántico, generador de código intermedio.", false))
+        answers1.add(crearRespuesta("Analizador léxico, analizador sintáctico, analizador semántico.", false))
+
+        questionList.add(crearPregunta("", answers1, "Cuáles son las fases que comprenden un compilador"))
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
 
     /*CONTROL AUTOMATIZADO 100*/
+
+
+    fun cuestionarioaCA1(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Diagramas de bloques", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Sirven para representar gráficamente las relaciones entre las variables de un sistema.", true))
+        answers1.add(crearRespuesta("Eliminan los errores en el desarrollo de sistemas.", false))
+        answers1.add(crearRespuesta("Nos permiten programar su lógica en otro entorno.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Para qué sirven los diagramas de bloques?"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Bloques, flechas, bifurcaciones y sumadores.", true))
+        answers2.add(crearRespuesta("Bloques, flechas, lanzas, bifurcaciones y sumadores.", false))
+        answers2.add(crearRespuesta("Bloques, lanzas, bifurcaciones, sumadores, dirección y sentido.", false))
+
+        questionList.add(crearPregunta("", answers2, "¿Qué elementos contiene un diagrama de bloques?"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Verdadero", false))
+        answers3.add(crearRespuesta("Falso", true))
+
+        questionList.add(crearPregunta("", answers3, "La bifurcación solo puede ir a un solo bloque o sumador"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Verdadero", false))
+        answers4.add(crearRespuesta("Falso", true))
+
+        questionList.add(crearPregunta("", answers4, "No se puede simplificar funciones en un diagrama de bloques"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Verdadero", false))
+        answers5.add(crearRespuesta("Falso", true))
+
+        questionList.add(crearPregunta("", answers5, "Los sumadores pueden realizar todo tipo de operaciones aritméticas"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA2(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Funciones de transferencia en sistemas en tiempo discreto", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Trenes de Pulso.", true))
+        answers1.add(crearRespuesta("Retroalimentación", false))
+        answers1.add(crearRespuesta("Ondas.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Los sistema de control en tiempo discreto tienen características únicas en las que las señales son de forma de?"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Entrada A/D y Salida D/A", true))
+        answers2.add(crearRespuesta("Entradas D/A y Salidas A/D", false))
+        answers2.add(crearRespuesta("Entrada A y Salida D", false))
+
+        questionList.add(crearPregunta("", answers2, "¿La interfaz del mundo analógico se hace a través de conversores de?"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Entrada constante de muestreo.", false))
+        answers3.add(crearRespuesta("Salida constante entre instante de muestreo.", true))
+        answers3.add(crearRespuesta("Función de pulsos", true))
+
+        questionList.add(crearPregunta("", answers3, "¿Qué mantiene la función de transferencia del Reten de Orden Cero?"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Nodo padre", false))
+        answers4.add(crearRespuesta("Nodo intermedio", false))
+        answers4.add(crearRespuesta("Nodo sumidero.", true))
+        answers4.add(crearRespuesta("Nodos mixto", true))
+
+        questionList.add(crearPregunta("", answers4, "Dentro de un diagrama de flujos de señal podemos encontrar:"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Transformada Z bilateral.", false))
+        answers5.add(crearRespuesta("Transformada Z unilateral.", true))
+
+        questionList.add(crearPregunta("", answers5, "Para funciones que arrancan en un determinado tiempo se utiliza la :"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA3(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Reglas de sintonía PID", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Ganancia proporcional, tiempo integral y tiempo de derivación", true))
+        answers1.add(crearRespuesta("Ganancia proporcional y tiempo integral", false))
+        answers1.add(crearRespuesta("Tiempo integral y tiempo de derivación.", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Señales, los parámetros de las reglas de sintonía Ziegler-Nichols?"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Falso", true))
+        answers2.add(crearRespuesta("Verdadero", false))
+
+        questionList.add(crearPregunta("", answers2, "El método de oscilación o método de respuesta en frecuencia es válido solo para plantas estables de lazo cerrado."))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Falso", false))
+        answers3.add(crearRespuesta("Verdadero", true))
+
+        questionList.add(crearPregunta("", answers3, "Ziegler y Nichols propusieron una serie de reglas para afinar controladores PID con base a una respuesta experimental."))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Error calculado entre la entrada del controlador menos la ganancia obtenida", false))
+        answers4.add(crearRespuesta("Error calculado entre el tiempo integral menos la salida obtenida", false))
+        answers4.add(crearRespuesta("Error calculado entre la salida deseada menos la salida obtenida", true))
+
+        questionList.add(crearPregunta("", answers4, "¿Qué parámetro ingresa a un sistema PID?"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Cuando una función continua pasa de una ganancia mínima a la máxima", false))
+        answers5.add(crearRespuesta("Cuando una función continua pasa de un tipo de concavidad a otra", true))
+
+        questionList.add(crearPregunta("", answers5, "¿Qué es un punto de inflexión en la curva?"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA4(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Filtros en funciones de transferencia", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Un sistema que permite el paso de señales eléctricas a un rango de frecuencias determinadas e impide el paso del resto", true))
+        answers1.add(crearRespuesta("Un sistema que impide el paso de señales eléctricas a un rango de frecuencias determinadas y permite el paso del resto.", false))
+
+        questionList.add(crearPregunta("", answers1, "Un filtro es"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Rechaza señales de frecuencias superiores a una dada, denominada frecuencia de corte", true))
+        answers2.add(crearRespuesta("Permite señales de frecuencias superiores a una dada, denominada frecuencia de corte", false))
+
+        questionList.add(crearPregunta("", answers2, "Un filtro paso bajo"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Señales de frecuencias superiores a la frecuencia de corte.", false))
+        answers3.add(crearRespuesta("Señales de frecuencias inferiores a la frecuencia de corte.", true))
+
+        questionList.add(crearPregunta("", answers3, "Un filtro paso alto rechaza:"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Paso Medios", false))
+        answers4.add(crearRespuesta("Paso alto.", true))
+        answers4.add(crearRespuesta("Paso bajo.", true))
+        answers4.add(crearRespuesta("Paso banda..", true))
+
+        questionList.add(crearPregunta("", answers4, "Los filtros en función de transferencia se clasifican en"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Dos filtros paso bajo.", false))
+        answers5.add(crearRespuesta("Un filtro paso bajo y un filtro paso alto.", true))
+
+        questionList.add(crearPregunta("", answers5, "Un filtro paso banda puede ser creado colocando:"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA5(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Método de optimización computacional controladores PID", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Obtener un conjunto óptimo de valores de los controladores PID", true))
+        answers1.add(crearRespuesta("Eliminar un conjunto óptimo de valores de los controladores PID.", false))
+        answers1.add(crearRespuesta("Optimizar el conjunto de valores de los controladores PID.", false))
+
+        questionList.add(crearPregunta("", answers1, "El método de optimización computacional permite:"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Rechaza señales de frecuencias superiores a una dada, denominada frecuencia de corte", true))
+        answers2.add(crearRespuesta("Permite señales de frecuencias superiores a una dada, denominada frecuencia de corte", false))
+
+        questionList.add(crearPregunta("", answers2, "Un filtro paso bajo"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Encontrar una combinación de K y a para que la sobreelongación sea menor de 10%", true))
+        answers3.add(crearRespuesta("Encontrar una combinación de K y a para que la sobreelongación sea menor de 15%", false))
+
+        questionList.add(crearPregunta("", answers3, "El conjunto óptimo de los controladores PID permite:"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Es cuando al variar unas de las características o condiciones del sistemas, hace que varíe considerablemente sus condiciones finales con respecto al tiempo.", true))
+        answers4.add(crearRespuesta("Es una magnitud que expresa la relación entre una señal de salida, con respecto a la señal de entrada.", false))
+
+        questionList.add(crearPregunta("", answers4, "Inestabilidad es:"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Verdadero", false))
+        answers5.add(crearRespuesta("Falso", true))
+
+        questionList.add(crearPregunta("", answers5, "Los resultados obtenidos en el método de optimización computacional de controladores PID son iguales a los resultados que se obtiene al ser implementados "))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA6(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Modificaciones a los esquemas de control PID", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("La salida del sistema no se ve afectada por errores en medición", true))
+        answers1.add(crearRespuesta("El sistema regula el valor de medición para que no afecta a la señal de salida", false))
+        answers1.add(crearRespuesta("Los errores afectan a la salida del sistema", false))
+
+        questionList.add(crearPregunta("", answers1, "¿En la medición qué sucede cuando el sistema no está retroalimentado?"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Moviendo los controles proporcional y derivativo (PD) al camino de realimentación.", true))
+        answers2.add(crearRespuesta("Moviendo los controles derivativo e integral (DI) al camino de realimentación.", false))
+
+        questionList.add(crearPregunta("", answers2, "El control I – PD se obtiene:"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Moviendo el control derivativo (D) al camino de realimentación.", true))
+        answers3.add(crearRespuesta("Moviendo el integrador (I) al camino de realimentación.", false))
+
+        questionList.add(crearPregunta("", answers3, "El control PI – D se obtiene:"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Falso", true))
+        answers4.add(crearRespuesta("Verdadero", false))
+
+        questionList.add(crearPregunta("", answers4, "Una perturbación interna constituye una entrada para el sistema."))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Verdadero", false))
+        answers5.add(crearRespuesta("Falso", true))
+
+        questionList.add(crearPregunta("", answers5, "Una perturbación es una señal que tiende a afectar de forma positiva el valor de la salida de un sistema."))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA7(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Control con 2 grados de libertad", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Al menos 2 de las funciones de transferencia tienen que ser independientes", true))
+        answers1.add(crearRespuesta("Al menos 3 de las funciones de transferencia tienen que ser independientes", false))
+        answers1.add(crearRespuesta("Todas las funciones de transferencia tienen que ser independientes", false))
+
+        questionList.add(crearPregunta("", answers1, "En un controlador con dos grados de libertad"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Señal de entrada Ruido.", true))
+        answers2.add(crearRespuesta("Señal de entrada distorsionada", false))
+
+        questionList.add(crearPregunta("", answers2, "En un control con 2 grados de libertad se inyecta :"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Realimentación", true))
+        answers3.add(crearRespuesta("Reutilización", false))
+
+        questionList.add(crearPregunta("", answers3, "Control con 2 grados de libertad utiliza:"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("La planta es la acción que realiza", true))
+        answers4.add(crearRespuesta("La planta es la función que realiza", false))
+
+        questionList.add(crearPregunta("", answers4, "En un sistema de control con 2 grados de libertad"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Pasado(P), Presente(I), Futuro(D)", false))
+        answers5.add(crearRespuesta("Presente(P), Pasado(I), Futuro(D)", true))
+
+        questionList.add(crearPregunta("", answers5, "En un controlador PID cada letra representa un error en:"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA8(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Respuesta al impulso y función de transferencia de sistemas lineales.", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Relaciones Entrada Salida", true))
+        answers1.add(crearRespuesta("Relaciones entre funciones", false))
+        answers1.add(crearRespuesta("Relaciones entre bloques", false))
+
+        questionList.add(crearPregunta("", answers1, "¿Qué representa la Función de Transferencia?"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Dos Transformadas de Laplace.", true))
+        answers2.add(crearRespuesta("Una Transformada de la Laplace y una Ecuación Diferencial.", false))
+
+        questionList.add(crearPregunta("", answers2, "La función de transferencia de la Respuesta de Impulso es producto de:"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Falso", true))
+        answers3.add(crearRespuesta("Verdadero", false))
+
+        questionList.add(crearPregunta("", answers3, "La Respuesta al Impulso está definida para sistemas no lineales"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Mediante Funciones de Transferencia.", true))
+        answers4.add(crearRespuesta("Mediante Diagramas de Bloques.", false))
+
+        questionList.add(crearPregunta("", answers4, "¿Cual es la forma clásica de modelar sistemas lineales?"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Falso", false))
+        answers5.add(crearRespuesta("Verdadero", true))
+
+        questionList.add(crearPregunta("", answers5, "La Función de transferencia se define como el cociente entre la transformada de laplace de la señal de salida Y(s) y la transformada de laplace de la señal de entrada U(s)"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA9(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Asignacion de ceros en Polos y Ceros", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Estable", true))
+        answers1.add(crearRespuesta("Positivo", false))
+        answers1.add(crearRespuesta("Rápido", true))
+
+        questionList.add(crearPregunta("", answers1, "Los ceros en la cadena abierta hacen que el sistema se vuelva más:"))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("El intervalo de tiempo en darse la máxima amplitud de salida.", true))
+        answers2.add(crearRespuesta("alor de pico máximo de la salida ponderado con el valor final", false))
+
+        questionList.add(crearPregunta("", answers2, "El tiempo de pico se define como:"))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Falso", true))
+        answers3.add(crearRespuesta("Verdadero", false))
+
+        questionList.add(crearPregunta("", answers3, "¿El tiempo de pico se referiere al tiempo que transcure el sistema hasta que logra estabilizarse?"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Verdadero", true))
+        answers4.add(crearRespuesta("Falso", false))
+
+        questionList.add(crearPregunta("", answers4, "Los ceros se los calcula del numerador y los polos de denominador."))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Falso", true))
+        answers5.add(crearRespuesta("Verdadero", false))
+
+        questionList.add(crearPregunta("", answers5, "¿La respuesta de la adición de un cero en serie, será con una mayor sobreoscilación y con un aumento en el tiempo de pico.?"))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+    fun cuestionarioaCA10(): Questionaire {
+
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("", "Graficas de Flujo de Señales", "CONTROL AUTOMATIZADO", 5)
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Un diagrama de flujo de señal es larepresentación de un conjunto de ecuaciones algebraicas lineales simultáneas, que consiste en una red donde los nodos están conectados por ramas con dirección y sentido.", true))
+        answers1.add(crearRespuesta("Un diagrama de flujo de señal es la representación de un conjunto de ecuaciones algebraicas no lineales, que consiste en una red donde los nodos están conectados por ramas con dirección y sentido.", false))
+
+        questionList.add(crearPregunta("", answers1, "Seleccione la definición correcta de diagrama de señales de flujo."))
+
+        /* 2da pregunta*/
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("En sistemas complejos.", true))
+        answers2.add(crearRespuesta("En sistemas sencillos.", false))
+        answers2.add(crearRespuesta("En cualquier sistema", false))
+
+        questionList.add(crearPregunta("", answers2, "Cuando es recomendable el uso de diagramas de flujo de señal."))
+
+
+        /* 3da pregunta*/
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Rectángulos", false))
+        answers3.add(crearRespuesta("Ramas", true))
+        answers3.add(crearRespuesta("Nodos", true))
+
+        questionList.add(crearPregunta("", answers3, "Para realizar un diagrama de señales de flujo se utiliza:"))
+
+
+        /* 4da pregunta*/
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Nodos mixto", true))
+        answers4.add(crearRespuesta("Nodo sumidero.", true))
+        answers4.add(crearRespuesta("Nodo padre", false))
+        answers4.add(crearRespuesta("Nodos intermedio", false))
+
+        questionList.add(crearPregunta("", answers4, "Dentro de un diagrama de flujos de señal podemos encontrar:"))
+
+
+        /* 5da pregunta*/
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Las propiedades del álgebra de bloques, no pueden ser aplicadas en los diagramas de señal de flujo.", false))
+        answers5.add(crearRespuesta("Las propiedades del álgebra de bloques, también pueden ser aplicadas en los diagramas de señal de flujo.", true))
+
+        questionList.add(crearPregunta("", answers5, "Seleccione la afirmación correcta."))
+
+
+        questionnaire.questions = questionList
+        return questionnaire
+    }
+
+
+
 
     /*
     fun crearCuestionarios() {
