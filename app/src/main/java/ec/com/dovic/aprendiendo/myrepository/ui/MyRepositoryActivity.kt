@@ -35,7 +35,9 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_questionnaires)
+
         adapter = QuestionnaireAdapter(questionnaries!!, this)
+
         fab_new_questionnaraire.setOnClickListener(this)
         rv_questionnaire.layoutManager = LinearLayoutManager(this)
         rv_questionnaire.adapter = adapter
