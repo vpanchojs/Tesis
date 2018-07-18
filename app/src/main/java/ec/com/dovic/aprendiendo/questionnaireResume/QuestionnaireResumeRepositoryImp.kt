@@ -116,7 +116,7 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
             override fun onSuccess(response: Any?) {
                 response as DocumentSnapshot
                 var user = response.toObject(User::class.java)
-                user!!.idUser = response.id
+                user!!.pk = response.id
                 postEvent(QuestionnaireResumeEvents.ON_GET_USER_SUCCESS, user!!)
             }
 

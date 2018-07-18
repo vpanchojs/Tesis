@@ -72,7 +72,7 @@ class ServicieBlock : Service(), View.OnClickListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else {
-            return WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
+            return WindowManager.LayoutParams.TYPE_PHONE;
         }
     }
 

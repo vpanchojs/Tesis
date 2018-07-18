@@ -15,16 +15,15 @@ class MyRepositoryRepositoryImp(var eventBus: EventBusInterface, var firebaseApi
     override fun onGetmyrepository() {
         firebaseApi.getMyQuestionnaries(firebaseApi.getUid(), object : OnCallbackApis<QuerySnapshot> {
             override fun onSuccess(response: QuerySnapshot) {
-                var questionnairesList = ArrayList<Questionaire>()
+                response.metadata.isFromCache
+                val questionnairesList = ArrayList<Questionaire>()
 
                 response.documents.forEach {
-                    var questionaire = it.toObject(Questionaire::class.java)
+                    val questionaire = it.toObject(Questionaire::class.java)
                     questionaire!!.idCloud = it.id
                     questionnairesList.add(questionaire)
                 }
-
-                postEvent(MyRepositoryEvents.ON_GET_QUESTIONAIRE_SUCCESS, questionnairesList!!)
-
+                postEvent(MyRepositoryEvents.ON_GET_QUESTIONAIRE_SUCCESS, Pair(questionnairesList, response.metadata.isFromCache))
             }
 
             override fun onError(error: Any?) {

@@ -23,6 +23,7 @@ class MyRepositoryPresenterImp(var eventBus: EventBusInterface, var view: MyRepo
     }
 
     override fun onGetmyrepository() {
+        view.clearResults()
         view.none_results(false)
         view.showProgress(true)
         interactor.onGetmyrepository()
@@ -37,11 +38,19 @@ class MyRepositoryPresenterImp(var eventBus: EventBusInterface, var view: MyRepo
         when (event.type) {
             MyRepositoryEvents.ON_GET_QUESTIONAIRE_SUCCESS -> {
                 view.showProgress(false)
-                var questionnaire_list = event.any as List<Questionaire>
+                val data = event.any as Pair<List<Questionaire>, Boolean>
+
+                val questionnaire_list = data.first
+                view.clearResults()
+
                 if (questionnaire_list.size > 0)
                     view.setQuestionnaries(questionnaire_list)
                 else
                     view.none_results(true)
+
+                if (data.second)
+                    view.showSnackbar("Sin conexión, copia local")
+
             }
             MyRepositoryEvents.ON_GET_QUESTIONAIRE_ERROR -> {
                 view.showMessagge(event.any.toString())

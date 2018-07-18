@@ -39,7 +39,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        data!!.add(OptionMenu(R.drawable.ic_key, getString(R.string.menu_option_update_password)))
+      //  data!!.add(OptionMenu(R.drawable.ic_key, getString(R.string.menu_option_update_password)))
         data!!.add(OptionMenu(R.drawable.ic_termins_conditions, getString(R.string.menu_option_termins_and_conditions)))
         data!!.add(OptionMenu(R.drawable.ic_help, getString(R.string.menu_option_help)))
         data!!.add(OptionMenu(R.drawable.ic_exit, getString(R.string.menu_option_signout)))
@@ -134,18 +134,19 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
 
     override fun onClick(position: Int) {
         when (position) {
-            0 -> {
+           /* 0 -> {
                 val changePasswordFragment = ChangePasswordFragment.newInstance()
                 changePasswordFragment.show(childFragmentManager, "Cambiar Contrasena")
             }
-            1 -> {
+            */
+            0 -> {
                 presenter.crearCuestionario()
                 showMessagge("Términos y Condiciones")
             }
-            2 -> {
+            1 -> {
                 showMessagge("Ayuda")
             }
-            3 -> {
+            2 -> {
                 presenter.onSingOut()
                 activity!!.stopService(Intent(context, ServicieBlock::class.java))
             }
@@ -155,7 +156,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.cl_my_profile -> {
-                navigationToProfile()
+               // navigationToProfile()
             }
         }
     }
@@ -167,7 +168,6 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
     override fun setDataProfile(user: User) {
         this.user = user
         tv_name_user.text = user.name
-        tv_email.text = user.email
         GlideApp.with(context!!)
                 .load(user.photo)
                 .placeholder(R.drawable.ic_account_circle_black_24dp)

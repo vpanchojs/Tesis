@@ -1,5 +1,7 @@
 package ec.com.dovic.aprendiendo.login
 
+import android.net.Uri
+import android.view.View
 import ec.com.dovic.aprendiendo.R
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.login.events.LoginEvents
@@ -39,6 +41,18 @@ class LoginPresenterImp(var eventBus: EventBusInterface, var view: LoginView, va
         interactor.sendEmailVerify()
     }
 
+    override fun tokenFacebook(token: String, name: String?, lastname: String?, email: String?, photoUrl: Uri?) {
+        view.showButtonSignIn(View.INVISIBLE, "Iniciando sessión")
+        view.showProgress(View.VISIBLE)
+        interactor.tokenFacebook(token, name, lastname, email, photoUrl)
+    }
+
+    override fun tokenGoogle(idToken: String, name: String?, lastname: String?, email: String?, photoUrl: Uri?) {
+        view.showButtonSignIn(View.INVISIBLE, "Iniciando sessión")
+        view.showProgress(View.VISIBLE)
+        interactor.tokenGoogle(idToken, name, lastname, email, photoUrl)
+    }
+
     @Subscribe
     override fun onEventLoginThread(event: LoginEvents) {
         when (event.type) {
@@ -46,16 +60,37 @@ class LoginPresenterImp(var eventBus: EventBusInterface, var view: LoginView, va
                 view.hideProgressDialog()
                 view.navigationMain()
             }
+
             LoginEvents.onSignInError -> {
+                view.showProgress(View.GONE)
+                view.showButtonSignIn(View.VISIBLE, "Ingresar con...")
                 view.hideProgressDialog()
-                view.showMessagge(event.message)
+                view.showMessagge(event.any.toString())
             }
+
             LoginEvents.onRecoverySession -> {
                 view.navigationMain()
             }
+
+            LoginEvents.ON_SIGIN_SUCCESS_FACEBOOK -> {
+                view.hideProgressDialog()
+                view.navigationMain()
+
+            }
+            LoginEvents.ON__SIGIN_SUCCES_GOOGLE -> {
+                view.hideProgressDialog()
+                view.navigationMain()
+            }
+            LoginEvents.ON__SIGIN_ERROR -> {
+                view.showProgress(View.GONE)
+                view.showButtonSignIn(View.VISIBLE, "Ingresar con...")
+                view.hideProgressDialog()
+                view.showMessagge(event.any.toString())
+            }
+
             LoginEvents.onRecoveryPasswordSuccess -> {
                 view.hideProgressDialog()
-                view.showMessagge(event.message)
+                view.showMessagge(event.any.toString())
             }
             LoginEvents.onSignInSuccessNoValidEmail -> {
                 view.hideProgressDialog()
@@ -63,7 +98,7 @@ class LoginPresenterImp(var eventBus: EventBusInterface, var view: LoginView, va
             }
             LoginEvents.onRecoveryPasswordError -> {
                 view.hideProgressDialog()
-                view.showMessagge(event.message)
+                view.showMessagge(event.any.toString())
             }
         }
     }

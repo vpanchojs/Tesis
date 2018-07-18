@@ -9,4 +9,6 @@ interface LoginView {
     fun hideProgressDialog()
     fun navigationMain()
     fun showSnackBar(message: String)
+    fun showButtonSignIn(visible: Int, message: String)
+    fun showProgress(visible: Int)
 }

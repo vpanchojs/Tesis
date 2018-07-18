@@ -184,7 +184,7 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
                 var questionnaireBd = QuestionnaireBd()
                 questionnaireBd.idCloud = responseQuestionnaire.id
                 questionnaireBd.description = questionaire!!.description
-                questionnaireBd.idUser = questionaire.idUser
+                questionnaireBd.pk = questionaire.pk
                 questionnaireBd.title = questionaire.title
                 questionnaireBd.numberQuest = questionaire.numberQuest
 

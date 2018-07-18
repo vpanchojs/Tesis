@@ -70,6 +70,8 @@ dependencies {
 
     kapt "android.arch.persistence.room:compiler:1.1.0"
     implementation "android.arch.persistence.room:runtime:1.1.0"
+    implementation 'com.facebook.android:facebook-login:4.33.0'
+    implementation "com.google.android.gms:play-services-auth:$playservicies_version"
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -9,7 +9,7 @@ import java.util.*
  * Created by victor on 19/1/18.
  */
 class User : Parcelable {
-    var idUser: String = ""
+    var pk: String = ""
     var name: String = ""
     var lastname: String = ""
     var photo: String = ""
@@ -23,7 +23,7 @@ class User : Parcelable {
     var preferences = ArrayList<Subject>()
 
     constructor(parcel: Parcel) {
-        idUser = parcel.readString()
+        pk = parcel.readString()
         name = parcel.readString()
         lastname = parcel.readString()
         photo = parcel.readString()
@@ -33,7 +33,7 @@ class User : Parcelable {
 
 
     constructor(idUser: String, name: String, lastname: String, photo: String, email: String, password: String) {
-        this.idUser = idUser
+        this.pk = idUser
         this.name = name
         this.lastname = lastname
         this.photo = photo
@@ -51,17 +51,19 @@ class User : Parcelable {
 
     }
 
+
     @Exclude
-    fun toMapPost(): Map<String, Any> {
+    fun toMapPostSave(): Map<String, Any> {
         val result = HashMap<String, Any>()
         result["name"] = name
         result["lastname"] = lastname
+        result["photo"] = photo
         return result
     }
 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(idUser)
+        parcel.writeString(pk)
         parcel.writeString(name)
         parcel.writeString(lastname)
         parcel.writeString(photo)
@@ -74,6 +76,8 @@ class User : Parcelable {
     }
 
     companion object CREATOR : Parcelable.Creator<User> {
+        const val FACEBOOK = 1
+        const val GOOGLE = 2
         override fun createFromParcel(parcel: Parcel): User {
             return User(parcel)
         }

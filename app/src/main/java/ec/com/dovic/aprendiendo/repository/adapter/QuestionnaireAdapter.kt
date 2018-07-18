@@ -14,8 +14,7 @@ import kotlinx.android.synthetic.main.item_questionnarie_repository.view.*
 class QuestionnaireRepositoryAdapter(var data: ArrayList<Questionaire>, var callback: onQuestionnaireAdapterListener) : RecyclerView.Adapter<QuestionnaireRepositoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_questionnarie_repository, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_questionnarie_repository, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -27,15 +26,16 @@ class QuestionnaireRepositoryAdapter(var data: ArrayList<Questionaire>, var call
         holder.view.tv_title.text = questionaire.title
         holder.view.tv_description.text = questionaire.description
         holder.view.tv_raiting.text = questionaire.assessment.toString()
-        holder.view.tv_num_question.text = "${questionaire.numberQuest} preg"
+        holder.view.tv_num_question.text = String.format(holder.view.context.resources.getString(R.string.number_questions), questionaire.numberQuest)
+        holder.view.tv_subject.text = questionaire.subject
         holder.onClickListener(questionaire, callback)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         fun onClickListener(questionaire: Questionaire, callback: onQuestionnaireAdapterListener) {
-            view.setOnClickListener({
+            view.setOnClickListener {
                 callback.navigationToDetailQuestionnarie(questionaire)
-            })
+            }
         }
     }
 }

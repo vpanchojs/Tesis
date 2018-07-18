@@ -15,4 +15,6 @@ interface MyRepositoryView {
     fun navigationManageQuestionnaire(questionaire: Questionaire)
     fun hideDialogNewQuestionnaire()
     fun showButtonCreateQuestionnaire()
+    fun showSnackbar(message: String)
+    fun clearResults()
 }

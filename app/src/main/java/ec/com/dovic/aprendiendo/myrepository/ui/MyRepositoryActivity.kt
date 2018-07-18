@@ -2,6 +2,7 @@ package ec.com.dovic.aprendiendo.myrepository.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
@@ -23,7 +24,7 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
         startActivity(Intent(this, QuestionaireActivity::class.java).putExtra(QuestionaireActivity.QUESTIONNAIRE, questionaire))
     }
 
-    var questionnaries: ArrayList<Questionaire>? = ArrayList<Questionaire>()
+    var questionnaries = ArrayList<Questionaire>()
     lateinit var application: MyApplication
     lateinit var adapter: QuestionnaireAdapter
     lateinit var newQuestionarieFragment: NewQuestionarieFragment
@@ -36,7 +37,7 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_questionnaires)
 
-        adapter = QuestionnaireAdapter(questionnaries!!, this)
+        adapter = QuestionnaireAdapter(questionnaries, this)
 
         fab_new_questionnaraire.setOnClickListener(this)
         rv_questionnaire.layoutManager = LinearLayoutManager(this)
@@ -96,13 +97,11 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
     }
 
     override fun setQuestionnaries(questionaire: List<Questionaire>) {
-        questionnaries!!.clear()
         adapter.data.addAll(questionaire)
         adapter.notifyDataSetChanged()
     }
 
     override fun none_results(show: Boolean) {
-        questionnaries!!.clear()
         if (show) tv_none_questionnaires.visibility = View.VISIBLE else tv_none_questionnaires.visibility = View.GONE
     }
 
@@ -122,5 +121,16 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
 
     override fun showButtonCreateQuestionnaire() {
         newQuestionarieFragment.showButtonCreate()
+    }
+
+    override fun showSnackbar(message: String) {
+        Snackbar.make(cl_my_repository, message, Snackbar.LENGTH_INDEFINITE).setAction("Reitentar", View.OnClickListener {
+            presenter.onGetmyrepository()
+        }).show()
+    }
+
+    override fun clearResults() {
+        questionnaries.clear()
+        adapter.notifyDataSetChanged()
     }
 }

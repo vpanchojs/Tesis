@@ -1,5 +1,6 @@
 package ec.com.dovic.aprendiendo.login
 
+import android.net.Uri
 import ec.com.dovic.aprendiendo.login.events.LoginEvents
 
 /**
@@ -22,4 +23,8 @@ interface LoginPresenter {
     fun onEventLoginThread(event: LoginEvents)
 
     fun sendEmailVerify()
+
+    fun tokenFacebook(token: String, name: String?, lastname: String?, email: String?, photoUrl: Uri?)
+
+    fun tokenGoogle(idToken: String, name: String?, lastname: String?, email: String?, photoUrl: Uri?)
 }

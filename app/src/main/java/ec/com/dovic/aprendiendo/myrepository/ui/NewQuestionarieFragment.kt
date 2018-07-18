@@ -46,22 +46,21 @@ class NewQuestionarieFragment : DialogFragment(), DialogInterface.OnShowListener
 
     private fun setupFieldsValidation() {
         var fields = ArrayList<TextInputEditText>()
-        fields.add(tie_description!!)
         fields.add(tie_title!!)
         onTextChangedListener(fields, btn_create!!)
     }
 
 
     override fun onShow(dialog: DialogInterface?) {
-            btn_create!!.setOnClickListener {
-                (activity as MyRepositoryActivity).onCreateQuestionnaire(tie_description!!.text.toString(), tie_title!!.text.toString())
-                btn_create!!.visibility = View.INVISIBLE
-                progress.visibility = View.VISIBLE
-            }
+        btn_create!!.setOnClickListener {
+            (activity as MyRepositoryActivity).onCreateQuestionnaire(tie_description!!.text.toString(), tie_title!!.text.toString())
+            btn_create!!.visibility = View.INVISIBLE
+            progress.visibility = View.VISIBLE
+        }
 
-            ib_close!!.setOnClickListener {
-                dismiss()
-            }
+        ib_close!!.setOnClickListener {
+            dismiss()
+        }
     }
 
     fun showButtonCreate() {

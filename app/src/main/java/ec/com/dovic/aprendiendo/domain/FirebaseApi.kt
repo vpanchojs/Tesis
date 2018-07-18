@@ -8,9 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -48,6 +46,60 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     private val EXECUTOR = ThreadPoolExecutor(2, 4,
             60, TimeUnit.SECONDS, LinkedBlockingQueue<Runnable>())
 
+    fun autenticationGoogle(idToken: String, user: User, callback: OnCallbackApis<User>) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        mAuth.signInWithCredential(credential)
+                .addOnSuccessListener {
+
+                    if (it.additionalUserInfo.isNewUser) {
+                        user.pk = it.user.uid
+
+                        saveUser(user, object : OnCallbackApis<Unit> {
+
+                            override fun onSuccess(response: Unit) {
+                                callback.onSuccess(user)
+                            }
+
+                            override fun onError(error: Any?) {
+                                callback.onError(error)
+                            }
+                        })
+
+                    } else {
+                        callback.onSuccess(user)
+                    }
+                }
+                .addOnFailureListener {
+                    callback.onError(ManageErrorFirebaseApi.getMessageErrorFirebaseAuth(it))
+                }
+    }
+
+    fun autenticationFacebook(accesToken: String, user: User, callback: OnCallbackApis<User>) {
+        val credential = FacebookAuthProvider.getCredential(accesToken);
+        mAuth.signInWithCredential(credential)
+                .addOnSuccessListener {
+
+                    if (it.additionalUserInfo.isNewUser) {
+                        user.pk = it.user.uid
+                        saveUser(user, object : OnCallbackApis<Unit> {
+                            override fun onSuccess(response: Unit) {
+                                callback.onSuccess(user)
+                            }
+
+                            override fun onError(error: Any?) {
+                                callback.onError(error)
+                            }
+                        })
+                    } else {
+                        callback.onSuccess(user)
+                    }
+
+                }.addOnFailureListener {
+                    callback.onError(ManageErrorFirebaseApi.getMessageErrorFirebaseAuth(it))
+                }
+    }
+
+
     fun signIn(email: String, password: String, callback: OnCallbackApis<Boolean>) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
@@ -66,6 +118,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     fun signUp(user: User, callback: onDomainApiActionListener) {
         mAuth.createUserWithEmailAndPassword(user.email, user.password)
                 .addOnSuccessListener {
+                    /*
                     saveUser(user, it.user.uid, object : onDomainApiActionListener {
                         override fun onSuccess(response: Any?) {
                             updateUser(user, object : onDomainApiActionListener {
@@ -85,9 +138,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                             callback.onError(error)
                         }
                     })
+                    */
+
                 }
                 .addOnFailureListener { e ->
-                    callback.onError(e.message)
+                    callback.onError(ManageErrorFirebaseApi.getMessageErrorFirebaseAuth(e))
                 }
     }
 
@@ -107,27 +162,23 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     fun getDataUserSuscribe(callback: onDomainApiActionListener) {
         Log.e(TAG, "" + mAuth.currentUser!!.uid)
         db.collection(USERS_PATH).document(mAuth.currentUser!!.uid).get()
-                .addOnSuccessListener({
+                .addOnSuccessListener {
                     // Log.e(TAG, it.toString())
                     callback.onSuccess(it)
-                })
-                .addOnFailureListener(OnFailureListener {
+                }
+                .addOnFailureListener {
                     Log.e(TAG, it.toString())
                     callback.onError(it.toString())
-                })
+                }
 
     }
 
-    fun saveUser(user: User, id: String, callback: onDomainApiActionListener) {
-        db.collection(USERS_PATH).document(id)
-                .set(user.toMapPost())
-                .addOnSuccessListener {
-                    Log.e(TAG, "Se guardo")
-                    callback.onSuccess(null)
-                }
-                .addOnFailureListener {
-                    callback.onError("No se pudo registrar su información, intentelo nuevamente")
-                }
+    fun saveUser(user: User, callback: OnCallbackApis<Unit>) {
+        db.collection(USERS_PATH).document(user.pk).set(user.toMapPostSave()).addOnSuccessListener {
+            callback.onSuccess(Unit)
+        }.addOnFailureListener {
+            callback.onError(ManageErrorFirebaseApi.getMessageErrorFirebaseFirestore(it))
+        }
     }
 
 
@@ -435,7 +486,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
     fun getMyQuestionnaries(id: String, callback: OnCallbackApis<QuerySnapshot>) {
-        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("idUser", id)
+        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("pk", id)
                 .get()
                 .addOnSuccessListener {
                     callback.onSuccess(it)
@@ -790,7 +841,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         var downQuestionnnaireMap = HashMap<String, Any>()
         downQuestionnnaireMap.put("date", FieldValue.serverTimestamp())
-        downQuestionnnaireMap.put("idUser", getUid())
+        downQuestionnnaireMap.put("pk", getUid())
 
 
         var downUserMap = HashMap<String, Any>()
@@ -3038,7 +3089,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", " Introducción a Inteligencia artificial", "INTELIGENCIA ARTIFICAL", 1, "introducción")
+        val questionnaire = crearCuestionario("Introducción a IA", "Introducción a Inteligencia artificial", "INTELIGENCIA ARTIFICAL", 1, "introducción")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3056,7 +3107,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "División de la inteligencia artificial", "INTELIGENCIA ARTIFICAL", 1, "división")
+        val questionnaire = crearCuestionario("Division IA", "División de la inteligencia artificial", "INTELIGENCIA ARTIFICAL", 1, "división")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3092,7 +3143,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Fundamentos básicos", "INTELIGENCIA ARTIFICAL", 1, "fundamentos")
+        val questionnaire = crearCuestionario("Fundamentos IA", "Fundamentos básicos", "INTELIGENCIA ARTIFICAL", 1, "fundamentos")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3110,7 +3161,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Campos de Aplicación", "INTELIGENCIA ARTIFICAL", 1, "campos, aplicación")
+        val questionnaire = crearCuestionario("Aplicación IA", "Campos de Aplicación", "INTELIGENCIA ARTIFICAL", 1, "campos, aplicación")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3128,7 +3179,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Personajes influyentes", "INTELIGENCIA ARTIFICAL", 1, "personajes")
+        val questionnaire = crearCuestionario("Personajes IA", "Personajes influyentes", "INTELIGENCIA ARTIFICAL", 1, "personajes")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3146,7 +3197,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Objetivos principales", "INTELIGENCIA ARTIFICAL", 1,"objetivos")
+        val questionnaire = crearCuestionario("Objetivos IA", "Objetivos principales", "INTELIGENCIA ARTIFICAL", 1, "objetivos")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3164,7 +3215,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Métodos utilizados para el desarrollo y aprendizaje", "INTELIGENCIA ARTIFICAL", 1,"metodos,aprendizaje")
+        val questionnaire = crearCuestionario("Metodos utilizados en IA", "Métodos utilizados para el desarrollo y aprendizaje", "INTELIGENCIA ARTIFICAL", 1, "metodos,aprendizaje")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3182,7 +3233,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Categoria de sistemas", "INTELIGENCIA ARTIFICAL", 1,"categorias, sistemas")
+        val questionnaire = crearCuestionario("Sistemas IA", "Categoria de sistemas", "INTELIGENCIA ARTIFICAL", 1, "categorias, sistemas")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3200,7 +3251,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Agentes inteligentes", "INTELIGENCIA ARTIFICAL", 1,"agentes, inteligentes")
+        val questionnaire = crearCuestionario("Agentes IA", "Agentes inteligentes", "INTELIGENCIA ARTIFICAL", 1, "agentes, inteligentes")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3219,7 +3270,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Conceptos generales de compiladores", "COMPILADORES", 1,"Programa fuente, proceso de traducción.")
+        val questionnaire = crearCuestionario("Conceptos", "Conceptos generales de compiladores", "COMPILADORES", 1, "Programa fuente, proceso de traducción.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3237,7 +3288,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Análisis léxico conceptos generales", "COMPILADORES", 1,"Tokens, autómata, lexema, analizador")
+        val questionnaire = crearCuestionario("Análisis léxico", "Análisis léxico conceptos generales", "COMPILADORES", 1, "Tokens, autómata, lexema, analizador")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3254,7 +3305,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Análisis léxico", "COMPILADORES", 1,"Tokens, tabla de símbolos")
+        val questionnaire = crearCuestionario("Análisis léxico", "Información de un lexema", "COMPILADORES", 1, "Tokens, tabla de símbolos")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3272,7 +3323,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Análisis sintáctico", "COMPILADORES", 1,"Gramática, árbol sintáctico.")
+        val questionnaire = crearCuestionario("Análisis sintáctico", "Estructura jerarquica de instrucciones", "COMPILADORES", 1, "Gramática, árbol sintáctico.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3290,7 +3341,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Análisis semántico", "COMPILADORES", 1,"semántica, programa fuente, lenguaje.")
+        val questionnaire = crearCuestionario("Análisis semántico", "Utilizacion del arbol sintáctico y tabla de símbolos", "COMPILADORES", 1, "semántica, programa fuente, lenguaje.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3308,7 +3359,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Gramática libre de contexto (LLI)", "COMPILADORES", 1,"Ambigüedad, recursividad, árboles sintácticos.")
+        val questionnaire = crearCuestionario("LLI", "Gramática libre de contexto (LLI)", "COMPILADORES", 1, "Ambigüedad, recursividad, árboles sintácticos.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3326,7 +3377,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Analizador sintáctico predictivo dirigido por tabla", "COMPILADORES", 1,"Buffer de entrada, pila de análisis sintáctico, tabla de análisis sintáctico.")
+        val questionnaire = crearCuestionario("Analizador sintáctico", "Predictivo dirigido por tabla", "COMPILADORES", 1, "Buffer de entrada, pila de análisis sintáctico, tabla de análisis sintáctico.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3344,7 +3395,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Generación de código intermedio", "COMPILADORES", 1,"Código intermedio, código fuente, código máquina.")
+        val questionnaire = crearCuestionario("Generación de código intermedio", "Estructura del código", "COMPILADORES", 1, "Código intermedio, código fuente, código máquina.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3362,7 +3413,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Introducción a compiladores", "COMPILADORES", 1,"interprete, código fuente, instrucción, compilador")
+        val questionnaire = crearCuestionario("", "Introducción a compiladores", "COMPILADORES", 1, "interprete, código fuente, instrucción, compilador")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3380,7 +3431,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Estructura de un compilador", "COMPILADORES", 1,"léxico, sintáctico, semántico, generador de código intermedio.")
+        val questionnaire = crearCuestionario("Estructura", "Estructura de un compilador", "COMPILADORES", 1, "léxico, sintáctico, semántico, generador de código intermedio.")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3402,7 +3453,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Diagramas de bloques", "CONTROL AUTOMATIZADO", 5,"diagrama, bloques, funciones")
+        val questionnaire = crearCuestionario("Representación de Funciones", "Diagramas de bloques", "CONTROL AUTOMATIZADO", 5, "diagrama, bloques, funciones")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3453,7 +3504,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Funciones de transferencia en sistemas en tiempo discreto", "CONTROL AUTOMATIZADO", 5,"tiempo, discreto, funciones, transferencia")
+        val questionnaire = crearCuestionario("Funciones de transferencia", "Funciones de transferencia en sistemas en tiempo discreto", "CONTROL AUTOMATIZADO", 5, "tiempo, discreto, funciones, transferencia")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3507,7 +3558,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Reglas de sintonía PID", "CONTROL AUTOMATIZADO", 5,"controlador pid")
+        val questionnaire = crearCuestionario("Controladores PID", "Reglas de sintonía PID", "CONTROL AUTOMATIZADO", 5, "controlador pid")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3558,7 +3609,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Filtros en funciones de transferencia", "CONTROL AUTOMATIZADO", 5,"funciones, transferencia, filtros")
+        val questionnaire = crearCuestionario("Funciones de transferencia", "Filtros en funciones de transferencia", "CONTROL AUTOMATIZADO", 5, "funciones, transferencia, filtros")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3609,7 +3660,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Método de optimización computacional controladores PID", "CONTROL AUTOMATIZADO", 5,"métodos, computacional, controlar pid")
+        val questionnaire = crearCuestionario("Controladores PID", "Método de optimización computacional controladores PID", "CONTROL AUTOMATIZADO", 5, "métodos, computacional, controlar pid")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3659,7 +3710,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Modificaciones a los esquemas de control PID", "CONTROL AUTOMATIZADO", 5,"esquemas, controlador pid")
+        val questionnaire = crearCuestionario("Controladores PID", "Modificaciones a los esquemas de control PID", "CONTROL AUTOMATIZADO", 5, "esquemas, controlador pid")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3709,7 +3760,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Control con 2 grados de libertad", "CONTROL AUTOMATIZADO", 5,"2 grados, libertad")
+        val questionnaire = crearCuestionario("", "Control con 2 grados de libertad", "CONTROL AUTOMATIZADO", 5, "2 grados, libertad")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3759,7 +3810,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Respuesta al impulso y función de transferencia de sistemas lineales.", "CONTROL AUTOMATIZADO", 5,"impulso, funcion, transferencia, sistemas lineales")
+        val questionnaire = crearCuestionario("Funciones de transferencia", "Respuesta al impulso y función de transferencia de sistemas lineales.", "CONTROL AUTOMATIZADO", 5, "impulso, funcion, transferencia, sistemas lineales")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3809,7 +3860,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Asignacion de ceros en Polos y Ceros", "CONTROL AUTOMATIZADO", 5, "ceros, polos")
+        val questionnaire = crearCuestionario("Polos y Ceros", "Asignacion de ceros en Polos y Ceros", "CONTROL AUTOMATIZADO", 5, "ceros, polos")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3859,7 +3910,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("", "Graficas de Flujo de Señales", "CONTROL AUTOMATIZADO", 5, "gráficas, flujo, señales")
+        val questionnaire = crearCuestionario("Representación de Funciones", "Graficas de Flujo de Señales", "CONTROL AUTOMATIZADO", 5, "gráficas, flujo, señales")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3909,32 +3960,122 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
 
-    /*
     fun crearCuestionarios() {
         Log.e(TAG, "VOY A guardar mis cuesitonarios")
 
         val batch = db.batch()
 
         val listaCuestionarios = ArrayList<Questionaire>()
-        listaCuestionarios.add(cuestionario1())
-        listaCuestionarios.add(cuestionario2())
-        listaCuestionarios.add(cuestionario3())
-        listaCuestionarios.add(cuestionario4())
-        listaCuestionarios.add(cuestionario5())
-        listaCuestionarios.add(cuestionario6())
-        listaCuestionarios.add(cuestionario7())
-        listaCuestionarios.add(cuestionario8())
-        listaCuestionarios.add(cuestionario9())
-        listaCuestionarios.add(cuestionario10())
-        listaCuestionarios.add(cuestionario11())
-        listaCuestionarios.add(cuestionario12())
-        listaCuestionarios.add(cuestionario13())
-        listaCuestionarios.add(cuestionario14())
-        listaCuestionarios.add(cuestionario15())
-        listaCuestionarios.add(cuestionario16())
-        listaCuestionarios.add(cuestionario17())
-        listaCuestionarios.add(cuestionario18())
-        listaCuestionarios.add(cuestionario19())
+        listaCuestionarios.add(cuestionario_dm1())
+        listaCuestionarios.add(cuestionario_dm2())
+        listaCuestionarios.add(cuestionario_dm3())
+        listaCuestionarios.add(cuestionario_dm4())
+        listaCuestionarios.add(cuestionario_dm5())
+        listaCuestionarios.add(cuestionario_dm6())
+        listaCuestionarios.add(cuestionario_dm7())
+        listaCuestionarios.add(cuestionario_dm8())
+        listaCuestionarios.add(cuestionario_dm9())
+        listaCuestionarios.add(cuestionario_dm10())
+
+        listaCuestionarios.add(cuestionariodw1())
+        listaCuestionarios.add(cuestionariodw2())
+        listaCuestionarios.add(cuestionariodw3())
+        listaCuestionarios.add(cuestionariodw4())
+        listaCuestionarios.add(cuestionariodw5())
+        listaCuestionarios.add(cuestionariodw6())
+        listaCuestionarios.add(cuestionariodw7())
+        listaCuestionarios.add(cuestionariodw8())
+        listaCuestionarios.add(cuestionariodw9())
+        listaCuestionarios.add(cuestionariodw10())
+
+        listaCuestionarios.add(cuestionariot1())
+        listaCuestionarios.add(cuestionariot2())
+        listaCuestionarios.add(cuestionariot3())
+        listaCuestionarios.add(cuestionariot4())
+        listaCuestionarios.add(cuestionariot5())
+        listaCuestionarios.add(cuestionariot6())
+        listaCuestionarios.add(cuestionariot7())
+        listaCuestionarios.add(cuestionariot8())
+        listaCuestionarios.add(cuestionariot9())
+        listaCuestionarios.add(cuestionariot10())
+
+        listaCuestionarios.add(cuestionariobd1())
+        listaCuestionarios.add(cuestionariobd2())
+        listaCuestionarios.add(cuestionariobd3())
+        listaCuestionarios.add(cuestionariobd4())
+        listaCuestionarios.add(cuestionariobd5())
+        listaCuestionarios.add(cuestionariobd6())
+        listaCuestionarios.add(cuestionariobd7())
+        listaCuestionarios.add(cuestionariobd8())
+        listaCuestionarios.add(cuestionariobd9())
+        listaCuestionarios.add(cuestionariobd10())
+
+        listaCuestionarios.add(cuestionariopb1())
+        listaCuestionarios.add(cuestionariopb2())
+        listaCuestionarios.add(cuestionariopb3())
+        listaCuestionarios.add(cuestionariopb4())
+        listaCuestionarios.add(cuestionariopb5())
+        listaCuestionarios.add(cuestionariopb6())
+        listaCuestionarios.add(cuestionariopb7())
+        listaCuestionarios.add(cuestionariopb8())
+        listaCuestionarios.add(cuestionariopb9())
+        listaCuestionarios.add(cuestionariopb10())
+
+        listaCuestionarios.add(cuestionarioac1())
+        listaCuestionarios.add(cuestionarioac2())
+        listaCuestionarios.add(cuestionarioac3())
+        listaCuestionarios.add(cuestionarioac4())
+        listaCuestionarios.add(cuestionarioac5())
+        listaCuestionarios.add(cuestionarioac6())
+        listaCuestionarios.add(cuestionarioac7())
+        listaCuestionarios.add(cuestionarioac8())
+        listaCuestionarios.add(cuestionarioac9())
+        listaCuestionarios.add(cuestionarioac10())
+
+        listaCuestionarios.add(cuestionarioaSO1())
+        listaCuestionarios.add(cuestionarioaSO2())
+        listaCuestionarios.add(cuestionarioaSO3())
+        listaCuestionarios.add(cuestionarioaSO4())
+        listaCuestionarios.add(cuestionarioaSO5())
+        listaCuestionarios.add(cuestionarioaSO6())
+        listaCuestionarios.add(cuestionarioaSO7())
+        listaCuestionarios.add(cuestionarioaSO8())
+        listaCuestionarios.add(cuestionarioaSO9())
+        listaCuestionarios.add(cuestionarioaSO10())
+
+        listaCuestionarios.add(cuestionarioaIA1())
+        listaCuestionarios.add(cuestionarioaIA2())
+        listaCuestionarios.add(cuestionarioaIA3())
+        listaCuestionarios.add(cuestionarioaIA4())
+        listaCuestionarios.add(cuestionarioaIA5())
+        listaCuestionarios.add(cuestionarioaIA6())
+        listaCuestionarios.add(cuestionarioaIA7())
+        listaCuestionarios.add(cuestionarioaIA8())
+        listaCuestionarios.add(cuestionarioaIA9())
+        listaCuestionarios.add(cuestionarioaIA10())
+
+        listaCuestionarios.add(cuestionarioaC1())
+        listaCuestionarios.add(cuestionarioaC2())
+        listaCuestionarios.add(cuestionarioaC3())
+        listaCuestionarios.add(cuestionarioaC4())
+        listaCuestionarios.add(cuestionarioaC5())
+        listaCuestionarios.add(cuestionarioaC6())
+        listaCuestionarios.add(cuestionarioaC7())
+        listaCuestionarios.add(cuestionarioaC8())
+        listaCuestionarios.add(cuestionarioaC9())
+        listaCuestionarios.add(cuestionarioaC10())
+
+        listaCuestionarios.add(cuestionarioaCA1())
+        listaCuestionarios.add(cuestionarioaCA2())
+        listaCuestionarios.add(cuestionarioaCA3())
+        listaCuestionarios.add(cuestionarioaCA4())
+        listaCuestionarios.add(cuestionarioaCA5())
+        listaCuestionarios.add(cuestionarioaCA6())
+        listaCuestionarios.add(cuestionarioaCA7())
+        listaCuestionarios.add(cuestionarioaCA8())
+        listaCuestionarios.add(cuestionarioaCA9())
+        listaCuestionarios.add(cuestionarioaCA10())
+
 
         listaCuestionarios.forEach {
             val cuestionarioRef = db.collection(QUESTIONNAIRE_PATH).document()
@@ -3961,13 +4102,11 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         }
     }
 
-    */
-
     fun crearCuestionario(title: String, descripcion: String, category: String, num_preg: Int, palabrasClaves: String): Questionaire {
         val q = Questionaire()
         q.title = title
         q.description = descripcion
-        q.category = category
+        q.subject = category
         q.idUser = getUid()
         q.post = true
         q.numberQuest = num_preg

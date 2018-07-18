@@ -74,7 +74,7 @@
     <string name="empty_preferences">No tiene agregado temáticas</string>
     <string name="title_questionnaire">Título</string>
     <string name="tv_new_questionnaire">Nuevo Cuestionario</string>
-    <string name="description_questionnaire">Descripción</string>
+    <string name="description_questionnaire">Descripción (opcional)</string>
     <string name="button_create">Crear</string>
     <string name="keywords">Palabras clave</string>
     <string name="tv_add_keyword">Agregar palabra clave</string>
@@ -124,4 +124,7 @@
     <string name="action_download">Descargar Cuestionario</string>
     <string name="none_questionnaries_repository">Lo sentimos no tenemos cuestionarios</string>
     <string name="none_questionnaries_my_repository">Aun no ha creado ningun cuestionario</string>
+    <string name="number_questions">%1$d preg</string>
+    <string name="facebook_app_id">2056297937962840</string>
+    <string name="fb_login_protocol_scheme">fb2056297937962840</string>
 </resources>

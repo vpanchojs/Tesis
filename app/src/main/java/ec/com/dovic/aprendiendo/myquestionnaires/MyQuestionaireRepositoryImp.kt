@@ -21,7 +21,7 @@ class MyQuestionaireRepositoryImp(var eventBus: EventBusInterface, var firebaseA
                 Log.e("myq", "AAAAA")
                 /*
                 response.forEach {
-                    it.me = it.idUser.equals(firebaseApi.getUid())
+                    it.me = it.pk.equals(firebaseApi.getUid())
                 }
                 */
                 postEvent(MyQuestionaireEvents.ON_GET_QUESTIONAIRE_SUCCESS, response)
