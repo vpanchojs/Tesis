@@ -17,22 +17,26 @@ import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.questionnaireResume.ui.QuestionnaireResumeActivity
 import ec.com.dovic.aprendiendo.repository.QuestionnaireRepositoryPresenter
 import ec.com.dovic.aprendiendo.repository.adapter.QuestionnaireRepositoryAdapter
+import ec.com.dovic.aprendiendo.repository.adapter.RecommendationAdapter
+import ec.com.dovic.aprendiendo.repository.adapter.onRecommendationAdapterListener
 import ec.com.dovic.aprendiendo.util.BaseActivitys
+import kotlinx.android.synthetic.main.activity_questionnaire_repository.*
 import kotlinx.android.synthetic.main.activity_questionnaire_repository.view.*
-import kotlinx.android.synthetic.main.fragment_questions_view.*
 import javax.inject.Inject
 
-class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView, ec.com.dovic.aprendiendo.repository.adapter.onQuestionnaireAdapterListener {
+class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView, ec.com.dovic.aprendiendo.repository.adapter.onQuestionnaireAdapterListener, onRecommendationAdapterListener {
 
     override fun navigationToDetailQuestionnarie(questionaire: Any) {
         startActivity(Intent(context, QuestionnaireResumeActivity::class.java).putExtra(QuestionnaireResumeActivity.PARAM_QUESTIONNAIRE, questionaire as Questionaire))
     }
 
     var questionnaries = ArrayList<Questionaire>()
+    var recomendationsQuestionnaries = ArrayList<Questionaire>()
     lateinit var application: MyApplication
     lateinit var progresbar: ProgressBar
     lateinit var tv_none_questionnaires: TextView
     lateinit var adapter: QuestionnaireRepositoryAdapter
+    lateinit var adapterRecommendations: RecommendationAdapter
 
 
     @Inject
@@ -41,6 +45,7 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = QuestionnaireRepositoryAdapter(questionnaries, this)
+        adapterRecommendations = RecommendationAdapter(recomendationsQuestionnaries, this)
         setupInjection()
     }
 
@@ -53,6 +58,7 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
         super.onStart()
         presenter.onSuscribe()
         presenter.onGetQuestionnaireRepo()
+        presenter.onGetRecomendations()
     }
 
     override fun onStop() {
@@ -69,6 +75,10 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
                 DividerItemDecoration.VERTICAL)
         view.rv_questionnaire.addItemDecoration(mDividerItemDecoration)
         view.rv_questionnaire.adapter = adapter
+
+        view.rv_recommendations.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        view.rv_recommendations.adapter = adapterRecommendations
+
         progresbar = view.progressbar
         tv_none_questionnaires = view.tv_none_questionnaires
         return view
@@ -88,8 +98,18 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
         adapter.notifyDataSetChanged()
     }
 
+    override fun setRecomendations(questionnaire_list: List<Questionaire>) {
+        recomendationsQuestionnaries!!.clear()
+        adapterRecommendations.data.addAll(questionnaire_list)
+        adapterRecommendations.notifyDataSetChanged()
+    }
+
     override fun none_results(show: Boolean) {
         if (show) tv_none_questionnaires.visibility = View.VISIBLE else tv_none_questionnaires.visibility = View.GONE
+    }
+
+    override fun none_recommendations(visible: Int) {
+        cl_recomendations.visibility = visible
     }
 
     companion object {

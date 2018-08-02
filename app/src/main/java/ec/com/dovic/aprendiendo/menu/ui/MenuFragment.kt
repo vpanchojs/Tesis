@@ -140,7 +140,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
             }
             */
             0 -> {
-                presenter.crearCuestionario()
+               //presenter.crearCuestionario()
                 showMessagge("Términos y Condiciones")
             }
             1 -> {

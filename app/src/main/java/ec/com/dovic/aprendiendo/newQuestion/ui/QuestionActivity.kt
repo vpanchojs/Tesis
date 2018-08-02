@@ -144,7 +144,6 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener, QuestionView
 
     override fun onResume() {
         super.onResume()
-        checkPermissions()
     }
 
     private fun setupToolbar(title: String) {

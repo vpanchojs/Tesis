@@ -1,0 +1,14 @@
+package ec.com.dovic.aprendiendo.util
+
+enum class Categories(var value: Int) {
+    DESARROLLO_MOVIL(0),
+    DESARROLLO_WEB_FRONTED(1),
+    COMPILADORES(2),
+    TELEMATICA(3),
+    BASE_DATOS(4),
+    PROGRAMACION_BASICA(5),
+    ARQUITECTURA_COMPUTADORAS(6),
+    SISTEMAS_OPERATIVOS(7),
+    INTELIGENCIA_ARTIFICIAL(8),
+    CONTROL_AUTOMATIZADO(9)
+}

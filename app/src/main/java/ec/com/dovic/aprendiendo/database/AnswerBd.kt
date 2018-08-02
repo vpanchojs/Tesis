@@ -22,5 +22,4 @@ class AnswerBd {
     @ColumnInfo(name = "question_id")
     var questionId: Long? = null
 
-
 }

@@ -1,5 +1,6 @@
 package ec.com.dovic.aprendiendo.repository
 
+import android.view.View
 import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.repository.events.QuestionnaireRepositoryEvents
@@ -22,6 +23,10 @@ class QuestionnaireRepositoryPresenterImp(var eventBus: EventBusInterface, var v
         eventBus.unregister(this)
     }
 
+    override fun onGetRecomendations() {
+        interactor.onGetRecomendations()
+    }
+
     @Subscribe
     fun onEventThread(event: QuestionnaireRepositoryEvents) {
         view.showProgress(false)
@@ -38,6 +43,15 @@ class QuestionnaireRepositoryPresenterImp(var eventBus: EventBusInterface, var v
             }
             QuestionnaireRepositoryEvents.ON_GET_QUESTIONAIRE_ERROR -> {
 
+            }
+            QuestionnaireRepositoryEvents.ON_GET_RECOMMENDATIONS_SUCCESS -> {
+                var questionnaire_list = event.any as List<Questionaire>
+                if (questionnaire_list.size > 0) {
+                    view.none_recommendations(View.VISIBLE)
+                    view.setRecomendations(questionnaire_list)
+                } else {
+                    view.none_recommendations(View.GONE)
+                }
             }
         }
     }

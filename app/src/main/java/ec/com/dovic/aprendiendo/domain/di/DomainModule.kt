@@ -2,6 +2,7 @@ package ec.com.dovic.aprendiendo.domain.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
@@ -30,7 +31,7 @@ class DomainModule(var app: MyApplication, var db: Db) {
     @Provides
     @Singleton
     fun providesFirebaseApi(): FirebaseApi {
-        return FirebaseApi(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance(), FirebaseStorage.getInstance().reference)
+        return FirebaseApi(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance(), FirebaseStorage.getInstance().reference,FirebaseFunctions.getInstance())
     }
 
 

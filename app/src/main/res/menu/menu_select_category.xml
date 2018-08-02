@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/m1"
+        android:title="DESARROLLO MOVIL" />
+    <item
+        android:id="@+id/m2"
+        android:title="DESARROLLO WEB FRONTEND" />
+    <item
+        android:id="@+id/m3"
+        android:title="TELEMÁTICA" />
+    <item
+        android:id="@+id/m4"
+        android:title="BASE DE DATOS" />
+    <item
+        android:id="@+id/m5"
+        android:title="PROGRAMACION BÁSICA" />
+    <item
+        android:id="@+id/m6"
+        android:title="ARQUITECTURA DE COMPUTADORES" />
+    <item
+        android:id="@+id/m7"
+        android:title="SISTEMAS OPERATIVOS" />
+    <item
+        android:id="@+id/m8"
+        android:title="INTELIGENCIA ARTIFICAL" />
+    <item
+        android:id="@+id/m9"
+        android:title="COMPILADORES" />
+    <item
+        android:id="@+id/m10"
+        android:title="CONTROL AUTOMATIZADO" />
+
+
+</menu>

@@ -62,9 +62,9 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     }
 
     private fun setupFieldsValidation() {
-        var fields = ArrayList<TextInputEditText>()
-        fields.add(tie_comment!!)
-        onTextChangedListener(fields, btn_action!!)
+       // var fields = ArrayList<TextInputEditText>()
+        //fields.add(tie_comment!!)
+        //onTextChangedListener(fields, btn_action!!)
     }
 
 

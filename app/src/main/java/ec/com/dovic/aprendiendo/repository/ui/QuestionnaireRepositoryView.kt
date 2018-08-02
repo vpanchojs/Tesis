@@ -7,5 +7,7 @@ interface QuestionnaireRepositoryView {
     fun showMessagge(message: Any)
     fun setQuestionnaries(questionaire: List<Questionaire>)
     fun none_results(show: Boolean)
+    fun setRecomendations(questionnaire_list: List<Questionaire>)
+    fun none_recommendations(visible: Int)
 
 }

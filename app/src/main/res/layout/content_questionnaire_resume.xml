@@ -49,18 +49,34 @@
 
             <TextView
                 android:id="@+id/tv_user"
-                android:layout_width="0dp"
+                android:layout_width="132dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Propietario"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_person"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_category"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/iv_person"
                 app:layout_constraintTop_toTopOf="@+id/iv_person" />
+
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="132dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Categoria"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_user"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tv_user"
+                app:layout_constraintTop_toTopOf="@+id/tv_user" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/cl_options"

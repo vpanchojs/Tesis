@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.item_answer_select.view.*
 
 class AnswerSelectAdapter(var data: ArrayList<AnswerBd>) : RecyclerView.Adapter<AnswerSelectAdapter.ViewHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_answer_select, parent, false);
         return ViewHolder(view);

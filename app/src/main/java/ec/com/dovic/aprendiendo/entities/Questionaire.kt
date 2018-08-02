@@ -61,6 +61,9 @@ class Questionaire() : Parcelable {
         result["postDate"] = FieldValue.serverTimestamp()
         result["numberQuest"] = numberQuest
         result["subject"] = subject
+        result["keywords"] = keywords
+        result["assessment"] = assessment
+        result["numAssessment"] = numAssessment
         result["post"] = post
         return result
     }

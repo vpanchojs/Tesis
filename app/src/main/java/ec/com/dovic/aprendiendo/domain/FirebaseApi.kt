@@ -10,20 +10,23 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.*
+import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.entities.*
 import java.io.ByteArrayOutputStream
+import java.util.HashMap
 import java.util.concurrent.*
+import kotlin.collections.ArrayList
 
 
 /**
  * Created by victor on 23/1/18.
  */
 
-class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storage: StorageReference) {
+class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storage: StorageReference, val functions: FirebaseFunctions) {
 
     private val TAG = "FirebaseApi"
     private val USERS_PATH = "users"
@@ -35,6 +38,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     private val QUESTIONS_PATH = "questions"
     private val ANSWER_PATH = "answers"
     private val STORAGE_USER_PHOTO_PATH = "user-photos"
+    private val RECOMMENDATION_PATH = "recommendations"
 
 
     private val STORAGE_QUESTIONNAIRE_PHOTO = "questionnnaire-photos"
@@ -42,8 +46,9 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     private val SUBJECTS_PATH = "subjects"
     private val ACADEMICS_PATH = "academics"
     var mAuthListener: FirebaseAuth.AuthStateListener? = null
+    val PATH_DOWNLOAD_QUESTIONNAIRE = "download_questionnaire"
 
-    private val EXECUTOR = ThreadPoolExecutor(2, 4,
+    private val EXElllCUTOR = ThreadPoolExecutor(2, 4,
             60, TimeUnit.SECONDS, LinkedBlockingQueue<Runnable>())
 
     fun autenticationGoogle(idToken: String, user: User, callback: OnCallbackApis<User>) {
@@ -98,7 +103,6 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                     callback.onError(ManageErrorFirebaseApi.getMessageErrorFirebaseAuth(it))
                 }
     }
-
 
     fun signIn(email: String, password: String, callback: OnCallbackApis<Boolean>) {
         mAuth.signInWithEmailAndPassword(email, password)
@@ -311,6 +315,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
     fun setSubjects(subject: ArrayList<Subject>, callback: onDomainApiActionListener) {
+        /*
         deleteCollection(EXECUTOR).addOnCompleteListener {
             if (it.isSuccessful) {
                 val batch = db.batch()
@@ -334,7 +339,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
                 Log.e(TAG, "error borrando")
             }
         }
-
+*/
 
     }
 
@@ -486,7 +491,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
     fun getMyQuestionnaries(id: String, callback: OnCallbackApis<QuerySnapshot>) {
-        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("pk", id)
+        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("idUser", id)
                 .get()
                 .addOnSuccessListener {
                     callback.onSuccess(it)
@@ -833,47 +838,62 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
     }
 
     fun getQuestionnaireComplete(idQuestionnaire: String, update: Boolean, callback: OnCallbackApis<Questionaire>) {
-        val qRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
-
-        val dqRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire).collection(DOWNLOAD_PATH).document(getUid())
-
-        val dquRef = db.collection(USERS_PATH).document(getUid()).collection(DOWNLOAD_PATH).document(idQuestionnaire)
-
-        var downQuestionnnaireMap = HashMap<String, Any>()
-        downQuestionnnaireMap.put("date", FieldValue.serverTimestamp())
-        downQuestionnnaireMap.put("pk", getUid())
-
-
-        var downUserMap = HashMap<String, Any>()
-        downUserMap.put("date", FieldValue.serverTimestamp())
-        downUserMap.put("idQuestionnaire", idQuestionnaire)
+        val parametros = HashMap<String, Any>()
+        parametros.put("id", idQuestionnaire)
+        parametros.put("update", update)
+        parametros.put("id_user", getUid())
+        functions.getHttpsCallable(PATH_DOWNLOAD_QUESTIONNAIRE).call(parametros)
+                .addOnSuccessListener {
+                    Log.e("bien", it.data.toString())
+                }
+                .addOnFailureListener {
+                    Log.e("error", it.toString())
+                }
 
 
-        db.runTransaction(object : Transaction.Function<Questionaire> {
-            override fun apply(t: Transaction): Questionaire? {
-                var doc = t.get(qRef)
-                var questionnaire = doc.toObject(Questionaire::class.java)
-                questionnaire!!.idCloud = doc.id
+        /*
+         val qRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
 
-                // Aumentamos en 1 el numero de descargas
-                questionnaire!!.numberDonwloads = if (update) questionnaire!!.numberDonwloads else questionnaire!!.numberDonwloads + 1
+         val dqRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire).collection(DOWNLOAD_PATH).document(getUid())
 
-                t.update(qRef, questionnaire.toMapDownload())
+         val dquRef = db.collection(USERS_PATH).document(getUid()).collection(DOWNLOAD_PATH).document(idQuestionnaire)
 
-                t.set(dqRef, downQuestionnnaireMap)
+         var downQuestionnnaireMap = HashMap<String, Any>()
+         downQuestionnnaireMap.put("date", FieldValue.serverTimestamp())
+         downQuestionnnaireMap.put("pk", getUid())
 
-                t.set(dquRef, downUserMap)
 
-                return questionnaire
-            }
-        }).addOnSuccessListener {
-            Log.e(TAG, "todo bien ")
-            callback.onSuccess(it)
+         var downUserMap = HashMap<String, Any>()
+         downUserMap.put("date", FieldValue.serverTimestamp())
+         downUserMap.put("idQuestionnaire", idQuestionnaire)
 
-        }.addOnFailureListener {
-            Log.e(TAG, it.cause.toString())
-            callback.onError(it.message)
-        }
+
+         db.runTransaction(object : Transaction.Function<Questionaire> {
+             override fun apply(t: Transaction): Questionaire? {
+                 var doc = t.get(qRef)
+                 var questionnaire = doc.toObject(Questionaire::class.java)
+                 questionnaire!!.idCloud = doc.id
+
+                 // Aumentamos en 1 el numero de descargas
+                 questionnaire!!.numberDonwloads = if (update) questionnaire!!.numberDonwloads else questionnaire!!.numberDonwloads + 1
+
+                 t.update(qRef, questionnaire.toMapDownload())
+
+                 t.set(dqRef, downQuestionnnaireMap)
+
+                 t.set(dquRef, downUserMap)
+
+                 return questionnaire
+             }
+         }).addOnSuccessListener {
+             Log.e(TAG, "todo bien ")
+             callback.onSuccess(it)
+
+         }.addOnFailureListener {
+             Log.e(TAG, it.cause.toString())
+             callback.onError(it.message)
+         }
+         */
     }
 
     fun sendEmailVerify() {
@@ -2513,7 +2533,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Programación Básica.", "Conceptos sobre programación básica", "Programación Básica", 3, "programación, básica")
+        val questionnaire = crearCuestionario("PROGRAMACION BÁSICA.", "Conceptos sobre PROGRAMACION BÁSICA", "PROGRAMACION BÁSICA", 3, "programación, básica")
 
 
         /* Primera pregunta*/
@@ -2555,7 +2575,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Lenguajes de Programacion.", "Definición de un lenguaje de programación", "Programación Básica", 1, "definición, lenguaje, programación")
+        val questionnaire = crearCuestionario("Lenguajes de Programacion.", "Definición de un lenguaje de programación", "PROGRAMACION BÁSICA", 1, "definición, lenguaje, programación")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2580,7 +2600,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Tipos de lenguaje de Programacion.", "Clasificación de lenguajes como alto nivel, bajo nivel.", "Programación Básica", 1, "lenguaje,alto nivel, bajo nivel")
+        val questionnaire = crearCuestionario("Tipos de lenguaje de Programacion.", "Clasificación de lenguajes como alto nivel, bajo nivel.", "PROGRAMACION BÁSICA", 1, "lenguaje,alto nivel, bajo nivel")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2598,7 +2618,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Lenguaje Emsamblador", "Definición de lenguaje emsamblador", "Programación Básica", 1, "lenguaje, emsamblador")
+        val questionnaire = crearCuestionario("Lenguaje Emsamblador", "Definición de lenguaje emsamblador", "PROGRAMACION BÁSICA", 1, "lenguaje, emsamblador")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2616,7 +2636,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Lenguaje Máquina", "Definición de lenguaje máquina", "Programación Básica", 1, "lenguaje, máquina")
+        val questionnaire = crearCuestionario("Lenguaje Máquina", "Definición de lenguaje máquina", "PROGRAMACION BÁSICA", 1, "lenguaje, máquina")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2634,7 +2654,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Lenguaje Alto Nivel", "Definición de lenguaje de alto nivel", "Programación Básica", 1, "lenguaje, alto nivel")
+        val questionnaire = crearCuestionario("Lenguaje Alto Nivel", "Definición de lenguaje de alto nivel", "PROGRAMACION BÁSICA", 1, "lenguaje, alto nivel")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2652,7 +2672,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Programacion Orientada a objetos", "Lenguajes de programación con paradigma orientado a objetos", "Programación Básica", 1, "paradigma, orientado, objetos")
+        val questionnaire = crearCuestionario("Programacion Orientada a objetos", "Lenguajes de programación con paradigma orientado a objetos", "PROGRAMACION BÁSICA", 1, "paradigma, orientado, objetos")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2670,7 +2690,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Tipos de Datos", "Principales tipos de datos usados en programación", "Programación Básica", 1, "tipos, datos")
+        val questionnaire = crearCuestionario("Tipos de Datos", "Principales tipos de datos usados en programación", "PROGRAMACION BÁSICA", 1, "tipos, datos")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2688,7 +2708,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Clases", "Definción de una clase en programación", "Programación Básica", 1, "clase, programacion")
+        val questionnaire = crearCuestionario("Clases", "Definción de una clase en programación", "PROGRAMACION BÁSICA", 1, "clase, programacion")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2706,7 +2726,7 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Atributos", "Definción de una atributo de una clase en programación", "Programación Básica", 1, "atributos, clase")
+        val questionnaire = crearCuestionario("Atributos", "Definción de una atributo de una clase en programación", "PROGRAMACION BÁSICA", 1, "atributos, clase")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -4128,6 +4148,17 @@ class FirebaseApi(val db: FirebaseFirestore, var mAuth: FirebaseAuth, var storag
         question.photoUrl = url
         return question
         //repository.onCreateQuestion(question, idQuestionnaire)
+    }
+
+    fun getRecommendations(callback: OnCallbackApis<QuerySnapshot>) {
+        db.collection(USERS_PATH).document(getUid()).collection(RECOMMENDATION_PATH).get()
+                .addOnSuccessListener {
+                    callback.onSuccess(it)
+                }
+                .addOnFailureListener {
+                    callback.onError(it.toString())
+                }
+
     }
 
 

@@ -66,10 +66,11 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
         val isDownLoad = p0!!.getBooleanExtra(ISDOWNLOAD, false)
         Log.e("servicie", idQuestionnaire)
 
-
         /*Solicitamos el cuestionario al servidor*/
         firebaseApi.getQuestionnaireComplete(idQuestionnaire, isDownLoad, object : OnCallbackApis<Questionaire> {
             override fun onSuccess(response: Questionaire) {
+
+                /*
                 questionaire = response
 
                 var questionnaireBd = QuestionnaireBd()
@@ -163,113 +164,20 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
                     }
                 })
 
-
+*/
             }
 
             override fun onError(error: Any?) {
+                /*
                 cicle = false
                 correct = false
                 BaseActivitys.showToastMessage(applicationContext, "Error descargando", Toast.LENGTH_LONG)
+                */
             }
         })
 
 
-        /*Solicitamos el cuestionario al servidor*/
         /*
-        firebaseApi.getQuestionnarie(idQuestionnaire, object : OnCallbackApis<DocumentSnapshot> {
-            override fun onSuccess(responseQuestionnaire: DocumentSnapshot) {
-
-                questionaire = responseQuestionnaire.toObject(Questionaire::class.java)!!
-                /*Llenamos el objecto de cuestionara bd*/
-                var questionnaireBd = QuestionnaireBd()
-                questionnaireBd.idCloud = responseQuestionnaire.id
-                questionnaireBd.description = questionaire!!.description
-                questionnaireBd.pk = questionaire.pk
-                questionnaireBd.title = questionaire.title
-                questionnaireBd.numberQuest = questionaire.numberQuest
-
-                dbApi.insertQuestionnaire(questionnaireBd, object : OnCallbackApis<Long> {
-                    override fun onSuccess(id: Long) {
-                        Log.e("cues", "se guardo cuestionario")
-
-                        firebaseApi.getQuestions(idQuestionnaire, object : OnCallbackApis<QuerySnapshot> {
-                            override fun onSuccess(response: QuerySnapshot) {
-
-                                //CONTROL
-                                questionsSize = response.size()
-
-                                /*Recorremos toda la lista de preguntas*/
-                                response.forEach {
-                                    var question = it.toObject(Question::class.java)
-                                    question.idCloud = it.id
-
-
-                                    /*Llenamos una pregunta*/
-                                    var quest = QuestionBd()
-                                    quest.statement = question.statement
-                                    quest.photoUrl = question.photoUrl
-                                    quest.questionnaireId = id
-
-                                    dbApi.insertQuestion(quest, object : OnCallbackApis<Long> {
-                                        override fun onSuccess(response: Long) {
-                                            //CONTROL
-                                            cont++
-
-                                            Log.e("cues", "se guardo pregunta")
-                                            question.answers.forEach {
-
-                                                var answer = AnswerBd()
-                                                answer.statement = it.statement
-                                                answer.correct = it.correct
-                                                answer.questionId = response
-
-                                                dbApi.insertAnswer(answer, object : OnCallbackApis<Long> {
-                                                    override fun onSuccess(response: Long) {
-                                                        Log.e("cues", "se guardo respuesta")
-
-                                                    }
-
-                                                    override fun onError(error: Any?) {
-
-                                                    }
-                                                })
-
-                                            }
-
-                                        }
-
-                                        override fun onError(error: Any?) {
-
-                                        }
-                                    })
-
-                                }
-
-
-                            }
-
-                            override fun onError(error: Any?) {
-                                BaseActivitys.showToastMessage(applicationContext, "Error descargando", Toast.LENGTH_LONG)
-                            }
-                        })
-
-                    }
-
-                    override fun onError(error: Any?) {
-
-                    }
-                })
-
-
-            }
-
-            override fun onError(error: Any?) {
-                BaseActivitys.showToastMessage(applicationContext, "Error descargando", Toast.LENGTH_LONG)
-            }
-        })
-        */
-
-
         while (cicle) {
             Log.e(TAG, "descargando cuestionario")
             cicle = !(cont == questionsSize)
@@ -281,6 +189,7 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
             setNotification(questionaire.title!!)
             sendStatusBroadcast(true)
         }
+        */
     }
 
 

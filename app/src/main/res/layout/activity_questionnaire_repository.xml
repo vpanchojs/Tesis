@@ -2,19 +2,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="8dp"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     tools:context="ec.com.dovic.aprendiendo.myquestionnaires.ui.MyQuestionnairesFragment">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_recomendations"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <TextView
+            android:id="@+id/tv_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recomendaciones"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_recommend" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_questionnaire"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cl_recomendations" />
 
     <ProgressBar
         android:id="@+id/progressbar"

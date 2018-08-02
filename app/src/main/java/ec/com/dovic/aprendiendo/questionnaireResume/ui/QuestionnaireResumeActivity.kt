@@ -145,6 +145,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
     private fun setDataQuestionnaire() {
         tv_title.setText(questionaire.title)
         tv_description.setText(questionaire.description)
+        tv_category.text = questionaire.subject
         if (questionaire.assessment <= 0.0) {
             tv_raiting.setText("Sin")
         } else {

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.RadioGroup
 import android.widget.Toast
 import ec.com.dovic.aprendiendo.MyApplication
@@ -31,6 +32,7 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
                     rb_private.isChecked = true
                 }
             }
+
         }
     }
 
@@ -42,6 +44,7 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
 
     lateinit var application: MyApplication
     lateinit var questionaire: Questionaire
+    var category: String = "Otra"
 
     @Inject
     lateinit var presenter: UpdateQuestionairePresenter
@@ -53,12 +56,19 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
         setupInjection()
         setupFieldsValidation()
         setupToolBar()
-        btn_create!!.setOnClickListener(this)
+        setupEvent()
         if (intent.extras != null) {
             questionaire = intent.extras.getParcelable(PARAM_QUESTIONNAIRE)
             setDataQuestionnaire()
         }
+
+
+    }
+
+    private fun setupEvent() {
+        btn_select_category.setOnClickListener(this)
         rg_visibility.setOnCheckedChangeListener(this)
+        btn_create!!.setOnClickListener(this)
     }
 
     private fun setDataQuestionnaire() {
@@ -112,9 +122,23 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
                 questionaire.difficulty = getDifficulty()
                 questionaire.keywords = tie_keyword.text.toString()
                 questionaire.post = getPublicOrPrivate()
+                questionaire.subject = category
                 Log.e("update", getPublicOrPrivate().toString())
                 presenter.onUploadQuestionaire(questionaire)
                 //presenter.onUploadQuestionaire(tie_title.text.toString(), tie_discription.text.toString(), getDifficulty(), data!!, questionaire.idQuestionaire)
+            }
+            R.id.btn_select_category -> {
+                val popmenu = PopupMenu(this, btn_select_category)
+                popmenu.menuInflater.inflate(R.menu.menu_select_category, popmenu.menu)
+
+                popmenu.setOnMenuItemClickListener {
+                    btn_select_category.text = it.title
+                    category = it.title.toString()
+                    return@setOnMenuItemClickListener true
+                }
+
+                popmenu.show()
+
             }
         }
     }

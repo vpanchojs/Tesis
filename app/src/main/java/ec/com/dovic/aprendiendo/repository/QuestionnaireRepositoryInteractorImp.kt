@@ -5,4 +5,8 @@ class QuestionnaireRepositoryInteractorImp(var repository: QuestionnaireReposito
     override fun onGetQuestionnaireRepo() {
         repository.onGetQuestionnaireRepo()
     }
+
+    override fun onGetRecomendations() {
+        repository.onGetRecomendations()
+    }
 }
