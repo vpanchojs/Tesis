@@ -4,17 +4,19 @@ import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
+import ec.com.dovic.aprendiendo.domain.RetrofitApi
 import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.domain.services.DbApi
 import ec.com.dovic.aprendiendo.entities.Question
+import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.entities.Raiting
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.questionnaireResume.events.QuestionnaireResumeEvents
 
 
-class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var dbApi: DbApi) : QuestionnaireResumeRepository {
+class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var dbApi: DbApi, var retrofitApi: RetrofitApi) : QuestionnaireResumeRepository {
 
 
     override fun isExistQuestionnnaireLocal(idCloud: String) {
@@ -43,17 +45,17 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
     }
 
     override fun getQuestionnaire(idQuestionnaire: String) {
-        /*
-        firebaseApi.getQuestionsComplete(idQuestionnaire, object : onDomainApiActionListener {
-            override fun onSuccess(response: Any?) {
-
+        firebaseApi.getQuestionsComplete(idQuestionnaire, object : OnCallbackApis<DocumentSnapshot> {
+            override fun onSuccess(response: DocumentSnapshot) {
+                val questionnaire = response.toObject(Questionaire::class.java)
+                questionnaire!!.idCloud = response.id
+                postEvent(QuestionnaireResumeEvents.ON_GET_QUESTIONNAIRE_SUCCESS, questionnaire)
             }
 
             override fun onError(error: Any?) {
-
+                postEvent(QuestionnaireResumeEvents.ON_GET_QUESTIONNAIRE_ERROR, error!!)
             }
         })
-        */
     }
 
 
@@ -100,8 +102,9 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
     }
 
     override fun setRaiting(raiting: Raiting, update: Boolean, oldRaiting: Double) {
-        firebaseApi.onSetRaiting(raiting, update,oldRaiting, object : onDomainApiActionListener {
+        firebaseApi.onSetRaiting(raiting, update, oldRaiting, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {
+                retrofitApi.generateRecommendations(firebaseApi.getUid(), raiting.idQuestionaire)
                 postEvent(QuestionnaireResumeEvents.ON_SET_RATING_SUCCESS, response!!)
             }
 

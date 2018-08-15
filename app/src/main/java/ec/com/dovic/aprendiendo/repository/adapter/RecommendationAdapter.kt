@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import ec.com.dovic.aprendiendo.R
 import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.repository.ui.QuestionnaireRepositoryFragment
+import kotlinx.android.synthetic.main.item_questionnarie_recomendation.view.*
 import kotlinx.android.synthetic.main.item_questionnarie_repository.view.*
 
 /**
@@ -24,7 +25,7 @@ class RecommendationAdapter(var data: ArrayList<Questionaire>, var callback: onR
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val questionaire = data.get(position)
-        holder.view.tv_title.text = questionaire.title
+        holder.view.tv_title_questionnaire.text = questionaire.title
         holder.onClickListener(questionaire, callback)
     }
 

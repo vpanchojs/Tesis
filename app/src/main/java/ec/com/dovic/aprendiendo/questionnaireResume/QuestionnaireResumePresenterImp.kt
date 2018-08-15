@@ -3,6 +3,7 @@ package ec.com.dovic.aprendiendo.questionnaireResume
 import android.util.Log
 import android.view.View
 import ec.com.dovic.aprendiendo.entities.Question
+import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.entities.Raiting
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
@@ -116,6 +117,14 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
                 } else {
                     view.dowloadQuestionnaire()
                 }
+            }
+
+            QuestionnaireResumeEvents.ON_GET_QUESTIONNAIRE_SUCCESS -> {
+                view.setDataQuestionnaire(event.any as Questionaire)
+            }
+
+            QuestionnaireResumeEvents.ON_GET_QUESTIONNAIRE_SUCCESS -> {
+                view.showMessagge(event.any)
             }
 
         }

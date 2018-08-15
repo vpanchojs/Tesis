@@ -199,7 +199,8 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         super.onResume()
         presenter.onSuscribe()
         presenter.onGetQuestionAll(questionaire.idCloud)
-        presenter.onGetUser(questionaire.idUser!!)
+        presenter.getQuestionnaire(questionaire.idCloud)
+        //presenter.onGetUser(questionaire.idUser!!)
         presenter.onGetRaitingsAll(questionaire.idCloud)
         presenter.isDownloaded(questionaire.idCloud)
         LocalBroadcastManager.getInstance(this)
@@ -296,5 +297,21 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
 
     override fun setDownload(b: Boolean) {
         is_download = b
+    }
+
+    override fun setDataQuestionnaire(questionaire: Questionaire) {
+        tv_title.setText(questionaire.title)
+        tv_description.setText(questionaire.description)
+        tv_category.text = questionaire.subject
+        if (questionaire.assessment <= 0.0) {
+            tv_raiting.setText("Sin")
+        } else {
+            tv_raiting.setText(questionaire.assessment.toString())
+        }
+        tv_questions_num.setText(questionaire.numberQuest.toString())
+
+        tv_subtitle_bs.text = "${questionaire.numAssessment} calificaciones"
+
+        presenter.onGetUser(questionaire.idUser!!)
     }
 }

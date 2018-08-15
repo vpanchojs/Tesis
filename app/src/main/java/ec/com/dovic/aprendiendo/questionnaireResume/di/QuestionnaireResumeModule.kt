@@ -3,6 +3,7 @@ package ec.com.dovic.aprendiendo.QuestionnaireResumenaireResume.di
 import dagger.Module
 import dagger.Provides
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
+import ec.com.dovic.aprendiendo.domain.RetrofitApi
 import ec.com.dovic.aprendiendo.domain.services.DbApi
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.questionnaireResume.*
@@ -35,7 +36,7 @@ class QuestionnaireResumeModule(var view: QuestionnaireResumeView) {
 
     @Provides
     @Singleton
-    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, dbApi: DbApi): QuestionnaireResumeRepository {
-        return QuestionnaireResumeRepositoryImp(eventBus, firebaseApi, dbApi)
+    fun providesRepository(eventBus: EventBusInterface, firebaseApi: FirebaseApi, dbApi: DbApi, retrofitApi: RetrofitApi): QuestionnaireResumeRepository {
+        return QuestionnaireResumeRepositoryImp(eventBus, firebaseApi, dbApi, retrofitApi)
     }
 }

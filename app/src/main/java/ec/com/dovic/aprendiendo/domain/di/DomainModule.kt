@@ -9,6 +9,7 @@ import dagger.Provides
 import ec.com.dovic.aprendiendo.MyApplication
 import ec.com.dovic.aprendiendo.database.Db
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
+import ec.com.dovic.aprendiendo.domain.RetrofitApi
 import ec.com.dovic.aprendiendo.domain.SharePreferencesApi
 import ec.com.dovic.aprendiendo.domain.services.DbApi
 import javax.inject.Singleton
@@ -28,10 +29,17 @@ class DomainModule(var app: MyApplication, var db: Db) {
         return SharePreferencesApi(app.getSharePreferences())
     }
 
+
+    @Provides
+    @Singleton
+    fun providesRetofitApi(): RetrofitApi {
+        return RetrofitApi()
+    }
+
     @Provides
     @Singleton
     fun providesFirebaseApi(): FirebaseApi {
-        return FirebaseApi(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance(), FirebaseStorage.getInstance().reference,FirebaseFunctions.getInstance())
+        return FirebaseApi(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance(), FirebaseStorage.getInstance().reference, FirebaseFunctions.getInstance())
     }
 
 

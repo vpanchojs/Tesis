@@ -13,6 +13,8 @@ import com.google.firebase.firestore.*
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.google.gson.Gson
+import ec.com.dovic.aprendiendo.database.QuestionnaireBd
 import ec.com.dovic.aprendiendo.domain.listeners.OnCallbackApis
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.entities.*
@@ -47,6 +49,8 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
     private val ACADEMICS_PATH = "academics"
     var mAuthListener: FirebaseAuth.AuthStateListener? = null
     val PATH_DOWNLOAD_QUESTIONNAIRE = "download_questionnaire"
+    val gson = Gson()
+
 
     private val EXElllCUTOR = ThreadPoolExecutor(2, 4,
             60, TimeUnit.SECONDS, LinkedBlockingQueue<Runnable>())
@@ -658,33 +662,10 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
     }
 
 
-    fun getQuestionsComplete(idQuestionnaire: String, callback: onDomainApiActionListener) {
-        var questionsRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire).collection(QUESTIONS_PATH)
-        questionsRef
-                .get()
+    fun getQuestionsComplete(idQuestionnaire: String, callback: OnCallbackApis<DocumentSnapshot>) {
+        db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire).get()
                 .addOnSuccessListener {
-                    var questionsList = ArrayList<Question>()
-                    it.documents.forEach {
-                        var question = it.toObject(Question::class.java)
-                        question!!.idCloud = it.id
-
-                        questionsRef.document(it.id).collection(ANSWER_PATH)
-                                .get()
-                                .addOnSuccessListener {
-                                    var answersList = ArrayList<Answer>()
-                                    it.documents.forEach {
-                                        var answer = it.toObject(Answer::class.java)
-                                        answer!!.idCloud = it.id
-                                        answersList.add(answer)
-                                    }
-                                    question.answers = answersList
-
-                                }
-                                .addOnFailureListener {
-                                    callback.onError(it.toString())
-                                }
-
-                    }
+                    callback.onSuccess(it)
                 }
                 .addOnFailureListener {
                     callback.onError(it.toString())
@@ -837,7 +818,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
     }
 
-    fun getQuestionnaireComplete(idQuestionnaire: String, update: Boolean, callback: OnCallbackApis<Questionaire>) {
+    fun getQuestionnaireComplete(idQuestionnaire: String, update: Boolean, callback: OnCallbackApis<QuestionnaireBd>) {
         val parametros = HashMap<String, Any>()
         parametros.put("id", idQuestionnaire)
         parametros.put("update", update)
@@ -845,55 +826,14 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
         functions.getHttpsCallable(PATH_DOWNLOAD_QUESTIONNAIRE).call(parametros)
                 .addOnSuccessListener {
                     Log.e("bien", it.data.toString())
+                    val questionnaireBd = gson.fromJson(gson.toJson(it.data), QuestionnaireBd::class.java)
+                    callback.onSuccess(questionnaireBd)
                 }
+
                 .addOnFailureListener {
                     Log.e("error", it.toString())
+
                 }
-
-
-        /*
-         val qRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire)
-
-         val dqRef = db.collection(QUESTIONNAIRE_PATH).document(idQuestionnaire).collection(DOWNLOAD_PATH).document(getUid())
-
-         val dquRef = db.collection(USERS_PATH).document(getUid()).collection(DOWNLOAD_PATH).document(idQuestionnaire)
-
-         var downQuestionnnaireMap = HashMap<String, Any>()
-         downQuestionnnaireMap.put("date", FieldValue.serverTimestamp())
-         downQuestionnnaireMap.put("pk", getUid())
-
-
-         var downUserMap = HashMap<String, Any>()
-         downUserMap.put("date", FieldValue.serverTimestamp())
-         downUserMap.put("idQuestionnaire", idQuestionnaire)
-
-
-         db.runTransaction(object : Transaction.Function<Questionaire> {
-             override fun apply(t: Transaction): Questionaire? {
-                 var doc = t.get(qRef)
-                 var questionnaire = doc.toObject(Questionaire::class.java)
-                 questionnaire!!.idCloud = doc.id
-
-                 // Aumentamos en 1 el numero de descargas
-                 questionnaire!!.numberDonwloads = if (update) questionnaire!!.numberDonwloads else questionnaire!!.numberDonwloads + 1
-
-                 t.update(qRef, questionnaire.toMapDownload())
-
-                 t.set(dqRef, downQuestionnnaireMap)
-
-                 t.set(dquRef, downUserMap)
-
-                 return questionnaire
-             }
-         }).addOnSuccessListener {
-             Log.e(TAG, "todo bien ")
-             callback.onSuccess(it)
-
-         }.addOnFailureListener {
-             Log.e(TAG, it.cause.toString())
-             callback.onError(it.message)
-         }
-         */
     }
 
     fun sendEmailVerify() {

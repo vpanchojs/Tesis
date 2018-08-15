@@ -1,6 +1,7 @@
 package ec.com.dovic.aprendiendo.questionnaireResume.ui
 
 import ec.com.dovic.aprendiendo.entities.Question
+import ec.com.dovic.aprendiendo.entities.Questionaire
 import ec.com.dovic.aprendiendo.entities.Raiting
 import ec.com.dovic.aprendiendo.entities.User
 
@@ -20,4 +21,5 @@ interface QuestionnaireResumeView {
     fun dowloadQuestionnaire()
     fun confirmDownloadQuestionnaire()
     fun setDownload(b: Boolean)
+    fun setDataQuestionnaire(questionaire: Questionaire)
 }

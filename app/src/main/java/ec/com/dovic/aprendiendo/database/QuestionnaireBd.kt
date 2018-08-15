@@ -2,6 +2,7 @@ package ec.com.dovic.aprendiendo.database
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
@@ -9,6 +10,7 @@ import android.os.Parcelable
 
 @Entity(tableName = "questionnnaire")
 class QuestionnaireBd() : Parcelable {
+
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
@@ -20,6 +22,8 @@ class QuestionnaireBd() : Parcelable {
     var description: String? = null
     var numberQuest: Int = 0
     var me = false
+    @Ignore
+    var questions: ArrayList<QuestionBd>? = null
 
 
     constructor(parcel: Parcel) : this() {

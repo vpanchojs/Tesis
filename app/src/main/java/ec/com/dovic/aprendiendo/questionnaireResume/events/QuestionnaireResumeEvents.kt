@@ -16,6 +16,7 @@ class QuestionnaireResumeEvents(var type: Int, var any: Any) {
         val ON_GET_RATINGS_ERROR = 7
         val ON_GET_IS_DOWNLOADED_SUCCESS = 8
         val ON_IS_EXIST_QUESTIONNNAIRE_LOCAL = 9
-
+        val ON_GET_QUESTIONNAIRE_SUCCESS = 10
+        val ON_GET_QUESTIONNAIRE_ERROR = 11
     }
 }
