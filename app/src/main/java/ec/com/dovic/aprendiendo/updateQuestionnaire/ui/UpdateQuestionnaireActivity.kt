@@ -75,6 +75,7 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
         tie_title.setText(questionaire.title)
         tie_discription.setText(questionaire.description)
         tie_keyword.setText(questionaire.keywords)
+        btn_select_category.text = if (questionaire.subject.equals("")) "Seleccionar " else questionaire.subject
         setDifficulty(questionaire.difficulty)
         publicOrPrivate(questionaire.post)
     }

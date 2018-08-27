@@ -12,7 +12,6 @@ class RetrofitApi {
     companion object {
         const val TAG = "RetrofitApi"
         val PATH_API = "https://aprendiendo-75d32.appspot.com/"
-
     }
 
     val retrofit = Retrofit.Builder()

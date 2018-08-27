@@ -3,6 +3,8 @@ package ec.com.dovic.aprendiendo.blockResume.ui
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.Fragment
@@ -32,7 +34,16 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         if (p1) {
-            activity!!.startService(Intent(context, ServicieBlock::class.java))
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!Settings.canDrawOverlays(requireActivity())) {
+                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + requireActivity().packageName))
+                    p0!!.isChecked = false
+                    startActivityForResult(intent, REQUEST_PERMISSION_SYSTEM_OVERLAY_RESULT)
+                } else {
+                    activity!!.startService(Intent(context, ServicieBlock::class.java))
+                }
+            }
         } else {
             activity!!.stopService(Intent(context, ServicieBlock::class.java))
             //showMessagge("Bloqueo desactivado")
@@ -183,6 +194,9 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
                     Log.e("permision", "mal"+ resultCode)
                 }*/
             }
+            REQUEST_PERMISSION_SYSTEM_OVERLAY_RESULT -> {
+
+            }
         }
 
     }
@@ -201,6 +215,7 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
 
 
     companion object {
+        val REQUEST_PERMISSION_SYSTEM_OVERLAY_RESULT = 2
         fun newInstance(): BlockResumeFragment {
             val fragment = BlockResumeFragment()
             val args = Bundle()
@@ -267,4 +282,6 @@ class BlockResumeFragment : Fragment(), View.OnClickListener, BlockResumeView, o
         if (ServicieBlock.INSTANCE)
             realoadServicie()
     }
+
+
 }

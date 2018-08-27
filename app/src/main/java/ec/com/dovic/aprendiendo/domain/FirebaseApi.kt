@@ -474,7 +474,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         var doc = db.collection(QUESTIONNAIRE_PATH).document()
         questionaire.idCloud = doc.id
-        doc.set(questionaire.toMap())
+        doc.set(questionaire.toMapAux())
                 .addOnSuccessListener {
                     callback.onSuccess(questionaire)
                 }
@@ -495,12 +495,13 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
     }
 
     fun getMyQuestionnaries(id: String, callback: OnCallbackApis<QuerySnapshot>) {
-        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("idUser", id)
+        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("idUser", id).orderBy("title")
                 .get()
                 .addOnSuccessListener {
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
+                    Log.e(TAG, "error ${it.toString()}")
                     callback.onError(it.message)
                 }
 
@@ -673,13 +674,14 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
     }
 
     fun getQuestionnairesRepo(callback: onDomainApiActionListener) {
-        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("post", true)
+        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("post", true).orderBy("title")
                 .get()
                 .addOnSuccessListener {
                     Log.e(TAG, "succes" + it.toString())
                     callback.onSuccess(it)
                 }
                 .addOnFailureListener {
+                    Log.e(TAG, "error $it" )
                     callback.onError(it.message)
                 }
     }
@@ -2705,7 +2707,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Perificos de salida", "Perificos de salida de un computador", "ARQUITECTURA DE COMPUTADORES", 3, "perifericos, salida")
+        val questionnaire = crearCuestionario("Perificos de salida", "Perificos de salida de un computador", "ARQUITECTURA DE COMPUTADORES", 1, "perifericos, salida")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2723,7 +2725,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("CPU", "Deficion de cpu", "ARQUITECTURA DE COMPUTADORES", 3, "cpu, unidad central procesamiento")
+        val questionnaire = crearCuestionario("CPU", "Deficion de cpu", "ARQUITECTURA DE COMPUTADORES", 1, "cpu, unidad central procesamiento")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2741,7 +2743,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("CPU", "Composicion del cpu", "ARQUITECTURA DE COMPUTADORES", 3, "composicion, cpu, unidad central procesamiento")
+        val questionnaire = crearCuestionario("CPU", "Composicion del cpu", "ARQUITECTURA DE COMPUTADORES", 1, "composicion, cpu, unidad central procesamiento")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2759,7 +2761,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Composcion de una computadora", "Componentes principales de una computadora", "ARQUITECTURA DE COMPUTADORES", 3, "componentes, principales")
+        val questionnaire = crearCuestionario("Composcion de una computadora", "Componentes principales de una computadora", "ARQUITECTURA DE COMPUTADORES", 1, "componentes, principales")
 
 
         /* Primera pregunta*/
@@ -2778,7 +2780,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Unidades de almacenamiento", "Tipo de unidades de almacenamiento", "ARQUITECTURA DE COMPUTADORES", 3, "unidades, almacenamiento")
+        val questionnaire = crearCuestionario("Unidades de almacenamiento", "Tipo de unidades de almacenamiento", "ARQUITECTURA DE COMPUTADORES", 1, "unidades, almacenamiento")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2795,7 +2797,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Disco Duro", "Velocidad de un disco duro", "ARQUITECTURA DE COMPUTADORES", 3, "disco duro, velocidad")
+        val questionnaire = crearCuestionario("Disco Duro", "Velocidad de un disco duro", "ARQUITECTURA DE COMPUTADORES", 1, "disco duro, velocidad")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2812,7 +2814,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Disco Duro", "Capacidad de un disco duro", "ARQUITECTURA DE COMPUTADORES", 3, "disco duro, capacidad")
+        val questionnaire = crearCuestionario("Disco Duro", "Capacidad de un disco duro", "ARQUITECTURA DE COMPUTADORES", 1, "disco duro, capacidad")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2829,7 +2831,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Bios", "Funciones principales de la bios", "ARQUITECTURA DE COMPUTADORES", 3, "bios, funciones")
+        val questionnaire = crearCuestionario("Bios", "Funciones principales de la bios", "ARQUITECTURA DE COMPUTADORES", 1, "bios, funciones")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -2846,7 +2848,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Procesador", "Funcion principal de la CPU", "ARQUITECTURA DE COMPUTADORES", 3, "cpu, funciones")
+        val questionnaire = crearCuestionario("Procesador", "Funcion principal de la CPU", "ARQUITECTURA DE COMPUTADORES", 1, "cpu, funciones")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
@@ -3919,6 +3921,778 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
         return questionnaire
     }
 
+
+    /*
+    val answers = ArrayList<Answer>()
+    answers.add(crearRespuesta("", false))
+    answers.add(crearRespuesta("", false))
+    answers.add(crearRespuesta("", false))
+    answers.add(crearRespuesta("", false))
+
+    questionList.add(crearPregunta("", answers, ""))
+    */
+
+    fun crearCuesitonarioExpresionOral() {
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Plan de contigencia integral", "Examen de plan de contigencia para aprobación de expresión oral y escrita UNL", "EXPRESION ORAL Y ESCRITA", 50, "contingencia, examen, expresion oral y escrita")
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Doble", true))
+        answers1.add(crearRespuesta("Dos", false))
+        answers1.add(crearRespuesta("Mitad", false))
+        answers1.add(crearRespuesta("Cuarto", false))
+
+        questionList.add(crearPregunta("", answers1, "El numero multiplicativo es"))
+
+
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Prohibir", false))
+        answers2.add(crearRespuesta("Musicomanía ", true))
+        answers2.add(crearRespuesta("Cariamanga", false))
+        answers2.add(crearRespuesta("Manutención", false))
+
+        questionList.add(crearPregunta("", answers2, "La palabra que contiene hiato es"))
+
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Yo tampoco lo sé, ¿y tu?", false))
+        answers3.add(crearRespuesta("¿Quién es el que hace bulla?", true))
+        answers3.add(crearRespuesta("Es tarde para empezar desde cero", false))
+        answers3.add(crearRespuesta("No se que es la tilde enfática", false))
+
+        questionList.add(crearPregunta("", answers3, "La oración donde se ha empleado la tilde enfática es"))
+
+
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Lloviendo", false))
+        answers4.add(crearRespuesta("Chiminea", true))
+        answers4.add(crearRespuesta("Escarbar", false))
+        answers4.add(crearRespuesta("Pifian", false))
+
+        questionList.add(crearPregunta("", answers4, "La palabra que esta mal escrita es"))
+
+
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("XVIII", false))
+        answers5.add(crearRespuesta("MLCI", false))
+        answers5.add(crearRespuesta("MCLVIII", true))
+        answers5.add(crearRespuesta("MCIVIII", false))
+
+        questionList.add(crearPregunta("", answers5, "El número romano que representa 1158 es"))
+
+        val answers6 = ArrayList<Answer>()
+        answers6.add(crearRespuesta("Fonema", false))
+        answers6.add(crearRespuesta("Consonante", false))
+        answers6.add(crearRespuesta("Sílaba", true))
+        answers6.add(crearRespuesta("Vocal", false))
+
+        questionList.add(crearPregunta("", answers6, "La frase: \"Es el sonido o grupo de sonidos que se pronuncian con una sola emisión de voz en la cadena hablada\" de Guerro(2011) hace referencia al concepto de"))
+
+
+        val answers7 = ArrayList<Answer>()
+        answers7.add(crearRespuesta("Cuestionable", false))
+        answers7.add(crearRespuesta("Rehusar", false))
+        answers7.add(crearRespuesta("Cuautemoc", true))
+        answers7.add(crearRespuesta("Mantequilla", false))
+
+        questionList.add(crearPregunta("", answers7, "La palabra que contiene triptongo es"))
+
+
+        val answers8 = ArrayList<Answer>()
+        answers8.add(crearRespuesta("Científica", false))
+        answers8.add(crearRespuesta("Literaria", false))
+        answers8.add(crearRespuesta("Topográfica ", true))
+        answers8.add(crearRespuesta("Cinematográfica ", false))
+
+        questionList.add(crearPregunta("", answers8, "Cuando se hace la descripción de una región, un paisaje o un lugar determinado se llama"))
+
+
+        val answers9 = ArrayList<Answer>()
+        answers9.add(crearRespuesta("Quiero que el escritorio; este aquí mañana mismo.", false))
+        answers9.add(crearRespuesta("La fiesta sera de todos; los dias de la semana", false))
+        answers9.add(crearRespuesta("Apresúrate; que llegamos tarde ", false))
+        answers9.add(crearRespuesta("Atiéndeme, muchacha; los beneficios seran multiples ", true))
+
+        questionList.add(crearPregunta("", answers9, "La oracion donde se ha empleado bien el punto y coma es "))
+
+
+        val answers10 = ArrayList<Answer>()
+        answers10.add(crearRespuesta("Juan obtuve 19,50 puntos", false))
+        answers10.add(crearRespuesta("Aunque cansado, llegare en primer lugar", false))
+        answers10.add(crearRespuesta("Hasta cuatro pollos me comería del hambre que tengo ", true))
+        answers10.add(crearRespuesta("Vêndame un cuarto de pollo ", false))
+
+        questionList.add(crearPregunta("", answers10, "La oración en la que se ha empleado números cardinales es"))
+
+
+        val answers11 = ArrayList<Answer>()
+        answers11.add(crearRespuesta("Dialecto", false))
+        answers11.add(crearRespuesta("Símbolo", true))
+        answers11.add(crearRespuesta("Ideas", false))
+        answers11.add(crearRespuesta("Significante", false))
+
+        questionList.add(crearPregunta("", answers11, " Cuando dos o más personas han logrado comunicarse mediante un signo determinado, ese signo o señal que se ha utilizado para comunicarse adquiere la categoria de"))
+
+        val answers12 = ArrayList<Answer>()
+        answers12.add(crearRespuesta("Seremos felices, ya lo verás", false))
+        answers12.add(crearRespuesta("En Guayaquil, que es bastante caluroso, se llevará acabo el festival", true))
+        answers12.add(crearRespuesta("Apresúrate, que llegamos tarde", false))
+        answers12.add(crearRespuesta("Hubo varios bocados, canciones, folclor y vino", false))
+
+        questionList.add(crearPregunta("", answers12, "La oración donde se ha empleado la coma para señalar el adjetivo explicativo es"))
+
+
+        val answers13 = ArrayList<Answer>()
+        answers13.add(crearRespuesta("Separar fechas cuando se indica un periodo determinado", false))
+        answers13.add(crearRespuesta("Señalar dialogos", true))
+        answers13.add(crearRespuesta("Señalar nombres", false))
+        answers13.add(crearRespuesta("Separar las silabas de una palabra cuando no entra al final del reglon", false))
+
+        questionList.add(crearPregunta("", answers13, "Utilizamos la raya para "))
+
+
+        val answers14 = ArrayList<Answer>()
+        answers14.add(crearRespuesta("El informe", false))
+        answers14.add(crearRespuesta("La esquela", true))
+        answers14.add(crearRespuesta("El acta", false))
+        answers14.add(crearRespuesta("El memorando", false))
+
+        questionList.add(crearPregunta("", answers14, "El escrito breve sirve para invitar al destinatario a actos organizados por una institución o por personas particulares es"))
+
+        val answers15 = ArrayList<Answer>()
+        answers15.add(crearRespuesta("Volverá enojado, pero no importa", false))
+        answers15.add(crearRespuesta("A mí me dijieron que el examen no era de esa manera", true))
+        answers15.add(crearRespuesta("Los años pasaran muy lento", false))
+        answers15.add(crearRespuesta("El examen de Empresión Oral y Escrita sera de carácter objetivo ", false))
+
+        questionList.add(crearPregunta("", answers15, "La oracion en la que se ha utilizado la tilde diátrica es"))
+
+
+        val answers16 = ArrayList<Answer>()
+        answers16.add(crearRespuesta("Tilde diacrítica ", false))
+        answers16.add(crearRespuesta("Acento prósodico", true))
+        answers16.add(crearRespuesta("Acento ortográfico", false))
+        answers16.add(crearRespuesta("Tilde enfática", false))
+
+        questionList.add(crearPregunta("", answers16, "El concepto \"no se da en la grafía  sino solo en la pronunciación, es decir a nivel fonético, en cuanto pronunciamos con la mayor intensidad una sílaba de una palabra determinada\" corresponde a  "))
+
+
+        val answers17 = ArrayList<Answer>()
+        answers17.add(crearRespuesta("Comenta el contenido de un escrito", false))
+        answers17.add(crearRespuesta("Extrae las ideas principales de un texto", true))
+        answers17.add(crearRespuesta("Va acompañado con una introducción en la que se hace referencia sobre el asunto del informe", false))
+        answers17.add(crearRespuesta("Es idéntico a la reseña", false))
+
+        questionList.add(crearPregunta("", answers17, "El resumen "))
+
+        val answers18 = ArrayList<Answer>()
+        answers18.add(crearRespuesta("Libro, biblioteca", false))
+        answers18.add(crearRespuesta("Marrano, chancho", false))
+        answers18.add(crearRespuesta("Banco, banco", false))
+        answers18.add(crearRespuesta("Novel, nobel", true))
+
+        questionList.add(crearPregunta("", answers18, "El literal donde se encuentra palabras homófonas es "))
+
+
+        val answers19 = ArrayList<Answer>()
+        answers19.add(crearRespuesta("Metalingüística.", false))
+        answers19.add(crearRespuesta("Estética o poética.", false))
+        answers19.add(crearRespuesta("Conativa o apelativa.", false))
+        answers19.add(crearRespuesta("Fática o de contacto.", true))
+
+        questionList.add(crearPregunta("", answers19, "¿Me escuchas? ¿Estás seguro? Habla más fuerte. ¿Qué dijiste? Son frases de las que se ocupa la función"))
+
+
+        val answers20 = ArrayList<Answer>()
+        answers20.add(crearRespuesta("Cántaro, cantaro", false))
+        answers20.add(crearRespuesta("Manzanilla, mesanine", false))
+        answers20.add(crearRespuesta("Biósfera, bioesfera.", false))
+        answers20.add(crearRespuesta("Rácimo, racimo.", true))
+
+        questionList.add(crearPregunta("", answers20, "El literal donde se encuentran palabras de doble acentuación es"))
+
+        val answers21 = ArrayList<Answer>()
+        answers21.add(crearRespuesta("Miserable", false))
+        answers21.add(crearRespuesta("Payaso", false))
+        answers21.add(crearRespuesta("Risa", false))
+        answers21.add(crearRespuesta("Llanto", true))
+
+        questionList.add(crearPregunta("", answers21, "Feliz : sonrisa :: triste: ?"))
+
+
+        val answers22 = ArrayList<Answer>()
+        answers22.add(crearRespuesta("Cocer, coser.", false))
+        answers22.add(crearRespuesta("Sabia, savia.", false))
+        answers22.add(crearRespuesta("Blandura, afabilidad.", true))
+        answers22.add(crearRespuesta("Absorber, absolver.", false))
+
+        questionList.add(crearPregunta("", answers22, "El literal donde se encuentran palabras sinónimas es:"))
+
+
+        val answers23 = ArrayList<Answer>()
+        answers23.add(crearRespuesta("Me concedieron el tercer lugar: no importa.", true))
+        answers23.add(crearRespuesta("Dos de los 40 estudiantes aprobaron el ciclo.", false))
+        answers23.add(crearRespuesta("En este mes se me cuadriplicaron las ganancias.", false))
+        answers23.add(crearRespuesta("No sé si tengo cuatro o cinco dólares en mi bolsillo.", false))
+
+        questionList.add(crearPregunta("", answers23, "La oración en la que se ha empleado números ordinales es"))
+
+        val answers24 = ArrayList<Answer>()
+        answers24.add(crearRespuesta("Panadería.", false))
+        answers24.add(crearRespuesta("Maestro.", false))
+        answers24.add(crearRespuesta("Caotizar.", false))
+        answers24.add(crearRespuesta("Opcional.", true))
+
+        questionList.add(crearPregunta("", answers24, "La palabra que contiene diptongo es"))
+
+        val answers25 = ArrayList<Answer>()
+        answers25.add(crearRespuesta("La cláusula compuesta.", false))
+        answers25.add(crearRespuesta("El mundo.", true))
+        answers25.add(crearRespuesta("Solamente las palabras.", false))
+        answers25.add(crearRespuesta("Solo para memorizar.", false))
+
+        questionList.add(crearPregunta("", answers25, "Cuando se lee un texto, se está leyendo"))
+
+
+        val answers26 = ArrayList<Answer>()
+        answers26.add(crearRespuesta("Miguel de Cervantes, el Manco de Lepanto, fue escritor y soldado.", true))
+        answers26.add(crearRespuesta("Así será, ya lo verás.", false))
+        answers26.add(crearRespuesta("Él se va de paseo; ella, de vacaciones.", false))
+        answers26.add(crearRespuesta("Tráiganme las flores, por favor.", false))
+
+        questionList.add(crearPregunta("", answers26, "La oración en la que hay la aposición, gracias al uso de la coma, es:"))
+
+        val answers27 = ArrayList<Answer>()
+        answers27.add(crearRespuesta("Canal", true))
+        answers27.add(crearRespuesta("Mensaje.", false))
+        answers27.add(crearRespuesta("Receptor.", false))
+        answers27.add(crearRespuesta("Emisor.", false))
+
+        questionList.add(crearPregunta("", answers27, "El vehículo o medio a través del cual se trasmite el mensaje o la comunicación se denomina"))
+
+        val answers28 = ArrayList<Answer>()
+        answers28.add(crearRespuesta("¿Será posible que se haya portado así!", false))
+        answers28.add(crearRespuesta("?Qué quieres que haga si ella es así?", false))
+        answers28.add(crearRespuesta("¿Cómo se llama el último libro que publicaste?", true))
+        answers28.add(crearRespuesta("Cada vez es más difícil comprender?", false))
+
+        questionList.add(crearPregunta("", answers28, "La oración en la que se ha empleado bien los signos de interrogación es"))
+
+        val answers29 = ArrayList<Answer>()
+        answers29.add(crearRespuesta("dichoso", false))
+        answers29.add(crearRespuesta("enfadado", false))
+        answers29.add(crearRespuesta("desconsolado", false))
+        answers29.add(crearRespuesta("desdicha", true))
+
+        questionList.add(crearPregunta("", answers29, "Felicidad : dicha :: tristeza: ?"))
+
+        val answers30 = ArrayList<Answer>()
+        answers30.add(crearRespuesta("El momento en que se presenta el desarrollo del máximo potencial cognitivo.", false))
+        answers30.add(crearRespuesta("Las circunstancias y los factores que rodean un hecho.", true))
+        answers30.add(crearRespuesta("Los hechos vinculados a la acción del sujeto de la oración.", false))
+        answers30.add(crearRespuesta("Los verbos que componen la unidad mínima lingüística.", false))
+
+        questionList.add(crearPregunta("", answers30, "Entendemos por contexto"))
+
+
+        val answers31 = ArrayList<Answer>()
+        answers31.add(crearRespuesta("Alacrán, santidad, maremoto camino, regreso, caso, Quito, Macará, Santillana.", false))
+        answers31.add(crearRespuesta("Hermandad, psicólogo, tono, pintó, carácter, muchedumbre.", true))
+        answers31.add(crearRespuesta("Piano, cuarto, siembra, pueblo, cuota, andamio.", false))
+        answers31.add(crearRespuesta("Alejandro, cuencano, guayaquileño, cusqueño, Paraná, universo, maní, Paraguay.", false))
+
+        questionList.add(crearPregunta("", answers31, "El grupo de palabras donde hay dos agudas, tres graves y una esdrújula es"))
+
+
+        val answers32 = ArrayList<Answer>()
+        answers32.add(crearRespuesta("Tilde enfática", false))
+        answers32.add(crearRespuesta("Tilde diacrítica", true))
+        answers32.add(crearRespuesta("Acento prosódico", false))
+        answers32.add(crearRespuesta("Acento ortográfico", false))
+
+        questionList.add(crearPregunta("", answers32, "El concepto “se usa en el caso de los monosílabos que tienen igual forma, pero funciones gramaticales distintas”, corresponde a:"))
+
+
+        val answers33 = ArrayList<Answer>()
+        answers33.add(crearRespuesta("Las aes.", true))
+        answers33.add(crearRespuesta("Las as.", false))
+        answers33.add(crearRespuesta("Las ases.", false))
+        answers33.add(crearRespuesta("De las tres formas.", false))
+
+        questionList.add(crearPregunta("", answers33, "Para la “a”, el plural correcto es:"))
+
+
+        val answers34 = ArrayList<Answer>()
+        answers34.add(crearRespuesta("Del gruñido a la palabra.", true))
+        answers34.add(crearRespuesta("De su especie a la raza.", false))
+        answers34.add(crearRespuesta("Del verbo a la prosa.", false))
+        answers34.add(crearRespuesta("De Mono a persona.", false))
+
+        questionList.add(crearPregunta("", answers34, "Gracias a su cerebro y a su aparato fonador, el hombre es el único ser exclusivo que, en la larga cadena de la historia humana, ha logrado pasar:"))
+
+
+        val answers35 = ArrayList<Answer>()
+        answers35.add(crearRespuesta("Se escribe desde una actitud experiencial.", true))
+        answers35.add(crearRespuesta("Es una obra de consulta donde encontramos datos puntuales.", false))
+        answers35.add(crearRespuesta("Es propio de la ponderación y la exaltación en el buen sentido de la palabra.", false))
+        answers35.add(crearRespuesta("Se basa exclusivamente en las ciencias experimentales.", false))
+
+        questionList.add(crearPregunta("", answers35, "El ensayo:"))
+
+
+        val answers36 = ArrayList<Answer>()
+        answers36.add(crearRespuesta("Habla, idiolecto, uso", false))
+        answers36.add(crearRespuesta("Forma, habla, idiolecto", false))
+        answers36.add(crearRespuesta("Lengua, habla, idiolecto", false))
+        answers36.add(crearRespuesta("Forma, contenido y uso.", true))
+
+        questionList.add(crearPregunta("", answers36, "Según Horcas (2009), el lenguaje, como sistema simbólico implica tres dimensiones:"))
+
+
+        val answers37 = ArrayList<Answer>()
+        answers37.add(crearRespuesta("Significa que está muy motivado para seguir leyendo.", false))
+        answers37.add(crearRespuesta("Cultiva la humildad y la realidad propia.", false))
+        answers37.add(crearRespuesta("Está evidenciando una actitud muy empobrecedora.", true))
+        answers37.add(crearRespuesta("Lo está enriqueciendo.", false))
+
+        questionList.add(crearPregunta("", answers37, "Cuando el lector clausura el sentido del texto:"))
+
+
+        val answers38 = ArrayList<Answer>()
+        answers38.add(crearRespuesta("Azul, abril, asistir, Samuel, pared, compré, manantial.", true))
+        answers38.add(crearRespuesta("Fotógrafo, análisis, cámara, cántaro, plátano, radiólogo.", false))
+        answers38.add(crearRespuesta("Grato, gema, claro, absorto, lento, flauta", false))
+        answers38.add(crearRespuesta("Grupo, calabaza, manaza, cárcel, carácter, campo, césped, mayo.", false))
+
+        questionList.add(crearPregunta("", answers38, "El literal donde se encuentran las palabras agudas es:"))
+
+        val answers39 = ArrayList<Answer>()
+        answers39.add(crearRespuesta("Tubería.", true))
+        answers39.add(crearRespuesta("Coloriar.", false))
+        answers39.add(crearRespuesta("Adolorido.", false))
+        answers39.add(crearRespuesta("Afusilar.", false))
+
+        questionList.add(crearPregunta("", answers39, "La palabra que está escrita correctamente es:"))
+
+        val answers40 = ArrayList<Answer>()
+        answers40.add(crearRespuesta("Universidad Técnica Particular de Loja, Banco Central del Ecuador, Tame.", false))
+        answers40.add(crearRespuesta("Álvaro, Ángel, Édgar, Wálter, Perú, Argentina.", false))
+        answers40.add(crearRespuesta("Centinela del Sur, Luz de América, Atenas del Ecuador", false))
+        answers40.add(crearRespuesta("País, república, patria, cantón, provincia, océano, parque, libertad.", true))
+
+        questionList.add(crearPregunta("", answers40, "Las palabras que deben escribirse siempre con minúscula inicial, siempre que no sea inicial de frase u oración, son"))
+
+        val answers41 = ArrayList<Answer>()
+        answers41.add(crearRespuesta("Árbol sin ramas ni flores.", false))
+        answers41.add(crearRespuesta("Cada rama en cada árbol.", false))
+        answers41.add(crearRespuesta("Ese árbol tiene ramas y flores.", true))
+        answers41.add(crearRespuesta("Ramas y flores del árbol.", false))
+
+        questionList.add(crearPregunta("", answers41, "La frase de construcción lógica es:"))
+
+        val answers42 = ArrayList<Answer>()
+        answers42.add(crearRespuesta("Edad", false))
+        answers42.add(crearRespuesta("Salario", false))
+        answers42.add(crearRespuesta("Siglo", true))
+        answers42.add(crearRespuesta("Día", false))
+
+        questionList.add(crearPregunta("", answers42, "Centavo : dólar :: año: ?"))
+
+        val answers43 = ArrayList<Answer>()
+        answers43.add(crearRespuesta("Las esquelas.", false))
+        answers43.add(crearRespuesta("Las cartas invitación.", false))
+        answers43.add(crearRespuesta("Los informes.", true))
+        answers43.add(crearRespuesta("Las solicitudes.", false))
+
+        questionList.add(crearPregunta("", answers43, "Los escritos que se redactan de la manera más concreta posible y con la mayor veracidad y claridad son:"))
+
+        val answers44 = ArrayList<Answer>()
+        answers44.add(crearRespuesta("La descripción.", false))
+        answers44.add(crearRespuesta("La narración.", true))
+        answers44.add(crearRespuesta("El ambiente.", false))
+        answers44.add(crearRespuesta("El ensayo.", false))
+
+        questionList.add(crearPregunta("", answers44, "La acción y los caracteres son elementos que pertenecen a"))
+
+
+        val answers45 = ArrayList<Answer>()
+        answers45.add(crearRespuesta("Alcalde", false))
+        answers45.add(crearRespuesta("Estado", true))
+        answers45.add(crearRespuesta("Ciudad", false))
+        answers45.add(crearRespuesta("Gente", false))
+
+        questionList.add(crearPregunta("", answers45, "Presidente : nación :: gobernador: ?"))
+
+
+        val answers46 = ArrayList<Answer>()
+        answers46.add(crearRespuesta("Tilde enfática", true))
+        answers46.add(crearRespuesta("Tilde diacrítica", false))
+        answers46.add(crearRespuesta("Acento prosódico", false))
+        answers46.add(crearRespuesta("Acento ortográfico", false))
+
+        questionList.add(crearPregunta("", answers46, "El concepto “para resaltar la interrogación o admiración con que son expresadas, de conformidad con el ánimo y la actitud de quien las pronuncia”, corresponde a:"))
+
+
+        val answers47 = ArrayList<Answer>()
+        answers47.add(crearRespuesta("Monosílaba", false))
+        answers47.add(crearRespuesta("Bisílaba", false))
+        answers47.add(crearRespuesta("Trisílaba", false))
+        answers47.add(crearRespuesta("Tetrasílaba", true))
+
+        questionList.add(crearPregunta("", answers47, "Atlántico se clasifica como una palabra:"))
+
+
+        val answers48 = ArrayList<Answer>()
+        answers48.add(crearRespuesta("Dijo que lo haría así tú no quieras. ¿Verdad?.", false))
+        answers48.add(crearRespuesta("La misa será a las cuatro de la tarde en la iglesia Matriz.", true))
+        answers48.add(crearRespuesta("Lo haré así tú no lo quieras. Pero ven.", false))
+        answers48.add(crearRespuesta("Espérame a las tres de la tarde.", false))
+
+        questionList.add(crearPregunta("", answers48, "El ejemplo de estilo informativo es"))
+
+
+        val answers49 = ArrayList<Answer>()
+        answers49.add(crearRespuesta("Le dieron una placa de reconocimiento.", false))
+        answers49.add(crearRespuesta("Prácticamente hemos terminado.", true))
+        answers49.add(crearRespuesta("Se irá a Ambato.", false))
+        answers49.add(crearRespuesta("Espérame a las tres de la tarde.", false))
+
+        questionList.add(crearPregunta("", answers49, "La expresión donde hay cacofonía es"))
+
+
+        val answers50 = ArrayList<Answer>()
+        answers50.add(crearRespuesta("Ruido.", true))
+        answers50.add(crearRespuesta("Receptor.", false))
+        answers50.add(crearRespuesta("Código.", false))
+        answers50.add(crearRespuesta("Canal.", false))
+
+        questionList.add(crearPregunta("", answers50, "El elemento que está dado por las interferencias ajenas al mensaje y que estropea el proceso de la comunicación se denomina:"))
+
+        val batch = db.batch()
+
+        val cuestionarioRef = db.collection(QUESTIONNAIRE_PATH).document()
+        batch.set(cuestionarioRef, questionnaire.toMapAux())
+
+        questionList.forEach {
+
+            val anwersList = ArrayList<Map<String, Any>>()
+
+            it.answers.forEach { a ->
+                anwersList.add(a.toMapPost())
+            }
+            it.hashAnswers = anwersList
+
+            batch.set(db.collection(QUESTIONNAIRE_PATH).document(cuestionarioRef.id).collection(QUESTIONS_PATH).document(), it.toMapPost())
+        }
+
+        batch.commit().addOnSuccessListener {
+            Log.e(TAG, "Cuestionario subido expresion subido correctamente")
+        }.addOnFailureListener {
+            Log.e(TAG, it.toString())
+        }
+    }
+
+    fun crearCuestionarioMetodologiaInvestigación(){
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Prueba 3 ciclo sistemas", "", "METODOLOGÍA DE LA INVESTIGACIÓN", 29, "metodología, investigación")
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("Materiales escritos", true))
+        answers1.add(crearRespuesta("Materiales audiovisuales", false))
+        answers1.add(crearRespuesta("Programas de radio o televisión", false))
+        answers1.add(crearRespuesta("Información disponible en internet", false))
+        answers1.add(crearRespuesta("Todas las anteriores", true))
+        answers1.add(crearRespuesta("Ninguna de las anteriores", false))
+
+        questionList.add(crearPregunta("", answers1, "Cuáles son las fuentes de ideas para la investigación"))
+
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Es necesario no adentrarse en algún tema que ya ha sido estudiado muy afondo.", true))
+        answers2.add(crearRespuesta("El tema que se va a abordar debe ser confuso y no estar estructurado para eso es necesario consultar varias fuentes bibliográficas.", false))
+        answers2.add(crearRespuesta("Estructurar la idea de investigación de manera formal", true))
+        answers2.add(crearRespuesta("Hay que adentrarse en algún tema que ya ha sido estudiado muy afondo.", false))
+        answers2.add(crearRespuesta("Elegir la perspectiva principal en la cual se abordará la idea de investigación.", true))
+
+        questionList.add(crearPregunta("", answers2, "Cuáles son los antecedentes que se deben tomar en cuenta antes de realizar una investigación."))
+
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("Objetivos de la investigación.", false))
+        answers3.add(crearRespuesta("Pregunta de investigación", false))
+        answers3.add(crearRespuesta("Justificación de la investigación", false))
+        answers3.add(crearRespuesta("Evaluación de las deficiencias en el conocimiento del problema", false))
+        answers3.add(crearRespuesta("Todas las anteriores", true))
+
+        questionList.add(crearPregunta("", answers3, "Los elementos del planteamiento cuantitativo del problema:"))
+
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Delimitar el problema.", false))
+        answers4.add(crearRespuesta("Viabilidad de la investigación", false))
+        answers4.add(crearRespuesta("Relación entre variables.", true))
+        answers4.add(crearRespuesta("Formular como pregunta", true))
+        answers4.add(crearRespuesta("Tratar un problema medible u observable.", true))
+
+        questionList.add(crearPregunta("", answers4, "Criterios del planteamiento del problema cuantitativo:"))
+
+
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("Implicaciones Práctica", false))
+        answers5.add(crearRespuesta("Delimitar el problema .", false))
+        answers5.add(crearRespuesta("Factibilidad de la investigación", false))
+        answers5.add(crearRespuesta("Viabilidad del estudio que implica.", true))
+        answers5.add(crearRespuesta("Relación entre variables", false))
+
+        questionList.add(crearPregunta("", answers5, "¿Cuál de las siguientes opciones es un elemento del problema cuantitativo?"))
+
+        val answers6 = ArrayList<Answer>()
+        answers6.add(crearRespuesta("Que no se conozcan las respuestas", true))
+        answers6.add(crearRespuesta("Que implique usar cualquier medio", false))
+        answers6.add(crearRespuesta("Que impliquen usar medios éticos.", true))
+        answers6.add(crearRespuesta("Que sean claras.", true))
+        answers6.add(crearRespuesta("Que el conocimiento obtenido sea común.", false))
+
+        questionList.add(crearPregunta("", answers6, "¿Cuáles son los requisitos para las preguntas de investigación?"))
+
+        val answers7 = ArrayList<Answer>()
+        answers7.add(crearRespuesta("Es el capítulo del trabajo en el cual se encuentran los antecedentes y las bases teóricas o la fundamentación teórica.", false))
+        answers7.add(crearRespuesta("Es exponer todas las razones, las cuales nos parezcan de importancia y nos motiven a realizar una Investigación", true))
+        answers7.add(crearRespuesta("Representan las acciones concretas que el investigador llevará a cabo para intentar responder a las preguntas de investigación y así resolver el problema de investigación", false))
+        answers7.add(crearRespuesta("Es la aspiración, el propósito, que presupone el objeto transformado, la situación propia del problema superado.", false))
+
+        questionList.add(crearPregunta("", answers7, "Definición de Justificación."))
+
+
+        val answers8 = ArrayList<Answer>()
+        answers8.add(crearRespuesta("Conveniencia", false))
+        answers8.add(crearRespuesta("Intereses", true))
+        answers8.add(crearRespuesta("Valor Teórico", false))
+        answers8.add(crearRespuesta("Relevancia Social", false))
+
+        questionList.add(crearPregunta("", answers8, "Razones o motivos por las cuales se procedió a la investigación:"))
+
+
+        val answers9 = ArrayList<Answer>()
+        answers9.add(crearRespuesta("Conveniencia", false))
+        answers9.add(crearRespuesta("Relevancia Social", false))
+        answers9.add(crearRespuesta("Implicaciones Prácticas", false))
+        answers9.add(crearRespuesta("Valor Teórico", false))
+        answers9.add(crearRespuesta("Utilidad Metodológica", true))
+
+
+        questionList.add(crearPregunta("", answers9, "Que contribución o que aportación tendría nuestra investigación hacia otras áreas del conocimiento, tendría alguna importancia trascendental, los resultados podrán ser aplicables a otros fenómenos o ayudaría a explicar o entenderlos."))
+
+        val answers10 = ArrayList<Answer>()
+        answers10.add(crearRespuesta("El objetivo es la aspiración, el propósito, que presupone el objeto transformado, la situación propia del problema superado.", false))
+        answers10.add(crearRespuesta("El objetivo es la aspiración, el propósito, el resultado a alcanzar, el para qué se desarrolla la investigación, que presupone el objeto transformado, la situación propia del problema superado, como resultado del conocimiento del objeto de estudio que se investiga en el Proceso", false))
+        answers10.add(crearRespuesta("Los objetivos son las guías de estudio que durante todo el desarrollo del mismo deben tenerse presente", true))
+        answers10.add(crearRespuesta("Objetivo es la categoría que refleja el propósito o intencionalidad de la investigación (el para que), lo que debe lograrse, de modo que se transforme el objeto y se solucione el problema", false))
+        answers10.add(crearRespuesta("Ninguna de las anteriores", false))
+
+        questionList.add(crearPregunta("", answers10, "Definición de Objetivos según Sampieri"))
+
+        val answers11 = ArrayList<Answer>()
+        answers11.add(crearRespuesta("Terminal", true))
+        answers11.add(crearRespuesta("Cualitativo", true))
+        answers11.add(crearRespuesta("Específico", false))
+        answers11.add(crearRespuesta("Cuantitativo", false))
+        answers11.add(crearRespuesta("Integral", true))
+        answers11.add(crearRespuesta("Ninguna de las anteriores", false))
+
+        questionList.add(crearPregunta("", answers11, "Cuáles son los atributos del objetivo general?"))
+
+
+
+        val answers12 = ArrayList<Answer>()
+        answers12.add(crearRespuesta("Integral", false))
+        answers12.add(crearRespuesta("Conductuales", true))
+        answers12.add(crearRespuesta("Terminal", false))
+        answers12.add(crearRespuesta("Cualitativos", true))
+        answers12.add(crearRespuesta("Específicos", true))
+        answers12.add(crearRespuesta("Ninguna de las anteriores", false))
+
+        questionList.add(crearPregunta("", answers12, "Cuáles son los atributos del objetivo específico?"))
+
+
+
+        val answers13 = ArrayList<Answer>()
+        answers13.add(crearRespuesta("Es aquel que contiene pocas páginas.", false))
+        answers13.add(crearRespuesta("Trata con profundidad únicamente los aspectos relacionados con el problema", false))
+        answers13.add(crearRespuesta("Vincula de manera lógica los conceptos", false))
+        answers13.add(crearRespuesta("Todas las anteriores", true))
+
+        questionList.add(crearPregunta("", answers13, "¿Que comprende el marco teórico?"))
+
+
+
+        val answers14 = ArrayList<Answer>()
+        answers14.add(crearRespuesta("Su claridad y estructura dependen de que seleccionemos los términos adecuados, lo que a su vez se relaciona con un planteamiento enfocado.", false))
+        answers14.add(crearRespuesta("En el problema de investigación que nos ocupa sin divagar en otros temas ajenos al estudio.", true))
+        answers14.add(crearRespuesta("Debemos recurrir al mapa conceptual centrándonos en el problema de estudio.", false))
+        answers14.add(crearRespuesta("Su estructura no dependen de que seleccionemos los términos adecuados, lo que a su vez se relaciona con un análisis propio.", false))
+
+        questionList.add(crearPregunta("", answers14, "¿En que nos centramos al construir el marco teórico?"))
+
+
+        val answers15 = ArrayList<Answer>()
+        answers15.add(crearRespuesta("Que exista una teoría desarrollada que no se aplique a nuestro tema de investigación.", false))
+        answers15.add(crearRespuesta("Que haya una sola teoría que se aplique al problema de investigación.", false))
+        answers15.add(crearRespuesta("Que haya generalizaciones empíricas que se adapten a dicho problema.", true))
+        answers15.add(crearRespuesta("Ninguna de las anteriores.", false))
+
+        questionList.add(crearPregunta("", answers15, "La construcción de marco teórico depende de:"))
+
+        val answers16 = ArrayList<Answer>()
+        answers16.add(crearRespuesta("Problema, tema general, subtema, referencia.", false))
+        answers16.add(crearRespuesta("Tema, subtema, bibliografía, hipótesis.", false))
+        answers16.add(crearRespuesta("Tema general, título, subtema, problema.", false))
+        answers16.add(crearRespuesta("Tema general, tema, subtema, referencia.", true))
+
+        questionList.add(crearPregunta("", answers16, "Identifique el orden correcto del esquema vertebrado del marco teórico a partir de un índice."))
+
+        val answers17 = ArrayList<Answer>()
+        answers17.add(crearRespuesta("Problemática", false))
+        answers17.add(crearRespuesta("Hipótesis", false))
+        answers17.add(crearRespuesta("Resumen", false))
+        answers17.add(crearRespuesta("Marco teórico", true))
+
+        questionList.add(crearPregunta("", answers17, "A veces conocido como el capítulo II de una tesis, es el pilar fundamental de cualquier investigación. La teoría constituye la base donde se sustentará cualquier análisis, experimento o propuesta de desarrollo de un trabajo de grado."))
+
+
+        val answers18 = ArrayList<Answer>()
+        answers18.add(crearRespuesta("Operacional, Gráfica y Virtual.", false))
+        answers18.add(crearRespuesta("Conceptual y Geográfica.", false))
+        answers18.add(crearRespuesta("Conceptual y operacional.", true))
+        answers18.add(crearRespuesta("Todas las anteriores", false))
+
+        questionList.add(crearPregunta("", answers18, "En las hipótesis las variables deben ser definidas de forma:"))
+
+
+
+        val answers19 = ArrayList<Answer>()
+        answers19.add(crearRespuesta("Universo", true))
+        answers19.add(crearRespuesta("Población", false))
+        answers19.add(crearRespuesta("Muestra", false))
+        answers19.add(crearRespuesta("Todas las anteriores", false))
+
+        questionList.add(crearPregunta("", answers19, "Totalidad de individuos o elementos en los cuales puede presentarse determinada característica susceptible a ser estudiada."))
+
+
+        val answers20 = ArrayList<Answer>()
+        answers20.add(crearRespuesta("Contenido", false))
+        answers20.add(crearRespuesta("Lugar", false))
+        answers20.add(crearRespuesta("Tiempo", false))
+        answers20.add(crearRespuesta("Todas las anteriores", true))
+
+        questionList.add(crearPregunta("", answers20, "Las poblaciones deben situarse claramente en torno a sus características de:"))
+
+
+
+        val answers21 = ArrayList<Answer>()
+        answers21.add(crearRespuesta("Estableciendo claramente las características de la población. Con esto delimitamos cuáles serán nuestros parámetros muestrales", false))
+        answers21.add(crearRespuesta("Se busca que la muestra sea un reflejo fiel del conjunto de la población (deben ser representativas).", false))
+        answers21.add(crearRespuesta("Un estudio no es mejor al tener una población más grande, sino al haber delimitado claramente su población en base a los objetivos del estudio", false))
+        answers21.add(crearRespuesta("A y B son correctas", true))
+
+        questionList.add(crearPregunta("", answers21, "¿Cómo seleccionamos la muestra? "))
+
+
+
+        val answers22 = ArrayList<Answer>()
+        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación científica y su producto, el conocimiento científico.", true))
+        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación explicativa y su producto, el conocimiento inductivo.", false))
+        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación explicativa y su producto, el conocimiento científico.", false))
+        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación cuantitativa y su producto, el conocimiento empírico.", false))
+
+        questionList.add(crearPregunta("", answers22, "Definición del epistemología"))
+
+        val answers23 = ArrayList<Answer>()
+        answers23.add(crearRespuesta("Debe tener criterios sobre la estética de la ciencia o estudio de los valores estéticos de la investigación científica.", false))
+        answers23.add(crearRespuesta("Debe reflexionar acerca de los intereses que mueven la ciencia.", false))
+        answers23.add(crearRespuesta("Debe reflexionar sobre la axiología de la ciencia o estudio del sistema de valores de la comunidad científica.", false))
+        answers23.add(crearRespuesta("Debe obviar el  reflexionar sobre los intereses que mueven la ciencia.", true))
+
+        questionList.add(crearPregunta("", answers23, "Cuál de los siguientes aspecto no pertenecen a   los problemas que le competen a la epistemología"))
+
+
+        val answers24 = ArrayList<Answer>()
+        answers24.add(crearRespuesta("Concepto universal del procedimiento que se realiza para ejecutar una determinada tarea.", false))
+        answers24.add(crearRespuesta("Conjunto de estrategias y herramientas que se utilizan para llegar a un objetivo preciso.", false))
+        answers24.add(crearRespuesta("La actividad que desarrolla el hombre para alcanzar una serie de verdades sobre la realidad que la circunda.", true))
+        answers24.add(crearRespuesta("Está determinada por la averiguación de datos o la búsqueda de soluciones para ciertos inconvenientes", false))
+
+        questionList.add(crearPregunta("", answers24, "Qué es la ciencia"))
+
+
+        val answers25 = ArrayList<Answer>()
+        answers25.add(crearRespuesta("Es un único proceso sistemático, crítico y empírico que se aplican al estudio de un fenómeno.", false))
+        answers25.add(crearRespuesta("Es una Petición de información, opinión o consejo sobre una materia determinada.", false))
+        answers25.add(crearRespuesta("Es una  búsqueda de información en una fuente de documentación para aprender una cosa o para aclarar una duda.", false))
+        answers25.add(crearRespuesta("Es un conjunto de procesos sistemáticos, críticos y empíricos que se aplican al estudio de un fenómeno.", true))
+
+        questionList.add(crearPregunta("", answers25, "¿Cómo se define la investigación?"))
+
+
+        val answers26 = ArrayList<Answer>()
+        answers26.add(crearRespuesta("Es aquella que recoge  información basada en la observación de comportamientos naturales, discursos, respuestas abiertas para la posterior interpretación de significados.", false))
+        answers26.add(crearRespuesta("Es aquel proceso que pretende encontrar respuestas a problemas trascendentales mediante la construcción teórica del objeto de investigación, introducción  innovación, etc. ", true))
+        answers26.add(crearRespuesta("Utiliza experimentos y los principios encontrados en el método científico", false))
+        answers26.add(crearRespuesta("Es aquella que tiene relación causal; no sólo persigue describir o acercarse a un problema, sino. que intenta encontrar las causas del mismo.", false))
+
+        questionList.add(crearPregunta("", answers26, "¿Cómo se define la investigación científica?"))
+
+        val answers27 = ArrayList<Answer>()
+        answers27.add(crearRespuesta("4, 1, 2, 3, 5", false))
+        answers27.add(crearRespuesta("2, 5, 3, 1, 4", true))
+        answers27.add(crearRespuesta("1, 2, 3, 4, 5", false))
+        answers27.add(crearRespuesta("3, 2, 1, 4, 5", false))
+
+        questionList.add(crearPregunta("", answers27, "Elige la secuencia en la que ocurre las fases de la investigación científica. 1. Emisión de conclusiones 2. Observación. 3. Experimentación 4. Publicación y comparación 5. Formulación de hipótesis.\n"))
+
+
+        val answers28 = ArrayList<Answer>()
+        answers28.add(crearRespuesta("Niveles de la Investigación.", false))
+        answers28.add(crearRespuesta("Tipos de la Investigación.", true))
+        answers28.add(crearRespuesta("Fases de la Investigación.", false))
+
+        questionList.add(crearPregunta("", answers28, "La investigación Cuantitativa, Cualitativa, Histórica, Descriptiva, Experimental, Básica, Aplicada, Documental de campo o mixta son:"))
+
+
+        val answers29 = ArrayList<Answer>()
+        answers29.add(crearRespuesta("La investigación básica o pura tiene como finalidad la obtención y recopilación de información para ir construyendo una base de conocimiento que se va agregando a la información previa existente. La investigación aplicada, por su parte, tienen como objetivo resolver un determinado problema o planteamiento específico, y usa el conocimiento generado por la investigación Básica para ello.", true))
+        answers29.add(crearRespuesta("La investigación básica tiene como objetivo el desarrollo de las capacidades reflexivas y críticas a través del análisis, interpretación y confrontación de la información recogida. En cambio la Investigación Aplicada Comprende el desarrollo de prototipos y la construcción y operación de Plantas Piloto.", false))
+        answers29.add(crearRespuesta("La investigación básica o pura tiene como finalidad la obtención y recopilación de información para ir construyendo una base de conocimiento que se va agregando a la información previa existente. La investigación aplicada, por otro lado se encarga del desarrollo de prototipos.", false))
+        answers29.add(crearRespuesta("La investigación básica  se encarga de recolectar  información y describir el fenómeno, en cambio la Investigación Aplicada trata de resolver un problema específico y se fundamenta de los resultados de la Investigación Básica.", false))
+
+        questionList.add(crearPregunta("", answers29, "¿Cuál es la diferencia entre Investigación Básica e Investigación Aplicada?"))
+
+
+        val batch = db.batch()
+
+        val cuestionarioRef = db.collection(QUESTIONNAIRE_PATH).document()
+
+        batch.set(cuestionarioRef, questionnaire.toMapAux())
+
+        questionList.forEach {
+
+            val anwersList = ArrayList<Map<String, Any>>()
+
+            it.answers.forEach { a ->
+                anwersList.add(a.toMapPost())
+            }
+            it.hashAnswers = anwersList
+
+            batch.set(db.collection(QUESTIONNAIRE_PATH).document(cuestionarioRef.id).collection(QUESTIONS_PATH).document(), it.toMapPost())
+        }
+
+        batch.commit().addOnSuccessListener {
+            Log.e(TAG, "Cuestionario subido correctamente")
+        }.addOnFailureListener {
+            Log.e(TAG, it.toString())
+        }
+
+    }
 
     fun crearCuestionarios() {
         Log.e(TAG, "VOY A guardar mis cuesitonarios")

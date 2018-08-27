@@ -39,7 +39,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      //  data!!.add(OptionMenu(R.drawable.ic_key, getString(R.string.menu_option_update_password)))
+        //  data!!.add(OptionMenu(R.drawable.ic_key, getString(R.string.menu_option_update_password)))
         data!!.add(OptionMenu(R.drawable.ic_termins_conditions, getString(R.string.menu_option_termins_and_conditions)))
         data!!.add(OptionMenu(R.drawable.ic_help, getString(R.string.menu_option_help)))
         data!!.add(OptionMenu(R.drawable.ic_exit, getString(R.string.menu_option_signout)))
@@ -134,13 +134,13 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
 
     override fun onClick(position: Int) {
         when (position) {
-           /* 0 -> {
-                val changePasswordFragment = ChangePasswordFragment.newInstance()
-                changePasswordFragment.show(childFragmentManager, "Cambiar Contrasena")
-            }
-            */
+            /* 0 -> {
+                 val changePasswordFragment = ChangePasswordFragment.newInstance()
+                 changePasswordFragment.show(childFragmentManager, "Cambiar Contrasena")
+             }
+             */
             0 -> {
-               //presenter.crearCuestionario()
+                presenter.crearCuestionario()
                 showMessagge("Términos y Condiciones")
             }
             1 -> {
@@ -156,7 +156,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.cl_my_profile -> {
-               // navigationToProfile()
+                // navigationToProfile()
             }
         }
     }

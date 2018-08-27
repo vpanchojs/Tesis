@@ -88,6 +88,7 @@ class QuestionsCompleteActivity : AppCompatActivity(), QuestionCompleteView, Vie
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, questions)
         container.adapter = mSectionsPagerAdapter
         tabs.setupWithViewPager(container)
+        tabs.tabMode = TabLayout.MODE_SCROLLABLE
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
         container.addOnPageChangeListener(this)
 

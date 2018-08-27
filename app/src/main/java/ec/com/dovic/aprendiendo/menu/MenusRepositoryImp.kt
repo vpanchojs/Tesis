@@ -13,7 +13,9 @@ import ec.com.dovic.aprendiendo.menu.events.MenusEvents
 class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : MenusRepository {
 
     override fun crearCuestionario() {
-       firebaseApi.crearCuestionarios()
+        //firebaseApi.crearCuestionarios()
+        //firebaseApi.crearCuesitonarioExpresionOral()
+        //firebaseApi.crearCuestionarioMetodologiaInvestigación()
     }
 
     override fun onSingOut() {

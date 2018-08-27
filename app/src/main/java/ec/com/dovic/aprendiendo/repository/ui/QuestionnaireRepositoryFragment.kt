@@ -94,6 +94,7 @@ class QuestionnaireRepositoryFragment : Fragment(), QuestionnaireRepositoryView,
 
     override fun setQuestionnaries(questionaire: List<Questionaire>) {
         questionnaries!!.clear()
+
         adapter.data.addAll(questionaire)
         adapter.notifyDataSetChanged()
     }

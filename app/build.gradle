@@ -12,8 +12,8 @@ android {
         applicationId "ec.com.dovic.aprendiendo"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 9
-        versionName "0.0.7"
+        versionCode 10
+        versionName "0.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

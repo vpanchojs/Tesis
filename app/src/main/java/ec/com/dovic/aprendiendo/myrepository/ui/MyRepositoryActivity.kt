@@ -97,6 +97,11 @@ class MyRepositoryActivity : AppCompatActivity(), View.OnClickListener, MyReposi
     }
 
     override fun setQuestionnaries(questionaire: List<Questionaire>) {
+       /*
+        var a =questionaire.sortedBy {
+            it.title
+        }
+        */
         adapter.data.addAll(questionaire)
         adapter.notifyDataSetChanged()
     }

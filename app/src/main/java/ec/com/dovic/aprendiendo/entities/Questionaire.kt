@@ -64,6 +64,7 @@ class Questionaire() : Parcelable {
         result["keywords"] = keywords
         result["assessment"] = assessment
         result["numAssessment"] = numAssessment
+        result["numberDonwloads"] = numberDonwloads
         result["post"] = post
         return result
     }

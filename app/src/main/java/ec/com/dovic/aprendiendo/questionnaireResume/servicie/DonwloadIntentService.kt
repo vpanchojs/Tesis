@@ -65,9 +65,9 @@ class DonwloadIntentService : IntentService("DonwloadIntentService") {
         /*Solicitamos el cuestionario al servidor*/
         firebaseApi.getQuestionnaireComplete(idQuestionnaire, isDownLoad, object : OnCallbackApis<QuestionnaireBd> {
             override fun onSuccess(questionnaire: QuestionnaireBd) {
-
-                application.domainModule!!.providesRetofitApi().generateRecommendations(firebaseApi.getUid(), questionnaire.idCloud)
-
+                if (!questionnaire.idUser!!.equals(firebaseApi.getUid())) {
+                    //application.domainModule!!.providesRetofitApi().generateRecommendations(firebaseApi.getUid(), questionnaire.idCloud)
+                }
                 title = questionnaire.title!!
                 questionnaire.idUserLocal = firebaseApi.getUid()
                 dbApi.insertQuestionnaire(questionnaire, object : OnCallbackApis<Long> {

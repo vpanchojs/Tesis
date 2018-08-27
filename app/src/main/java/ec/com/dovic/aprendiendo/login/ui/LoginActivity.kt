@@ -188,8 +188,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
         callbackManager!!.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+
 
         if (requestCode == SIGN_IN_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data);
