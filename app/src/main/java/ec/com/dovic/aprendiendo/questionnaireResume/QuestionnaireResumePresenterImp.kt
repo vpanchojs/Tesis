@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.View
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Questionaire
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.questionnaireResume.events.QuestionnaireResumeEvents
@@ -90,7 +90,7 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
             QuestionnaireResumeEvents.ON_SET_RATING_SUCCESS -> {
                 view.showButtonRaiting(View.VISIBLE)
                 view.showMessagge("Calificado ")
-                view.updateRating(event.any as Raiting)
+                view.updateRating(event.any as Score)
             }
             QuestionnaireResumeEvents.ON_SET_RATING_ERROR -> {
                 view.showButtonRaiting(View.VISIBLE)
@@ -98,7 +98,7 @@ class QuestionnaireResumePresenterImp(var eventBus: EventBusInterface, var view:
 
             QuestionnaireResumeEvents.ON_GET_RATINGS_SUCCESS -> {
                 Log.e("aa", "llego al evento")
-                var ratingList = event.any as List<Raiting>
+                var ratingList = event.any as List<Score>
                 if (ratingList.size > 0) {
                     //   view.none_results(false)
                     view.setRatings(ratingList)

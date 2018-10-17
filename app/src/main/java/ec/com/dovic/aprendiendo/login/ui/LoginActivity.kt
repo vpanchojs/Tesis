@@ -201,9 +201,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, LoginView, Reco
     private fun handleSignInResult(result: Task<GoogleSignInAccount>) {
         try {
             val account = result.getResult(ApiException::class.java)
-            Log.e(TAG, "signInResult:succes idtoken= ${account.givenName}")
+            Log.e(TAG, "signInResult:succes idtoken= ${account!!.givenName}")
             // showMessage("Session Correctamente")
-            presenter.tokenGoogle(account.idToken!!, account.givenName, account.familyName, account.email, account.photoUrl)
+            presenter.tokenGoogle(account!!.idToken!!, account.givenName, account.familyName, account.email, account.photoUrl)
         } catch (e: Exception) {
             showMessagge("Error al autenticarse en google")
             Log.e(TAG, "signInResult:failed code=" + e.toString());

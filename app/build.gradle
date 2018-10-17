@@ -6,14 +6,16 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'org.jetbrains.dokka-android'
+
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "ec.com.dovic.aprendiendo"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 10
-        versionName "0.0.8"
+        versionCode 12
+        versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -34,6 +36,11 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
     }
 }
 
@@ -56,10 +63,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation "com.google.firebase:firebase-firestore:$firebase_version"
-    implementation "com.google.firebase:firebase-storage:$firebase_version"
-    implementation "com.google.firebase:firebase-auth:$firebase_version"
-    implementation 'com.google.firebase:firebase-functions:16.0.1'
+    implementation "com.google.firebase:firebase-firestore:17.1.1"
+    implementation "com.google.firebase:firebase-storage:16.0.3"
+    implementation "com.google.firebase:firebase-auth:16.0.4"
+    implementation 'com.google.firebase:firebase-functions:16.1.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
     implementation 'com.github.bumptech.glide:glide:4.6.1'

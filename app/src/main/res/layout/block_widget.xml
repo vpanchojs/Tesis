@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:theme="@style/AppTheme.NoActionBar"
-    android:visibility="visible">
+    android:visibility="gone">
 
     <View
         android:id="@+id/view"
@@ -43,39 +43,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_none">
+        <ScrollView
+            android:id="@+id/sv_statament"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_photo_question"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_statament"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="No se encontro ninguna pregunta, seleccione un cuestionario"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+        </ScrollView>
 
         <ImageView
             android:id="@+id/iv_photo_question"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
             android:scaleType="centerCrop"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_statament"
+            app:layout_constraintBottom_toBottomOf="@+id/sv_statament"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_statament" />
-
-        <TextView
-            android:id="@+id/tv_statament"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:ems="10"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="No se encontro ninguna pregunta. Recuerde seleccionar un cuestionario."
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_collapseMode="pin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iv_photo_question"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/sv_statament" />
 
     </android.support.constraint.ConstraintLayout>
 

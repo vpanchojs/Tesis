@@ -12,9 +12,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import ec.com.dovic.aprendiendo.R
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 import ec.com.dovic.aprendiendo.util.BaseActivitys
-import ec.com.dovic.aprendiendo.util.BaseActivitys.Companion.onTextChangedListener
 import kotlinx.android.synthetic.main.fragment_raiting.view.*
 
 class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
@@ -23,7 +22,7 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     private var ratingBar: AppCompatRatingBar? = null
     private var tie_comment: TextInputEditText? = null
     private var callback: OnRatingListener? = null
-    private var raiting: Raiting? = null
+    private var raiting: Score? = null
     private var update: Boolean = false
     private var oldRaiting = 0.0
 
@@ -103,7 +102,7 @@ class RatingFragment : DialogFragment(), DialogInterface.OnShowListener {
     companion object {
         const val PARAM_RAITING = "raiting"
 
-        fun newInstance(raitingMe: Raiting?): RatingFragment {
+        fun newInstance(raitingMe: Score?): RatingFragment {
             var fragment = RatingFragment()
             var params = Bundle()
             params.putParcelable(PARAM_RAITING, raitingMe)

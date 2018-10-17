@@ -17,7 +17,7 @@ import ec.com.dovic.aprendiendo.MyApplication
 import ec.com.dovic.aprendiendo.R
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Questionaire
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.questionnaireResume.QuestionnaireResumePresenter
 import ec.com.dovic.aprendiendo.questionnaireResume.adapter.QuestionAdapter
@@ -59,7 +59,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         }
     }
 
-    fun getRaitingMe(): Raiting? {
+    fun getRaitingMe(): Score? {
         return ratingsList.findLast {
             it.me == true
         }
@@ -67,7 +67,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     var questionList = ArrayList<Question>()
-    var ratingsList = ArrayList<Raiting>()
+    var ratingsList = ArrayList<Score>()
     var is_download = false
     lateinit var brDownLoad: BroadcastReceiver
 
@@ -109,6 +109,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
                     btn_get_questionnaire.visibility = View.VISIBLE
                     btn_get_questionnaire.isEnabled = false
                     btn_get_questionnaire.text = "Descargado"
+                    showButtonRaiting(View.VISIBLE)
                 }
             }
         }
@@ -236,7 +237,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         tv_user.text = "${user.name}  ${user.lastname}"
     }
 
-    override fun updateRating(rating: Raiting) {
+    override fun updateRating(rating: Score) {
 
         tv_raiting.setText(rating.value.toString())
 
@@ -252,7 +253,7 @@ class QuestionnaireResumeActivity : AppCompatActivity(), QuestionnaireResumeView
         tv_subtitle_bs.text = "${ratingsList.size} calificaciones"
     }
 
-    override fun setRatings(ratingList: List<Raiting>) {
+    override fun setRatings(ratingList: List<Score>) {
         Log.e("aa", "todo llego" + ratingList.size)
         tv_subtitle_bs.text = "${ratingList.size} calificaciones"
         this.ratingsList.clear()

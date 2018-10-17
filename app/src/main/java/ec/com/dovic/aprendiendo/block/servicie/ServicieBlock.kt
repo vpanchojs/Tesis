@@ -58,6 +58,7 @@ class ServicieBlock : Service(), View.OnClickListener {
     lateinit var cl_windows_info: ConstraintLayout
     lateinit var ib_change_question: ImageButton
     lateinit var btn_new_question: Button
+    var isblock = false
 
 
     val params = WindowManager.LayoutParams(
@@ -189,6 +190,7 @@ class ServicieBlock : Service(), View.OnClickListener {
     }
 
     fun addView() {
+        isblock = true
         Log.e(TAG, "agregando vista")
         // mWindowManager!!.addView(mblockView, params)
         runOnUiThread {
@@ -198,6 +200,7 @@ class ServicieBlock : Service(), View.OnClickListener {
     }
 
     private fun removeView() {
+        isblock = false
         if (cl_body.visibility == View.VISIBLE) {
             runOnUiThread {
                 cl_body.visibility = View.GONE
@@ -376,17 +379,19 @@ class ServicieBlock : Service(), View.OnClickListener {
     private fun obtenerAplicacionEjecutandoseL(): String {
         val endCal = Calendar.getInstance()
         val beginCal = Calendar.getInstance()
-        beginCal.add(Calendar.MINUTE, -5)
+        beginCal.add(Calendar.MINUTE, -3)
         val manager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
         val stats = manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,
                 beginCal.timeInMillis, endCal.timeInMillis)
 
         stats.sortByDescending { it.lastTimeUsed }
-        if (stats.size > 0)
+        if (stats.size > 0) {
+            //Log.e("aplicaciones", stats[0].packageName + " " +stats[1].packageName +" " +stats[2].packageName )
             return stats[0].packageName
-        else
+        } else {
             return ""
+        }
 
     }
 
@@ -406,31 +411,30 @@ class ServicieBlock : Service(), View.OnClickListener {
             activo_hilo2 = true
             var cont = 0
             while (activo_hilo1) {
+
                 try {
                     aplicacionActual = obtenerAplicacionEjecutandoseL()
+                    Log.e("HILO 1", "Aplicacion: " + aplicacionActual)
 
-                    //Log.d("HILO 1", "Aplicacion: " + aplicacionActual);
-                    /*VERIFICAMOS QUE LA APLICACION ACTUAL NO SE IGUAL A LA APLICACION DE BLOQUEO*/
-                    if (aplicacionActual != getPackageName()) {
-
-                        /*VERIFICACION LA EXISTENCIA DE FRECUENCIA DE BLOQUEO Y QUE LA APLICACION SEA IGUAL PARA LANZAR NUEVAMENTE EL BLOQUEO*/
-                        if (aplicacionActual == temp && timeActivity > 0) {
+                    if (!isblock) {
+                        if (aplicacionActual.equals(temp) && timeActivity > 0) {
                             cont++
-                            // Log.e("HILO 1", "Aplicacion contador: " + cont + " fre:" + timeActivity);
+                            Log.e("HILO 1", "Aplicacion contador: " + cont + " fre:" + timeActivity);
                             /*TIEMPO DE ESPERA PARA INCIAR NUEVAMENTE EL BLOQUEO MIENTRAS NOS ENCONTRAMOS EN LA APLICACION ANTERIOR BLOQUEADA*/
                             if (cont > timeActivity) {
                                 cont = 0
                                 activo_hilo2 = true
-
                             }
                         } else {
-                            //if (!aplicacionActual.equals(temp) && frecuencia == 0) {
-                            if (aplicacionActual != temp) {
-                                cont = 0
-                                activo_hilo2 = true
-                            }
+                            activo_hilo2 = true
+                        }
+                    }else{
+                        if(!aplicacionActual.equals(temp)&& !aplicacionActual.equals("android")){
+                            activo_hilo2 = true
                         }
                     }
+
+
                     /*INICIO  HILO 2*/
                     //Este hilo busca la aplicacion a ejecutarse
                     while (activo_hilo2) {
@@ -440,7 +444,7 @@ class ServicieBlock : Service(), View.OnClickListener {
 
                             aplicacionActual = obtenerAplicacionEjecutandoseL()
 
-                            //Log.e("HILO 2", "Aplicacion: " + aplicacionActual);
+                            Log.e("HILO 2", "Aplicacion: " + aplicacionActual);
                             /*VERIFICAMOS QUE LA APLICACION EJECUTADA ACTUALMENTE, DEBA SER BLOQUEADA*/
 
                             var verify = applicationsBlock.any {
@@ -451,27 +455,25 @@ class ServicieBlock : Service(), View.OnClickListener {
                                 /*ALMACENAMOS EN UNA VARIBLE TEMP LA APLICACION BLOQUEADA*/
                                 temp = aplicacionActual
                                 addView()
-                                Log.e("SERVICIE", "ACTIVIDAD LANZANDOSE")
                                 activo_hilo2 = false
                                 //   Log.d("HILO 2", "CANCELADOR");
                             }
                             /*Tiempo de Espera para descansar el hilo*/
-                            Thread.sleep(500)
+                            Thread.sleep(1000)
                         } catch (e: Exception) {
                             Log.e(TAG, e.toString())
                             e.printStackTrace()
-
                         }
 
                     }
                     /*Tiempo de Espera para descansar el hilo*/
                     Thread.sleep(100)
+
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
 
             }
-
         }
 
     }

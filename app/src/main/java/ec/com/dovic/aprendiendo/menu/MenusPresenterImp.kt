@@ -40,6 +40,7 @@ class MenusPresenterImp(var eventBus: EventBusInterface, var view: MenusView, va
     override fun onEventMenuThread(event: MenusEvents) {
         when (event.type) {
             MenusEvents.ON_SIGNOUT_SUCCESS -> {
+                view.singOut(event.any as Int)
                 view.navigationToLogin()
             }
             MenusEvents.ON_UPDATE_PASSWORD_SUCCESS -> {

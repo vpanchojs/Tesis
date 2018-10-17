@@ -1,6 +1,6 @@
 package ec.com.dovic.aprendiendo.questionnaireResume
 
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 
 
 class QuestionnaireResumeInteractorImp(var repository: QuestionnaireResumeRepository) : QuestionnaireResumeInteractor {
@@ -27,7 +27,7 @@ class QuestionnaireResumeInteractorImp(var repository: QuestionnaireResumeReposi
     }
 
     override fun setRaiting(idQuestionnaire: Any, value: Double, message: String, update: Boolean, oldRaiting: Double) {
-        var rating = Raiting()
+        var rating = Score()
         rating.comment = message
         rating.value = value
         rating.idQuestionaire = idQuestionnaire.toString()

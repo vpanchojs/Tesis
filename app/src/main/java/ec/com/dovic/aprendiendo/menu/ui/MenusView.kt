@@ -13,5 +13,6 @@ interface MenusView {
     fun navigationToTermsAndConditions()
     fun navigationToLogin()
     fun setDataProfile(user: User)
+    fun singOut(i: Int)
 
 }

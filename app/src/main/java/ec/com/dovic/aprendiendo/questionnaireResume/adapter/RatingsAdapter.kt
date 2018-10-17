@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.com.dovic.aprendiendo.R
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 import kotlinx.android.synthetic.main.item_rating.view.*
 
 
-class RatingsAdapter(var data: ArrayList<Raiting>) : RecyclerView.Adapter<RatingsAdapter.ViewHolder>() {
+class RatingsAdapter(var data: ArrayList<Score>) : RecyclerView.Adapter<RatingsAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

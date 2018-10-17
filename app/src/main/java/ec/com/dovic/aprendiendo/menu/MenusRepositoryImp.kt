@@ -2,6 +2,7 @@ package ec.com.dovic.aprendiendo.menu
 
 import com.google.firebase.auth.FirebaseUser
 import ec.com.dovic.aprendiendo.domain.FirebaseApi
+import ec.com.dovic.aprendiendo.domain.SharePreferencesApi
 import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
@@ -10,7 +11,7 @@ import ec.com.dovic.aprendiendo.menu.events.MenusEvents
 /**
  * Created by victor on 27/1/18.
  */
-class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi) : MenusRepository {
+class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: FirebaseApi, var sharePreferencesApi: SharePreferencesApi) : MenusRepository {
 
     override fun crearCuestionario() {
         //firebaseApi.crearCuestionarios()
@@ -20,7 +21,7 @@ class MenusRepositoryImp(var eventBus: EventBusInterface, var firebaseApi: Fireb
 
     override fun onSingOut() {
         firebaseApi.signOut()
-        postEvent(MenusEvents.ON_SIGNOUT_SUCCESS, "", Any())
+        postEvent(MenusEvents.ON_SIGNOUT_SUCCESS, "", sharePreferencesApi.getInSessionPlatform())
     }
 
     override fun onUpdatePassword(password: String, passwordOld: String) {

@@ -272,14 +272,16 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
 
         val data = bos.toByteArray()
 
-
+/*
         storage.child(STORAGE_USER_PHOTO_PATH).child(mAuth.currentUser!!.uid).putBytes(data)
+
                 .addOnFailureListener {
                     callback.onError(it.message)
                 }
                 .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
                     override fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
                         val downloadUrl = taskSnapshot.downloadUrl
+
                         /*db.collection(USERS_PATH).document(mAuth.currentUser!!.uid).update("url_photo", downloadUrl!!.toString())
                                 .addOnSuccessListener {
                                     Log.e(TAG, "foto actualizada")
@@ -303,6 +305,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
                                 }
                     }
                 })
+                */
 
     }
 
@@ -457,12 +460,12 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
                     .addOnFailureListener {
                         callback.onError(it.toString())
                     }
-                    .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
-                        override fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
-                            val downloadUrl = taskSnapshot.downloadUrl.toString()
-                            callback.onSuccess(downloadUrl)
+
+                    .addOnSuccessListener {
+                        it.storage.downloadUrl.addOnSuccessListener { uri ->
+                            callback.onSuccess(uri.toString())
                         }
-                    })
+                    }
         } else {
             callback.onSuccess("")
         }
@@ -483,8 +486,8 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
                 }
     }
 
-    fun getQuestions(id: String, callback: OnCallbackApis<QuerySnapshot>) {
-        db.collection(QUESTIONNAIRE_PATH).document(id).collection(QUESTIONS_PATH)
+    fun getQuestions(idQuestion: String, callback: OnCallbackApis<QuerySnapshot>) {
+        db.collection(QUESTIONNAIRE_PATH).document(idQuestion).collection(QUESTIONS_PATH)
                 .get()
                 .addOnSuccessListener {
                     callback.onSuccess(it)
@@ -494,8 +497,8 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
                 }
     }
 
-    fun getMyQuestionnaries(id: String, callback: OnCallbackApis<QuerySnapshot>) {
-        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("idUser", id).orderBy("title")
+    fun getMyQuestionnaries(idUser: String, callback: OnCallbackApis<QuerySnapshot>) {
+        db.collection(QUESTIONNAIRE_PATH).whereEqualTo("idUser", idUser).orderBy("title")
                 .get()
                 .addOnSuccessListener {
                     callback.onSuccess(it)
@@ -697,7 +700,7 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
                 }
     }
 
-    fun onSetRaiting(raiting: Raiting, update: Boolean, oldRaiting: Double, callback: onDomainApiActionListener) {
+    fun onSetRaiting(raiting: Score, update: Boolean, oldRaiting: Double, callback: onDomainApiActionListener) {
 
         raiting.nameUser = getNameUser()
         raiting.me = true
@@ -4393,279 +4396,928 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
         }
     }
 
-    fun crearCuestionarioMetodologiaInvestigación(){
+
+    fun crearCuesitonarioEcologiaMedioAmbiente() {
         val questionList = ArrayList<Question>()
 
-        val questionnaire = crearCuestionario("Prueba 3 ciclo sistemas", "", "METODOLOGÍA DE LA INVESTIGACIÓN", 29, "metodología, investigación")
+        val questionnaire = crearCuestionario("Plan de contigencia integral", "Examen de plan de contigencia para aprobación de expresión oral y escrita UNL", "EXPRESION ORAL Y ESCRITA", 50, "contingencia, examen, expresion oral y escrita")
 
         /* Primera pregunta*/
         val answers1 = ArrayList<Answer>()
-        answers1.add(crearRespuesta("Materiales escritos", true))
-        answers1.add(crearRespuesta("Materiales audiovisuales", false))
-        answers1.add(crearRespuesta("Programas de radio o televisión", false))
-        answers1.add(crearRespuesta("Información disponible en internet", false))
-        answers1.add(crearRespuesta("Todas las anteriores", true))
-        answers1.add(crearRespuesta("Ninguna de las anteriores", false))
+        answers1.add(crearRespuesta("Doble", true))
+        answers1.add(crearRespuesta("Dos", false))
+        answers1.add(crearRespuesta("Mitad", false))
+        answers1.add(crearRespuesta("Cuarto", false))
 
-        questionList.add(crearPregunta("", answers1, "Cuáles son las fuentes de ideas para la investigación"))
+        questionList.add(crearPregunta("", answers1, "El numero multiplicativo es"))
+
 
         val answers2 = ArrayList<Answer>()
-        answers2.add(crearRespuesta("Es necesario no adentrarse en algún tema que ya ha sido estudiado muy afondo.", true))
-        answers2.add(crearRespuesta("El tema que se va a abordar debe ser confuso y no estar estructurado para eso es necesario consultar varias fuentes bibliográficas.", false))
-        answers2.add(crearRespuesta("Estructurar la idea de investigación de manera formal", true))
-        answers2.add(crearRespuesta("Hay que adentrarse en algún tema que ya ha sido estudiado muy afondo.", false))
-        answers2.add(crearRespuesta("Elegir la perspectiva principal en la cual se abordará la idea de investigación.", true))
+        answers2.add(crearRespuesta("Prohibir", false))
+        answers2.add(crearRespuesta("Musicomanía ", true))
+        answers2.add(crearRespuesta("Cariamanga", false))
+        answers2.add(crearRespuesta("Manutención", false))
 
-        questionList.add(crearPregunta("", answers2, "Cuáles son los antecedentes que se deben tomar en cuenta antes de realizar una investigación."))
+        questionList.add(crearPregunta("", answers2, "La palabra que contiene hiato es"))
 
         val answers3 = ArrayList<Answer>()
-        answers3.add(crearRespuesta("Objetivos de la investigación.", false))
-        answers3.add(crearRespuesta("Pregunta de investigación", false))
-        answers3.add(crearRespuesta("Justificación de la investigación", false))
-        answers3.add(crearRespuesta("Evaluación de las deficiencias en el conocimiento del problema", false))
-        answers3.add(crearRespuesta("Todas las anteriores", true))
+        answers3.add(crearRespuesta("Yo tampoco lo sé, ¿y tu?", false))
+        answers3.add(crearRespuesta("¿Quién es el que hace bulla?", true))
+        answers3.add(crearRespuesta("Es tarde para empezar desde cero", false))
+        answers3.add(crearRespuesta("No se que es la tilde enfática", false))
 
-        questionList.add(crearPregunta("", answers3, "Los elementos del planteamiento cuantitativo del problema:"))
+        questionList.add(crearPregunta("", answers3, "La oración donde se ha empleado la tilde enfática es"))
+
 
         val answers4 = ArrayList<Answer>()
-        answers4.add(crearRespuesta("Delimitar el problema.", false))
-        answers4.add(crearRespuesta("Viabilidad de la investigación", false))
-        answers4.add(crearRespuesta("Relación entre variables.", true))
-        answers4.add(crearRespuesta("Formular como pregunta", true))
-        answers4.add(crearRespuesta("Tratar un problema medible u observable.", true))
+        answers4.add(crearRespuesta("Lloviendo", false))
+        answers4.add(crearRespuesta("Chiminea", true))
+        answers4.add(crearRespuesta("Escarbar", false))
+        answers4.add(crearRespuesta("Pifian", false))
 
-        questionList.add(crearPregunta("", answers4, "Criterios del planteamiento del problema cuantitativo:"))
+        questionList.add(crearPregunta("", answers4, "La palabra que esta mal escrita es"))
 
 
         val answers5 = ArrayList<Answer>()
-        answers5.add(crearRespuesta("Implicaciones Práctica", false))
-        answers5.add(crearRespuesta("Delimitar el problema .", false))
-        answers5.add(crearRespuesta("Factibilidad de la investigación", false))
-        answers5.add(crearRespuesta("Viabilidad del estudio que implica.", true))
-        answers5.add(crearRespuesta("Relación entre variables", false))
+        answers5.add(crearRespuesta("XVIII", false))
+        answers5.add(crearRespuesta("MLCI", false))
+        answers5.add(crearRespuesta("MCLVIII", true))
+        answers5.add(crearRespuesta("MCIVIII", false))
 
-        questionList.add(crearPregunta("", answers5, "¿Cuál de las siguientes opciones es un elemento del problema cuantitativo?"))
+        questionList.add(crearPregunta("", answers5, "El número romano que representa 1158 es"))
 
         val answers6 = ArrayList<Answer>()
-        answers6.add(crearRespuesta("Que no se conozcan las respuestas", true))
-        answers6.add(crearRespuesta("Que implique usar cualquier medio", false))
-        answers6.add(crearRespuesta("Que impliquen usar medios éticos.", true))
-        answers6.add(crearRespuesta("Que sean claras.", true))
-        answers6.add(crearRespuesta("Que el conocimiento obtenido sea común.", false))
+        answers6.add(crearRespuesta("Fonema", false))
+        answers6.add(crearRespuesta("Consonante", false))
+        answers6.add(crearRespuesta("Sílaba", true))
+        answers6.add(crearRespuesta("Vocal", false))
 
-        questionList.add(crearPregunta("", answers6, "¿Cuáles son los requisitos para las preguntas de investigación?"))
+        questionList.add(crearPregunta("", answers6, "La frase: \"Es el sonido o grupo de sonidos que se pronuncian con una sola emisión de voz en la cadena hablada\" de Guerro(2011) hace referencia al concepto de"))
+
 
         val answers7 = ArrayList<Answer>()
-        answers7.add(crearRespuesta("Es el capítulo del trabajo en el cual se encuentran los antecedentes y las bases teóricas o la fundamentación teórica.", false))
-        answers7.add(crearRespuesta("Es exponer todas las razones, las cuales nos parezcan de importancia y nos motiven a realizar una Investigación", true))
-        answers7.add(crearRespuesta("Representan las acciones concretas que el investigador llevará a cabo para intentar responder a las preguntas de investigación y así resolver el problema de investigación", false))
-        answers7.add(crearRespuesta("Es la aspiración, el propósito, que presupone el objeto transformado, la situación propia del problema superado.", false))
+        answers7.add(crearRespuesta("Cuestionable", false))
+        answers7.add(crearRespuesta("Rehusar", false))
+        answers7.add(crearRespuesta("Cuautemoc", true))
+        answers7.add(crearRespuesta("Mantequilla", false))
 
-        questionList.add(crearPregunta("", answers7, "Definición de Justificación."))
+        questionList.add(crearPregunta("", answers7, "La palabra que contiene triptongo es"))
 
 
         val answers8 = ArrayList<Answer>()
-        answers8.add(crearRespuesta("Conveniencia", false))
-        answers8.add(crearRespuesta("Intereses", true))
-        answers8.add(crearRespuesta("Valor Teórico", false))
-        answers8.add(crearRespuesta("Relevancia Social", false))
+        answers8.add(crearRespuesta("Científica", false))
+        answers8.add(crearRespuesta("Literaria", false))
+        answers8.add(crearRespuesta("Topográfica ", true))
+        answers8.add(crearRespuesta("Cinematográfica ", false))
 
-        questionList.add(crearPregunta("", answers8, "Razones o motivos por las cuales se procedió a la investigación:"))
+        questionList.add(crearPregunta("", answers8, "Cuando se hace la descripción de una región, un paisaje o un lugar determinado se llama"))
 
 
         val answers9 = ArrayList<Answer>()
-        answers9.add(crearRespuesta("Conveniencia", false))
-        answers9.add(crearRespuesta("Relevancia Social", false))
-        answers9.add(crearRespuesta("Implicaciones Prácticas", false))
-        answers9.add(crearRespuesta("Valor Teórico", false))
-        answers9.add(crearRespuesta("Utilidad Metodológica", true))
+        answers9.add(crearRespuesta("Quiero que el escritorio; este aquí mañana mismo.", false))
+        answers9.add(crearRespuesta("La fiesta sera de todos; los dias de la semana", false))
+        answers9.add(crearRespuesta("Apresúrate; que llegamos tarde ", false))
+        answers9.add(crearRespuesta("Atiéndeme, muchacha; los beneficios seran multiples ", true))
 
+        questionList.add(crearPregunta("", answers9, "La oracion donde se ha empleado bien el punto y coma es "))
 
-        questionList.add(crearPregunta("", answers9, "Que contribución o que aportación tendría nuestra investigación hacia otras áreas del conocimiento, tendría alguna importancia trascendental, los resultados podrán ser aplicables a otros fenómenos o ayudaría a explicar o entenderlos."))
 
         val answers10 = ArrayList<Answer>()
-        answers10.add(crearRespuesta("El objetivo es la aspiración, el propósito, que presupone el objeto transformado, la situación propia del problema superado.", false))
-        answers10.add(crearRespuesta("El objetivo es la aspiración, el propósito, el resultado a alcanzar, el para qué se desarrolla la investigación, que presupone el objeto transformado, la situación propia del problema superado, como resultado del conocimiento del objeto de estudio que se investiga en el Proceso", false))
-        answers10.add(crearRespuesta("Los objetivos son las guías de estudio que durante todo el desarrollo del mismo deben tenerse presente", true))
-        answers10.add(crearRespuesta("Objetivo es la categoría que refleja el propósito o intencionalidad de la investigación (el para que), lo que debe lograrse, de modo que se transforme el objeto y se solucione el problema", false))
-        answers10.add(crearRespuesta("Ninguna de las anteriores", false))
+        answers10.add(crearRespuesta("Juan obtuve 19,50 puntos", false))
+        answers10.add(crearRespuesta("Aunque cansado, llegare en primer lugar", false))
+        answers10.add(crearRespuesta("Hasta cuatro pollos me comería del hambre que tengo ", true))
+        answers10.add(crearRespuesta("Vêndame un cuarto de pollo ", false))
 
-        questionList.add(crearPregunta("", answers10, "Definición de Objetivos según Sampieri"))
+        questionList.add(crearPregunta("", answers10, "La oración en la que se ha empleado números cardinales es"))
+
 
         val answers11 = ArrayList<Answer>()
-        answers11.add(crearRespuesta("Terminal", true))
-        answers11.add(crearRespuesta("Cualitativo", true))
-        answers11.add(crearRespuesta("Específico", false))
-        answers11.add(crearRespuesta("Cuantitativo", false))
-        answers11.add(crearRespuesta("Integral", true))
-        answers11.add(crearRespuesta("Ninguna de las anteriores", false))
+        answers11.add(crearRespuesta("Dialecto", false))
+        answers11.add(crearRespuesta("Símbolo", true))
+        answers11.add(crearRespuesta("Ideas", false))
+        answers11.add(crearRespuesta("Significante", false))
 
-        questionList.add(crearPregunta("", answers11, "Cuáles son los atributos del objetivo general?"))
+        questionList.add(crearPregunta("", answers11, " Cuando dos o más personas han logrado comunicarse mediante un signo determinado, ese signo o señal que se ha utilizado para comunicarse adquiere la categoria de"))
+
+        val answers12 = ArrayList<Answer>()
+        answers12.add(crearRespuesta("Seremos felices, ya lo verás", false))
+        answers12.add(crearRespuesta("En Guayaquil, que es bastante caluroso, se llevará acabo el festival", true))
+        answers12.add(crearRespuesta("Apresúrate, que llegamos tarde", false))
+        answers12.add(crearRespuesta("Hubo varios bocados, canciones, folclor y vino", false))
+
+        questionList.add(crearPregunta("", answers12, "La oración donde se ha empleado la coma para señalar el adjetivo explicativo es"))
+
+
+        val answers13 = ArrayList<Answer>()
+        answers13.add(crearRespuesta("Separar fechas cuando se indica un periodo determinado", false))
+        answers13.add(crearRespuesta("Señalar dialogos", true))
+        answers13.add(crearRespuesta("Señalar nombres", false))
+        answers13.add(crearRespuesta("Separar las silabas de una palabra cuando no entra al final del reglon", false))
+
+        questionList.add(crearPregunta("", answers13, "Utilizamos la raya para "))
+
+
+        val answers14 = ArrayList<Answer>()
+        answers14.add(crearRespuesta("El informe", false))
+        answers14.add(crearRespuesta("La esquela", true))
+        answers14.add(crearRespuesta("El acta", false))
+        answers14.add(crearRespuesta("El memorando", false))
+
+        questionList.add(crearPregunta("", answers14, "El escrito breve sirve para invitar al destinatario a actos organizados por una institución o por personas particulares es"))
+
+        val answers15 = ArrayList<Answer>()
+        answers15.add(crearRespuesta("Volverá enojado, pero no importa", false))
+        answers15.add(crearRespuesta("A mí me dijieron que el examen no era de esa manera", true))
+        answers15.add(crearRespuesta("Los años pasaran muy lento", false))
+        answers15.add(crearRespuesta("El examen de Empresión Oral y Escrita sera de carácter objetivo ", false))
+
+        questionList.add(crearPregunta("", answers15, "La oracion en la que se ha utilizado la tilde diátrica es"))
+
+
+        val answers16 = ArrayList<Answer>()
+        answers16.add(crearRespuesta("Tilde diacrítica ", false))
+        answers16.add(crearRespuesta("Acento prósodico", true))
+        answers16.add(crearRespuesta("Acento ortográfico", false))
+        answers16.add(crearRespuesta("Tilde enfática", false))
+
+        questionList.add(crearPregunta("", answers16, "El concepto \"no se da en la grafía  sino solo en la pronunciación, es decir a nivel fonético, en cuanto pronunciamos con la mayor intensidad una sílaba de una palabra determinada\" corresponde a  "))
+
+
+        val answers17 = ArrayList<Answer>()
+        answers17.add(crearRespuesta("Comenta el contenido de un escrito", false))
+        answers17.add(crearRespuesta("Extrae las ideas principales de un texto", true))
+        answers17.add(crearRespuesta("Va acompañado con una introducción en la que se hace referencia sobre el asunto del informe", false))
+        answers17.add(crearRespuesta("Es idéntico a la reseña", false))
+
+        questionList.add(crearPregunta("", answers17, "El resumen "))
+
+        val answers18 = ArrayList<Answer>()
+        answers18.add(crearRespuesta("Libro, biblioteca", false))
+        answers18.add(crearRespuesta("Marrano, chancho", false))
+        answers18.add(crearRespuesta("Banco, banco", false))
+        answers18.add(crearRespuesta("Novel, nobel", true))
+
+        questionList.add(crearPregunta("", answers18, "El literal donde se encuentra palabras homófonas es "))
+
+
+        val answers19 = ArrayList<Answer>()
+        answers19.add(crearRespuesta("Metalingüística.", false))
+        answers19.add(crearRespuesta("Estética o poética.", false))
+        answers19.add(crearRespuesta("Conativa o apelativa.", false))
+        answers19.add(crearRespuesta("Fática o de contacto.", true))
+
+        questionList.add(crearPregunta("", answers19, "¿Me escuchas? ¿Estás seguro? Habla más fuerte. ¿Qué dijiste? Son frases de las que se ocupa la función"))
+
+
+        val answers20 = ArrayList<Answer>()
+        answers20.add(crearRespuesta("Cántaro, cantaro", false))
+        answers20.add(crearRespuesta("Manzanilla, mesanine", false))
+        answers20.add(crearRespuesta("Biósfera, bioesfera.", false))
+        answers20.add(crearRespuesta("Rácimo, racimo.", true))
+
+        questionList.add(crearPregunta("", answers20, "El literal donde se encuentran palabras de doble acentuación es"))
+
+        val answers21 = ArrayList<Answer>()
+        answers21.add(crearRespuesta("Miserable", false))
+        answers21.add(crearRespuesta("Payaso", false))
+        answers21.add(crearRespuesta("Risa", false))
+        answers21.add(crearRespuesta("Llanto", true))
+
+        questionList.add(crearPregunta("", answers21, "Feliz : sonrisa :: triste: ?"))
+
+
+        val answers22 = ArrayList<Answer>()
+        answers22.add(crearRespuesta("Cocer, coser.", false))
+        answers22.add(crearRespuesta("Sabia, savia.", false))
+        answers22.add(crearRespuesta("Blandura, afabilidad.", true))
+        answers22.add(crearRespuesta("Absorber, absolver.", false))
+
+        questionList.add(crearPregunta("", answers22, "El literal donde se encuentran palabras sinónimas es:"))
+
+
+        val answers23 = ArrayList<Answer>()
+        answers23.add(crearRespuesta("Me concedieron el tercer lugar: no importa.", true))
+        answers23.add(crearRespuesta("Dos de los 40 estudiantes aprobaron el ciclo.", false))
+        answers23.add(crearRespuesta("En este mes se me cuadriplicaron las ganancias.", false))
+        answers23.add(crearRespuesta("No sé si tengo cuatro o cinco dólares en mi bolsillo.", false))
+
+        questionList.add(crearPregunta("", answers23, "La oración en la que se ha empleado números ordinales es"))
+
+        val answers24 = ArrayList<Answer>()
+        answers24.add(crearRespuesta("Panadería.", false))
+        answers24.add(crearRespuesta("Maestro.", false))
+        answers24.add(crearRespuesta("Caotizar.", false))
+        answers24.add(crearRespuesta("Opcional.", true))
+
+        questionList.add(crearPregunta("", answers24, "La palabra que contiene diptongo es"))
+
+        val answers25 = ArrayList<Answer>()
+        answers25.add(crearRespuesta("La cláusula compuesta.", false))
+        answers25.add(crearRespuesta("El mundo.", true))
+        answers25.add(crearRespuesta("Solamente las palabras.", false))
+        answers25.add(crearRespuesta("Solo para memorizar.", false))
+
+        questionList.add(crearPregunta("", answers25, "Cuando se lee un texto, se está leyendo"))
+
+
+        val answers26 = ArrayList<Answer>()
+        answers26.add(crearRespuesta("Miguel de Cervantes, el Manco de Lepanto, fue escritor y soldado.", true))
+        answers26.add(crearRespuesta("Así será, ya lo verás.", false))
+        answers26.add(crearRespuesta("Él se va de paseo; ella, de vacaciones.", false))
+        answers26.add(crearRespuesta("Tráiganme las flores, por favor.", false))
+
+        questionList.add(crearPregunta("", answers26, "La oración en la que hay la aposición, gracias al uso de la coma, es:"))
+
+        val answers27 = ArrayList<Answer>()
+        answers27.add(crearRespuesta("Canal", true))
+        answers27.add(crearRespuesta("Mensaje.", false))
+        answers27.add(crearRespuesta("Receptor.", false))
+        answers27.add(crearRespuesta("Emisor.", false))
+
+        questionList.add(crearPregunta("", answers27, "El vehículo o medio a través del cual se trasmite el mensaje o la comunicación se denomina"))
+
+        val answers28 = ArrayList<Answer>()
+        answers28.add(crearRespuesta("¿Será posible que se haya portado así!", false))
+        answers28.add(crearRespuesta("?Qué quieres que haga si ella es así?", false))
+        answers28.add(crearRespuesta("¿Cómo se llama el último libro que publicaste?", true))
+        answers28.add(crearRespuesta("Cada vez es más difícil comprender?", false))
+
+        questionList.add(crearPregunta("", answers28, "La oración en la que se ha empleado bien los signos de interrogación es"))
+
+        val answers29 = ArrayList<Answer>()
+        answers29.add(crearRespuesta("dichoso", false))
+        answers29.add(crearRespuesta("enfadado", false))
+        answers29.add(crearRespuesta("desconsolado", false))
+        answers29.add(crearRespuesta("desdicha", true))
+
+        questionList.add(crearPregunta("", answers29, "Felicidad : dicha :: tristeza: ?"))
+
+        val answers30 = ArrayList<Answer>()
+        answers30.add(crearRespuesta("El momento en que se presenta el desarrollo del máximo potencial cognitivo.", false))
+        answers30.add(crearRespuesta("Las circunstancias y los factores que rodean un hecho.", true))
+        answers30.add(crearRespuesta("Los hechos vinculados a la acción del sujeto de la oración.", false))
+        answers30.add(crearRespuesta("Los verbos que componen la unidad mínima lingüística.", false))
+
+        questionList.add(crearPregunta("", answers30, "Entendemos por contexto"))
+
+
+        val answers31 = ArrayList<Answer>()
+        answers31.add(crearRespuesta("Alacrán, santidad, maremoto camino, regreso, caso, Quito, Macará, Santillana.", false))
+        answers31.add(crearRespuesta("Hermandad, psicólogo, tono, pintó, carácter, muchedumbre.", true))
+        answers31.add(crearRespuesta("Piano, cuarto, siembra, pueblo, cuota, andamio.", false))
+        answers31.add(crearRespuesta("Alejandro, cuencano, guayaquileño, cusqueño, Paraná, universo, maní, Paraguay.", false))
+
+        questionList.add(crearPregunta("", answers31, "El grupo de palabras donde hay dos agudas, tres graves y una esdrújula es"))
+
+
+        val answers32 = ArrayList<Answer>()
+        answers32.add(crearRespuesta("Tilde enfática", false))
+        answers32.add(crearRespuesta("Tilde diacrítica", true))
+        answers32.add(crearRespuesta("Acento prosódico", false))
+        answers32.add(crearRespuesta("Acento ortográfico", false))
+
+        questionList.add(crearPregunta("", answers32, "El concepto “se usa en el caso de los monosílabos que tienen igual forma, pero funciones gramaticales distintas”, corresponde a:"))
+
+
+        val answers33 = ArrayList<Answer>()
+        answers33.add(crearRespuesta("Las aes.", true))
+        answers33.add(crearRespuesta("Las as.", false))
+        answers33.add(crearRespuesta("Las ases.", false))
+        answers33.add(crearRespuesta("De las tres formas.", false))
+
+        questionList.add(crearPregunta("", answers33, "Para la “a”, el plural correcto es:"))
+
+
+        val answers34 = ArrayList<Answer>()
+        answers34.add(crearRespuesta("Del gruñido a la palabra.", true))
+        answers34.add(crearRespuesta("De su especie a la raza.", false))
+        answers34.add(crearRespuesta("Del verbo a la prosa.", false))
+        answers34.add(crearRespuesta("De Mono a persona.", false))
+
+        questionList.add(crearPregunta("", answers34, "Gracias a su cerebro y a su aparato fonador, el hombre es el único ser exclusivo que, en la larga cadena de la historia humana, ha logrado pasar:"))
+
+
+        val answers35 = ArrayList<Answer>()
+        answers35.add(crearRespuesta("Se escribe desde una actitud experiencial.", true))
+        answers35.add(crearRespuesta("Es una obra de consulta donde encontramos datos puntuales.", false))
+        answers35.add(crearRespuesta("Es propio de la ponderación y la exaltación en el buen sentido de la palabra.", false))
+        answers35.add(crearRespuesta("Se basa exclusivamente en las ciencias experimentales.", false))
+
+        questionList.add(crearPregunta("", answers35, "El ensayo:"))
+
+
+        val answers36 = ArrayList<Answer>()
+        answers36.add(crearRespuesta("Habla, idiolecto, uso", false))
+        answers36.add(crearRespuesta("Forma, habla, idiolecto", false))
+        answers36.add(crearRespuesta("Lengua, habla, idiolecto", false))
+        answers36.add(crearRespuesta("Forma, contenido y uso.", true))
+
+        questionList.add(crearPregunta("", answers36, "Según Horcas (2009), el lenguaje, como sistema simbólico implica tres dimensiones:"))
+
+
+        val answers37 = ArrayList<Answer>()
+        answers37.add(crearRespuesta("Significa que está muy motivado para seguir leyendo.", false))
+        answers37.add(crearRespuesta("Cultiva la humildad y la realidad propia.", false))
+        answers37.add(crearRespuesta("Está evidenciando una actitud muy empobrecedora.", true))
+        answers37.add(crearRespuesta("Lo está enriqueciendo.", false))
+
+        questionList.add(crearPregunta("", answers37, "Cuando el lector clausura el sentido del texto:"))
+
+
+        val answers38 = ArrayList<Answer>()
+        answers38.add(crearRespuesta("Azul, abril, asistir, Samuel, pared, compré, manantial.", true))
+        answers38.add(crearRespuesta("Fotógrafo, análisis, cámara, cántaro, plátano, radiólogo.", false))
+        answers38.add(crearRespuesta("Grato, gema, claro, absorto, lento, flauta", false))
+        answers38.add(crearRespuesta("Grupo, calabaza, manaza, cárcel, carácter, campo, césped, mayo.", false))
+
+        questionList.add(crearPregunta("", answers38, "El literal donde se encuentran las palabras agudas es:"))
+
+        val answers39 = ArrayList<Answer>()
+        answers39.add(crearRespuesta("Tubería.", true))
+        answers39.add(crearRespuesta("Coloriar.", false))
+        answers39.add(crearRespuesta("Adolorido.", false))
+        answers39.add(crearRespuesta("Afusilar.", false))
+
+        questionList.add(crearPregunta("", answers39, "La palabra que está escrita correctamente es:"))
+
+        val answers40 = ArrayList<Answer>()
+        answers40.add(crearRespuesta("Universidad Técnica Particular de Loja, Banco Central del Ecuador, Tame.", false))
+        answers40.add(crearRespuesta("Álvaro, Ángel, Édgar, Wálter, Perú, Argentina.", false))
+        answers40.add(crearRespuesta("Centinela del Sur, Luz de América, Atenas del Ecuador", false))
+        answers40.add(crearRespuesta("País, república, patria, cantón, provincia, océano, parque, libertad.", true))
+
+        questionList.add(crearPregunta("", answers40, "Las palabras que deben escribirse siempre con minúscula inicial, siempre que no sea inicial de frase u oración, son"))
+
+        val answers41 = ArrayList<Answer>()
+        answers41.add(crearRespuesta("Árbol sin ramas ni flores.", false))
+        answers41.add(crearRespuesta("Cada rama en cada árbol.", false))
+        answers41.add(crearRespuesta("Ese árbol tiene ramas y flores.", true))
+        answers41.add(crearRespuesta("Ramas y flores del árbol.", false))
+
+        questionList.add(crearPregunta("", answers41, "La frase de construcción lógica es:"))
+
+        val answers42 = ArrayList<Answer>()
+        answers42.add(crearRespuesta("Edad", false))
+        answers42.add(crearRespuesta("Salario", false))
+        answers42.add(crearRespuesta("Siglo", true))
+        answers42.add(crearRespuesta("Día", false))
+
+        questionList.add(crearPregunta("", answers42, "Centavo : dólar :: año: ?"))
+
+        val answers43 = ArrayList<Answer>()
+        answers43.add(crearRespuesta("Las esquelas.", false))
+        answers43.add(crearRespuesta("Las cartas invitación.", false))
+        answers43.add(crearRespuesta("Los informes.", true))
+        answers43.add(crearRespuesta("Las solicitudes.", false))
+
+        questionList.add(crearPregunta("", answers43, "Los escritos que se redactan de la manera más concreta posible y con la mayor veracidad y claridad son:"))
+
+        val answers44 = ArrayList<Answer>()
+        answers44.add(crearRespuesta("La descripción.", false))
+        answers44.add(crearRespuesta("La narración.", true))
+        answers44.add(crearRespuesta("El ambiente.", false))
+        answers44.add(crearRespuesta("El ensayo.", false))
+
+        questionList.add(crearPregunta("", answers44, "La acción y los caracteres son elementos que pertenecen a"))
+
+
+        val answers45 = ArrayList<Answer>()
+        answers45.add(crearRespuesta("Alcalde", false))
+        answers45.add(crearRespuesta("Estado", true))
+        answers45.add(crearRespuesta("Ciudad", false))
+        answers45.add(crearRespuesta("Gente", false))
+
+        questionList.add(crearPregunta("", answers45, "Presidente : nación :: gobernador: ?"))
+
+
+        val answers46 = ArrayList<Answer>()
+        answers46.add(crearRespuesta("Tilde enfática", true))
+        answers46.add(crearRespuesta("Tilde diacrítica", false))
+        answers46.add(crearRespuesta("Acento prosódico", false))
+        answers46.add(crearRespuesta("Acento ortográfico", false))
+
+        questionList.add(crearPregunta("", answers46, "El concepto “para resaltar la interrogación o admiración con que son expresadas, de conformidad con el ánimo y la actitud de quien las pronuncia”, corresponde a:"))
+
+
+        val answers47 = ArrayList<Answer>()
+        answers47.add(crearRespuesta("Monosílaba", false))
+        answers47.add(crearRespuesta("Bisílaba", false))
+        answers47.add(crearRespuesta("Trisílaba", false))
+        answers47.add(crearRespuesta("Tetrasílaba", true))
+
+        questionList.add(crearPregunta("", answers47, "Atlántico se clasifica como una palabra:"))
+
+
+        val answers48 = ArrayList<Answer>()
+        answers48.add(crearRespuesta("Dijo que lo haría así tú no quieras. ¿Verdad?.", false))
+        answers48.add(crearRespuesta("La misa será a las cuatro de la tarde en la iglesia Matriz.", true))
+        answers48.add(crearRespuesta("Lo haré así tú no lo quieras. Pero ven.", false))
+        answers48.add(crearRespuesta("Espérame a las tres de la tarde.", false))
+
+        questionList.add(crearPregunta("", answers48, "El ejemplo de estilo informativo es"))
+
+
+        val answers49 = ArrayList<Answer>()
+        answers49.add(crearRespuesta("Le dieron una placa de reconocimiento.", false))
+        answers49.add(crearRespuesta("Prácticamente hemos terminado.", true))
+        answers49.add(crearRespuesta("Se irá a Ambato.", false))
+        answers49.add(crearRespuesta("Espérame a las tres de la tarde.", false))
+
+        questionList.add(crearPregunta("", answers49, "La expresión donde hay cacofonía es"))
+
+
+        val answers50 = ArrayList<Answer>()
+        answers50.add(crearRespuesta("Ruido.", true))
+        answers50.add(crearRespuesta("Receptor.", false))
+        answers50.add(crearRespuesta("Código.", false))
+        answers50.add(crearRespuesta("Canal.", false))
+
+        questionList.add(crearPregunta("", answers50, "El elemento que está dado por las interferencias ajenas al mensaje y que estropea el proceso de la comunicación se denomina:"))
+
+        val batch = db.batch()
+
+        val cuestionarioRef = db.collection(QUESTIONNAIRE_PATH).document()
+        batch.set(cuestionarioRef, questionnaire.toMapAux())
+
+        questionList.forEach {
+
+            val anwersList = ArrayList<Map<String, Any>>()
+
+            it.answers.forEach { a ->
+                anwersList.add(a.toMapPost())
+            }
+            it.hashAnswers = anwersList
+
+            batch.set(db.collection(QUESTIONNAIRE_PATH).document(cuestionarioRef.id).collection(QUESTIONS_PATH).document(), it.toMapPost())
+        }
+
+        batch.commit().addOnSuccessListener {
+            Log.e(TAG, "Cuestionario subido expresion subido correctamente")
+        }.addOnFailureListener {
+            Log.e(TAG, it.toString())
+        }
+    }
+
+
+
+    fun crearCuestionarioMetodologiaInvestigación(){
+        val questionList = ArrayList<Question>()
+
+        val questionnaire = crearCuestionario("Examen Contingencia", "", "ECOLOGIA Y MEDIO AMBIENTE", 50, "contingencia, ecologia, medioambiente")
+
+        /* Primera pregunta*/
+        val answers1 = ArrayList<Answer>()
+        answers1.add(crearRespuesta("niveles anteriores más simples y propiedades nuevas emergentes de ese grado de complejidad.", true))
+        answers1.add(crearRespuesta("un conjunto de organismos de una especie que habitan en un lugar determinado.", false))
+        answers1.add(crearRespuesta("los efectos del cambio climático sobre los ecosistemas.", false))
+        answers1.add(crearRespuesta("los átomos por la física, el de las moléculas por la química, el de los organismos por la biología", false))
+
+        questionList.add(crearPregunta("", answers1, "La materia en el universo se organiza en una escalera de complejidad creciente, cada escalón constituye un nivel de organización cuyos componentes tienen propiedades heredadas de..."))
+
+        val answers2 = ArrayList<Answer>()
+        answers2.add(crearRespuesta("Ciencia", true))
+        answers2.add(crearRespuesta("Persona", false))
+        answers2.add(crearRespuesta("Energía", false))
+        answers2.add(crearRespuesta("Materia", false))
+
+        questionList.add(crearPregunta("", answers2, "Hablando de los niveles de organización de la materia, Malacalza (2013) señala cada nivel le corresponden las leyes de los niveles anteriores más las leyes de sus propiedades emergentes y cada uno de esos niveles es estudiado por una:"))
+
+        val answers3 = ArrayList<Answer>()
+        answers3.add(crearRespuesta("niveles de organización más complejos: poblaciones y comunidades", false))
+        answers3.add(crearRespuesta("la actividad humana o por causas naturales", false))
+        answers3.add(crearRespuesta("marcos teóricos y metodologías propias y particulares", true))
+        answers3.add(crearRespuesta("propiedades heredadas de niveles emergentes", false))
+
+        questionList.add(crearPregunta("", answers3, "La Ecología es una ciencia que estudia los organismos, además estudia:"))
+
+
+        val answers4 = ArrayList<Answer>()
+        answers4.add(crearRespuesta("Erenst Mayr", false))
+        answers4.add(crearRespuesta("Ernest Airlines", false))
+        answers4.add(crearRespuesta("Ernest Hemingway", false))
+        answers4.add(crearRespuesta("Ernest Haeckel", true))
+
+        questionList.add(crearPregunta("", answers4, "El vocablo ecología fue creado en 1866 por el biólogo alemán:"))
+
+
+        val answers5 = ArrayList<Answer>()
+        answers5.add(crearRespuesta("La ciencia que estudia la estructura de los seres vivos y de sus procesos vitales.", false))
+        answers5.add(crearRespuesta("La ciencia que estudia las propiedades de la materia y de la energía y establece las leyes que explican los fenómenos naturales, excluyendo los que modifican la estructura molecular de los cuerpos.", false))
+        answers5.add(crearRespuesta("La ciencia que estudia la composición y las propiedades de la materia y de las transformaciones que esta experimenta sin que se alteren los elementos que la forman", false))
+        answers5.add(crearRespuesta("La ciencia que estudia las relaciones existentes entre los organismos vivos y el ambiente en que viven.", true))
+
+        questionList.add(crearPregunta("", answers5, "Podemos definir la ecología como:"))
+
+
+        val answers6 = ArrayList<Answer>()
+        answers6.add(crearRespuesta("Responden como un todo unificado; cualquier variación o cambio en alguno de los elementos, de algún modo, influye sobre el conjunto.", true))
+        answers6.add(crearRespuesta("La materia puede reciclarse", false))
+        answers6.add(crearRespuesta("Una parte de la producción neta es ingerida por el nivel trófico siguiente.", false))
+        answers6.add(crearRespuesta("Una comunidad y su ambiente, la energía unida a la materia fluye, es transportada, transferida, entre los organismos consumiéndose en ese camino.", false))
+
+        questionList.add(crearPregunta("", answers6, "Un sistema es un conjunto de elementos que interaccionan y están relacionados entre sí de manera tal que:"))
+
+
+
+        val answers7 = ArrayList<Answer>()
+        answers7.add(crearRespuesta("delimitar un ecosistema es muy simple", false))
+        answers7.add(crearRespuesta("delimitar un ecosistema no es simple", true))
+        answers7.add(crearRespuesta("un ecosistema constituido por una comunidad y su ambiente, la energía unida a la materia no fluye.", false))
+        answers7.add(crearRespuesta("el intercambio de materiales entre uno ecosistema y otro puede ser pequeño.", false))
+
+        questionList.add(crearPregunta("", answers7, "Pueden considerarse ecosistemas a un bosque, a un río, a una ciudad, a una bahía, al mar entero, a toda la biosfera y también a un recipiente como una pecera. Entonces:"))
+
+
+        val answers8 = ArrayList<Answer>()
+        answers8.add(crearRespuesta("Los niveles de variación o cambio.", false))
+        answers8.add(crearRespuesta("Los niveles tróficos", true))
+        answers8.add(crearRespuesta("Las comunidades y las poblaciones", false))
+        answers8.add(crearRespuesta("Los sistemas y subsistemas", false))
+
+        questionList.add(crearPregunta("", answers8, "En un ecosistema constituido por una comunidad y su ambiente, la energía unida a la materia fluye, es transportada, transferida, entre los organismos consumiéndose en ese camino. En tal camino pueden distinguirse:"))
+
+
+        val answers9 = ArrayList<Answer>()
+        answers9.add(crearRespuesta("La materia orgánica así formada en un área, se denomina producción primaria.", false))
+        answers9.add(crearRespuesta("La energía unida a la materia", false))
+        answers9.add(crearRespuesta("El proceso de entrada de la energía solar que se sintetiza con materia inorgánica y orgánica d entro de las células autótrofas.", true))
+        answers9.add(crearRespuesta("La materia orgánica dentro de las células autótrofas", false))
+
+        questionList.add(crearPregunta("", answers9, "La fotosíntesis es:"))
+
+
+        val answers10 = ArrayList<Answer>()
+        answers10.add(crearRespuesta("la producción neta más la que se gasta en la respiración.", false))
+        answers10.add(crearRespuesta("compuestos simples muy oxidados de los que ya no puede obtenerse", false))
+        answers10.add(crearRespuesta("La materia orgánica formada en un área a partir de la fotosíntesis.", true))
+        answers10.add(crearRespuesta("el tercer nivel trófico", false))
+
+        questionList.add(crearPregunta("", answers10, "La producción primaria es:"))
+
+
+
+        val answers11 = ArrayList<Answer>()
+        answers11.add(crearRespuesta("La energía que procede del sol", true))
+        answers11.add(crearRespuesta("bacterias y hongos", false))
+        answers11.add(crearRespuesta("las moléculas inorgánicas", false))
+        answers11.add(crearRespuesta("Los niveles tróficos", false))
+
+        questionList.add(crearPregunta("", answers11, "Dentro de los ecosistemas la materia puede reciclarse. Pero no sucede lo mismo con:"))
 
 
 
         val answers12 = ArrayList<Answer>()
-        answers12.add(crearRespuesta("Integral", false))
-        answers12.add(crearRespuesta("Conductuales", true))
-        answers12.add(crearRespuesta("Terminal", false))
-        answers12.add(crearRespuesta("Cualitativos", true))
-        answers12.add(crearRespuesta("Específicos", true))
-        answers12.add(crearRespuesta("Ninguna de las anteriores", false))
+        answers12.add(crearRespuesta("los ecosistemas terrestres y acuáticos", false))
+        answers12.add(crearRespuesta("los rasgos estructurales y rasgos característicos", false))
+        answers12.add(crearRespuesta("los rasgos estructurales y rasgos críticos", false))
+        answers12.add(crearRespuesta("los rasgos estructurales y los rasgos funcionales", true))
 
-        questionList.add(crearPregunta("", answers12, "Cuáles son los atributos del objetivo específico?"))
+        questionList.add(crearPregunta("", answers12, "Los rasgos característicos permiten describir de manera muy general los ecosistemas que se observan en la naturaleza son:"))
 
 
 
         val answers13 = ArrayList<Answer>()
-        answers13.add(crearRespuesta("Es aquel que contiene pocas páginas.", false))
-        answers13.add(crearRespuesta("Trata con profundidad únicamente los aspectos relacionados con el problema", false))
-        answers13.add(crearRespuesta("Vincula de manera lógica los conceptos", false))
-        answers13.add(crearRespuesta("Todas las anteriores", true))
+        answers13.add(crearRespuesta("Ninguna de las anteriores", false))
+        answers13.add(crearRespuesta("Procesos ordenados que posibilitan la obtención, transformación, almacenamiento y uso de la energía en los organismos, con la que incorporan y transforman materia.", false))
+        answers13.add(crearRespuesta("Un fenómeno natural que conocemos como diversidad, tiene similitudes en otros sistemas con otros elementos, que también presentan distribuciones determinadas por procesos de auto multiplicación y selección.", false))
+        answers13.add(crearRespuesta("Una función es la secuencia temporal y ordenada de las estructuras que forman los componentes del sistema", true))
 
-        questionList.add(crearPregunta("", answers13, "¿Que comprende el marco teórico?"))
+        questionList.add(crearPregunta("", answers13, "¿Respecto a los ecosistemas, cual es el concepto de función?"))
 
 
 
         val answers14 = ArrayList<Answer>()
-        answers14.add(crearRespuesta("Su claridad y estructura dependen de que seleccionemos los términos adecuados, lo que a su vez se relaciona con un planteamiento enfocado.", false))
-        answers14.add(crearRespuesta("En el problema de investigación que nos ocupa sin divagar en otros temas ajenos al estudio.", true))
-        answers14.add(crearRespuesta("Debemos recurrir al mapa conceptual centrándonos en el problema de estudio.", false))
-        answers14.add(crearRespuesta("Su estructura no dependen de que seleccionemos los términos adecuados, lo que a su vez se relaciona con un análisis propio.", false))
+        answers14.add(crearRespuesta("a) Cada especie tiene un “nicho ideal”, que es el espectro completo de todas las variables que podría aprovechar y un “nicho real” que es el espectro que efectivamente aprovecha", false))
+        answers14.add(crearRespuesta("El nicho es la posición que ocupa la especie en la red trófica del ecosistema", true))
+        answers14.add(crearRespuesta("c) al nicho ecológico es un “hiperespacio de n-dimensiones”", false))
+        answers14.add(crearRespuesta("a y c son correctas", false))
 
-        questionList.add(crearPregunta("", answers14, "¿En que nos centramos al construir el marco teórico?"))
+        questionList.add(crearPregunta("", answers14, "Se dice en general que el nicho ecológico de una especie es la función que cumple dentro del ecosistema. Una definición algo más exacta es decir que:"))
 
 
         val answers15 = ArrayList<Answer>()
-        answers15.add(crearRespuesta("Que exista una teoría desarrollada que no se aplique a nuestro tema de investigación.", false))
-        answers15.add(crearRespuesta("Que haya una sola teoría que se aplique al problema de investigación.", false))
-        answers15.add(crearRespuesta("Que haya generalizaciones empíricas que se adapten a dicho problema.", true))
-        answers15.add(crearRespuesta("Ninguna de las anteriores.", false))
+        answers15.add(crearRespuesta("a) En condiciones normales, la eficiencia de uso de la energía del primer nivel trófico es muy baja: las plantas no aprovechan más del 1% de la luz utilizable que incide sobre ellas (energía química / energía luminosa).", false))
+        answers15.add(crearRespuesta("b) La eficiencia es un aspecto funcional cuantificable que nos ayuda a describir, comparar e interpretar distintos ecosistemas.", false))
+        answers15.add(crearRespuesta("La velocidad con que la energía fluye –el tiempo desde que entra hasta que se disipa- es mayor en un sistema complejo que en uno simple.", false))
+        answers15.add(crearRespuesta("a y b son correctas", true))
 
-        questionList.add(crearPregunta("", answers15, "La construcción de marco teórico depende de:"))
+
+        questionList.add(crearPregunta("", answers15, "En relación con la eficiencia de los ecosistemas, es correcto decir que:"))
 
         val answers16 = ArrayList<Answer>()
-        answers16.add(crearRespuesta("Problema, tema general, subtema, referencia.", false))
-        answers16.add(crearRespuesta("Tema, subtema, bibliografía, hipótesis.", false))
-        answers16.add(crearRespuesta("Tema general, título, subtema, problema.", false))
-        answers16.add(crearRespuesta("Tema general, tema, subtema, referencia.", true))
+        answers16.add(crearRespuesta("Dinámico", true))
+        answers16.add(crearRespuesta("Abierto", false))
+        answers16.add(crearRespuesta("Estático", false))
+        answers16.add(crearRespuesta("Indispensable", false))
 
-        questionList.add(crearPregunta("", answers16, "Identifique el orden correcto del esquema vertebrado del marco teórico a partir de un índice."))
+        questionList.add(crearPregunta("", answers16, "En los ecosistemas el equilibrio es:"))
+
+
 
         val answers17 = ArrayList<Answer>()
-        answers17.add(crearRespuesta("Problemática", false))
-        answers17.add(crearRespuesta("Hipótesis", false))
-        answers17.add(crearRespuesta("Resumen", false))
-        answers17.add(crearRespuesta("Marco teórico", true))
+        answers17.add(crearRespuesta("Entre los segundos está el caso de la sucesión ecológica, de los cambios que observamos en muchas comunidades debido a la sustitución de unas especies por otras según transcurre el tiempo", false))
+        answers17.add(crearRespuesta("que existen coincidencias en cuanto a los cambios estructurales y funcionales; cierta tendencia común por la que pueden llegar a alcanzar determinados valores.", false))
+        answers17.add(crearRespuesta("que ocurre en un sitio donde no hay evidencias o legados de vida previa, como una duna o una colada volcánica, se denomina sucesión primaria.", false))
+        answers17.add(crearRespuesta("Que no se repitan y, en ambientes sin grandes perturbaciones, presenten una secuencia gradual y direccional de etapas que vayan condicionando las etapas siguientes.", true))
 
-        questionList.add(crearPregunta("", answers17, "A veces conocido como el capítulo II de una tesis, es el pilar fundamental de cualquier investigación. La teoría constituye la base donde se sustentará cualquier análisis, experimento o propuesta de desarrollo de un trabajo de grado."))
+        questionList.add(crearPregunta("", answers17, "Los cambios en los ecosistemas pueden obedecer a situaciones que aparentemente se repiten a través de ciclos más o menos regulares, o bien:"))
 
 
         val answers18 = ArrayList<Answer>()
-        answers18.add(crearRespuesta("Operacional, Gráfica y Virtual.", false))
-        answers18.add(crearRespuesta("Conceptual y Geográfica.", false))
-        answers18.add(crearRespuesta("Conceptual y operacional.", true))
-        answers18.add(crearRespuesta("Todas las anteriores", false))
+        answers18.add(crearRespuesta("El aumento de la biomasa total, principalmente de las porciones menos activas (como madera, corteza, espinas en los vegetales; y pelo, grasa, huesos en los animales).", false))
+        answers18.add(crearRespuesta("La reducción del tiempo de permanencia de los elementos químicos fuera de los organismos.", false))
+        answers18.add(crearRespuesta("Cualquier cambio externo, asociado a una cierta entrada de energía, que destruya una parte de la biomasa del sistema.", true))
+        answers18.add(crearRespuesta("La estructura más complicada de las comunidades (mayor diversidad) y mayor segregación entre las especies próximas.", false))
 
-        questionList.add(crearPregunta("", answers18, "En las hipótesis las variables deben ser definidas de forma:"))
+        questionList.add(crearPregunta("", answers18, "Llamamos perturbación ambiental a:"))
 
 
 
         val answers19 = ArrayList<Answer>()
-        answers19.add(crearRespuesta("Universo", true))
-        answers19.add(crearRespuesta("Población", false))
-        answers19.add(crearRespuesta("Muestra", false))
-        answers19.add(crearRespuesta("Todas las anteriores", false))
+        answers19.add(crearRespuesta("Para algunos autores es la superficie de la tierra que se necesitaría para producir -de modo sostenible-los bienes y servicios que requiere un ser humano.", true))
+        answers19.add(crearRespuesta("un mayor impacto ambiental que puede resultar negativo", false))
+        answers19.add(crearRespuesta("El crecimiento humano es mayor en las áreas rurales, como resultado de una mayor natalidad", false))
+        answers19.add(crearRespuesta("Al indicador del espacio productivo necesario para suministrar los recursos y absorber los residuos generados por una población humana", false))
 
-        questionList.add(crearPregunta("", answers19, "Totalidad de individuos o elementos en los cuales puede presentarse determinada característica susceptible a ser estudiada."))
+        questionList.add(crearPregunta("", answers19, "¿A qué nos referimos cuando hablamos de huella del ser humano?"))
 
 
         val answers20 = ArrayList<Answer>()
-        answers20.add(crearRespuesta("Contenido", false))
-        answers20.add(crearRespuesta("Lugar", false))
-        answers20.add(crearRespuesta("Tiempo", false))
-        answers20.add(crearRespuesta("Todas las anteriores", true))
+        answers20.add(crearRespuesta("Ciencia que además estudia niveles de organización más complejos: poblaciones y comunidades", false))
+        answers20.add(crearRespuesta("Conjunto de elementos que interaccionan y están relacionados entre sí de manera tal que responden como un todo unificado; cualquier variación o cambio en alguno de los elementos, de algún modo, influye sobre el conjunto", false))
+        answers20.add(crearRespuesta("Un conjunto de organismos de una o más especies que interaccionan entre sí y con su entorno físico y químico intercambiando materia y energía.", false))
+        answers20.add(crearRespuesta("Conjunto de organismos de una especie que habitan en un lugar determinado.", true))
 
-        questionList.add(crearPregunta("", answers20, "Las poblaciones deben situarse claramente en torno a sus características de:"))
+        questionList.add(crearPregunta("", answers20, "Se dice que la población es:"))
 
 
 
         val answers21 = ArrayList<Answer>()
-        answers21.add(crearRespuesta("Estableciendo claramente las características de la población. Con esto delimitamos cuáles serán nuestros parámetros muestrales", false))
-        answers21.add(crearRespuesta("Se busca que la muestra sea un reflejo fiel del conjunto de la población (deben ser representativas).", false))
-        answers21.add(crearRespuesta("Un estudio no es mejor al tener una población más grande, sino al haber delimitado claramente su población en base a los objetivos del estudio", false))
-        answers21.add(crearRespuesta("A y B son correctas", true))
+        answers21.add(crearRespuesta("Ciencia que además estudia niveles de organización más complejos: poblaciones y comunidades", false))
+        answers21.add(crearRespuesta("Conjunto de organismos de una especie que habitan en un lugar determinado.", false))
+        answers21.add(crearRespuesta("Un conjunto de organismos de una o más especies que interaccionan entre sí y con su entorno físico y químico intercambiando materia y energía.", false))
+        answers21.add(crearRespuesta("Conjunto de elementos que interaccionan y están relacionados entre sí de manera tal que responden como un todo unificado; cualquier variación o cambio en alguno de los elementos, de algún modo, influye sobre el conjunto", true))
 
-        questionList.add(crearPregunta("", answers21, "¿Cómo seleccionamos la muestra? "))
+        questionList.add(crearPregunta("", answers21, "En ecología el concepto de sistema:"))
 
 
 
         val answers22 = ArrayList<Answer>()
-        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación científica y su producto, el conocimiento científico.", true))
-        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación explicativa y su producto, el conocimiento inductivo.", false))
-        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación explicativa y su producto, el conocimiento científico.", false))
-        answers22.add(crearRespuesta("Es la rama de la filosofía que estudia la investigación cuantitativa y su producto, el conocimiento empírico.", false))
+        answers22.add(crearRespuesta("Un conjunto de organismos de una o más especies que interaccionan entre sí y con su entorno físico y químico intercambiando materia y energía.", true))
+        answers22.add(crearRespuesta("Conjunto de elementos que interaccionan y están relacionados entre sí de manera tal que responden como un todo unificado; cualquier variación o cambio en alguno de los elementos, de algún modo, influye sobre el conjunto", false))
+        answers22.add(crearRespuesta("Conjunto de organismos de una especie que habitan en un lugar determinado.", false))
+        answers22.add(crearRespuesta("Ciencia que además estudia niveles de organización más complejos: poblaciones y comunidades", false))
 
-        questionList.add(crearPregunta("", answers22, "Definición del epistemología"))
+        questionList.add(crearPregunta("", answers22, "Se conoce como sistema ecológico o ecosistema a:"))
+
 
         val answers23 = ArrayList<Answer>()
-        answers23.add(crearRespuesta("Debe tener criterios sobre la estética de la ciencia o estudio de los valores estéticos de la investigación científica.", false))
-        answers23.add(crearRespuesta("Debe reflexionar acerca de los intereses que mueven la ciencia.", false))
-        answers23.add(crearRespuesta("Debe reflexionar sobre la axiología de la ciencia o estudio del sistema de valores de la comunidad científica.", false))
-        answers23.add(crearRespuesta("Debe obviar el  reflexionar sobre los intereses que mueven la ciencia.", true))
+        answers23.add(crearRespuesta("Carnívoros", true))
+        answers23.add(crearRespuesta("Descomponedores", false))
+        answers23.add(crearRespuesta("Productores primarios", false))
+        answers23.add(crearRespuesta("Herbívoros o fitófagos", false))
 
-        questionList.add(crearPregunta("", answers23, "Cuál de los siguientes aspecto no pertenecen a   los problemas que le competen a la epistemología"))
+        questionList.add(crearPregunta("", answers23, "El concepto: “Consumen la producción secundaria neta, resultado de restar la energía que se consume en el segundo nivel trófico”. Hace alusión a:"))
 
 
         val answers24 = ArrayList<Answer>()
-        answers24.add(crearRespuesta("Concepto universal del procedimiento que se realiza para ejecutar una determinada tarea.", false))
-        answers24.add(crearRespuesta("Conjunto de estrategias y herramientas que se utilizan para llegar a un objetivo preciso.", false))
-        answers24.add(crearRespuesta("La actividad que desarrolla el hombre para alcanzar una serie de verdades sobre la realidad que la circunda.", true))
-        answers24.add(crearRespuesta("Está determinada por la averiguación de datos o la búsqueda de soluciones para ciertos inconvenientes", false))
+        answers24.add(crearRespuesta("Descomponedores", false))
+        answers24.add(crearRespuesta("Herbívoros o fitófagos", false))
+        answers24.add(crearRespuesta("Productores primarios.", true))
+        answers24.add(crearRespuesta("Carnívoros", false))
 
-        questionList.add(crearPregunta("", answers24, "Qué es la ciencia"))
+        questionList.add(crearPregunta("", answers24, "El concepto: “Que son las plantas verdes, desde los formados por una sola célula como las algas del fitoplancton, hasta los grandes árboles. Hace alusión a:"))
 
 
         val answers25 = ArrayList<Answer>()
-        answers25.add(crearRespuesta("Es un único proceso sistemático, crítico y empírico que se aplican al estudio de un fenómeno.", false))
-        answers25.add(crearRespuesta("Es una Petición de información, opinión o consejo sobre una materia determinada.", false))
-        answers25.add(crearRespuesta("Es una  búsqueda de información en una fuente de documentación para aprender una cosa o para aclarar una duda.", false))
-        answers25.add(crearRespuesta("Es un conjunto de procesos sistemáticos, críticos y empíricos que se aplican al estudio de un fenómeno.", true))
+        answers25.add(crearRespuesta("Productores primarios", false))
+        answers25.add(crearRespuesta("Carnívoros", false))
+        answers25.add(crearRespuesta("Descomponedores", false))
+        answers25.add(crearRespuesta("Herbívoros o fitófagos", true))
 
-        questionList.add(crearPregunta("", answers25, "¿Cómo se define la investigación?"))
+        questionList.add(crearPregunta("", answers25, "El concepto: “Una parte del nivel de productores primarios es ingerida por este nivel trófico, dando origen a la producción secundaria bruta.” Hace alusión a:"))
 
 
         val answers26 = ArrayList<Answer>()
-        answers26.add(crearRespuesta("Es aquella que recoge  información basada en la observación de comportamientos naturales, discursos, respuestas abiertas para la posterior interpretación de significados.", false))
-        answers26.add(crearRespuesta("Es aquel proceso que pretende encontrar respuestas a problemas trascendentales mediante la construcción teórica del objeto de investigación, introducción  innovación, etc. ", true))
-        answers26.add(crearRespuesta("Utiliza experimentos y los principios encontrados en el método científico", false))
-        answers26.add(crearRespuesta("Es aquella que tiene relación causal; no sólo persigue describir o acercarse a un problema, sino. que intenta encontrar las causas del mismo.", false))
+        answers26.add(crearRespuesta("Herbívoros o fitófagos", false))
+        answers26.add(crearRespuesta("Descomponedores", true))
+        answers26.add(crearRespuesta("Carnívoros", false))
+        answers26.add(crearRespuesta("Productores primarios", false))
 
-        questionList.add(crearPregunta("", answers26, "¿Cómo se define la investigación científica?"))
+        questionList.add(crearPregunta("", answers26, "El concepto: “Permiten que se reinicie el ciclo de la materia, actúan sobre cadáveres, excrementos y otros restos producidos por diversos organismos”. Hace alusión a:"))
 
         val answers27 = ArrayList<Answer>()
-        answers27.add(crearRespuesta("4, 1, 2, 3, 5", false))
-        answers27.add(crearRespuesta("2, 5, 3, 1, 4", true))
-        answers27.add(crearRespuesta("1, 2, 3, 4, 5", false))
-        answers27.add(crearRespuesta("3, 2, 1, 4, 5", false))
+        answers27.add(crearRespuesta("Cuando su ciclo de vida útil a finalizado", false))
+        answers27.add(crearRespuesta("Por desgaste natural", false))
+        answers27.add(crearRespuesta("Por averías técnicas", false))
+        answers27.add(crearRespuesta("Todas las anteriores", true))
 
-        questionList.add(crearPregunta("", answers27, "Elige la secuencia en la que ocurre las fases de la investigación científica. 1. Emisión de conclusiones 2. Observación. 3. Experimentación 4. Publicación y comparación 5. Formulación de hipótesis.\n"))
+        questionList.add(crearPregunta("", answers27, "¿Cuándo un Aparato Eléctrico o Electrónico se convierte en residuo?"))
 
 
         val answers28 = ArrayList<Answer>()
-        answers28.add(crearRespuesta("Niveles de la Investigación.", false))
-        answers28.add(crearRespuesta("Tipos de la Investigación.", true))
-        answers28.add(crearRespuesta("Fases de la Investigación.", false))
+        answers28.add(crearRespuesta("Restos de Aparatos Eléctricos o Electrónicos", false))
+        answers28.add(crearRespuesta("Restos de Aparatos Electrónicos Estables", false))
+        answers28.add(crearRespuesta("Residuos de Aparatos Eléctricos o Electrónicos", true))
+        answers28.add(crearRespuesta("Residuos de Apartados Eléctricos o Electrónicos", false))
 
-        questionList.add(crearPregunta("", answers28, "La investigación Cuantitativa, Cualitativa, Histórica, Descriptiva, Experimental, Básica, Aplicada, Documental de campo o mixta son:"))
+        questionList.add(crearPregunta("", answers28, "¿Qué son los -RAEE-?"))
 
 
         val answers29 = ArrayList<Answer>()
-        answers29.add(crearRespuesta("La investigación básica o pura tiene como finalidad la obtención y recopilación de información para ir construyendo una base de conocimiento que se va agregando a la información previa existente. La investigación aplicada, por su parte, tienen como objetivo resolver un determinado problema o planteamiento específico, y usa el conocimiento generado por la investigación Básica para ello.", true))
-        answers29.add(crearRespuesta("La investigación básica tiene como objetivo el desarrollo de las capacidades reflexivas y críticas a través del análisis, interpretación y confrontación de la información recogida. En cambio la Investigación Aplicada Comprende el desarrollo de prototipos y la construcción y operación de Plantas Piloto.", false))
-        answers29.add(crearRespuesta("La investigación básica o pura tiene como finalidad la obtención y recopilación de información para ir construyendo una base de conocimiento que se va agregando a la información previa existente. La investigación aplicada, por otro lado se encarga del desarrollo de prototipos.", false))
-        answers29.add(crearRespuesta("La investigación básica  se encarga de recolectar  información y describir el fenómeno, en cambio la Investigación Aplicada trata de resolver un problema específico y se fundamenta de los resultados de la Investigación Básica.", false))
+        answers29.add(crearRespuesta("La programación del fin de la vida útil de un producto", true))
+        answers29.add(crearRespuesta("La renovación constante de los productos", false))
+        answers29.add(crearRespuesta("La adquisicion de un nuevo equipo", false))
+        answers29.add(crearRespuesta("El mantenimiento sostenible de los productos", false))
 
-        questionList.add(crearPregunta("", answers29, "¿Cuál es la diferencia entre Investigación Básica e Investigación Aplicada?"))
+        questionList.add(crearPregunta("", answers29, "¿Qué es la OBSOLESCENCIA PROGRAMADA?"))
+
+
+        val answers30 = ArrayList<Answer>()
+        answers30.add(crearRespuesta("Más de 10mil toneladas", false))
+        answers30.add(crearRespuesta("Más de 50millones de toneladas", true))
+        answers30.add(crearRespuesta("Más de 50mil toneladas", false))
+        answers30.add(crearRespuesta("Más de 100milllones de toneladas", false))
+
+        questionList.add(crearPregunta("", answers30, "Complete: Las cantidades RAEE, están creciendo de manera exponencial y que al año se producen..."))
+
+
+
+        val answers31 = ArrayList<Answer>()
+        answers31.add(crearRespuesta("EE. UU y México", false))
+        answers31.add(crearRespuesta("México y Brasil", true))
+        answers31.add(crearRespuesta("Ecuador y Argentina", false))
+        answers31.add(crearRespuesta("México y Ecuador", false))
+
+        questionList.add(crearPregunta("", answers31, "En Latinoamérica, los estados con mayor porcentaje de desechos son:"))
+
+
+        //PENDIENTE
+        val answers32 = ArrayList<Answer>()
+        answers32.add(crearRespuesta("Tilde enfática", false))
+        answers32.add(crearRespuesta("Tilde diacrítica", true))
+        answers32.add(crearRespuesta("Acento prosódico", false))
+        answers32.add(crearRespuesta("Acento ortográfico", false))
+
+        questionList.add(crearPregunta("", answers32, "¿Qué es la contaminación?"))
+
+
+
+        val answers33 = ArrayList<Answer>()
+        answers33.add(crearRespuesta("el flujo de energía y la circulación de la materia en los ecosistemas", true))
+        answers33.add(crearRespuesta("La ecología", false))
+        answers33.add(crearRespuesta("algunas culturas", false))
+        answers33.add(crearRespuesta("toda perturbación del medio ambiente", false))
+
+        questionList.add(crearPregunta("", answers33, "La contaminación está muy relacionada con:"))
+
+
+        val answers34 = ArrayList<Answer>()
+        answers34.add(crearRespuesta("simplificando y condiciones", true))
+        answers34.add(crearRespuesta("involucrando e interesando", false))
+        answers34.add(crearRespuesta("perturbando y poluciones", false))
+        answers34.add(crearRespuesta("simplificando y poluciones", false))
+
+        questionList.add(crearPregunta("", answers34, "“En general, los contaminantes actúan ----------------- los ecosistemas, retornando a las comunidades a etapas más inestables, con organismos característicos de alta tasa de crecimiento. Pero en otras ocasiones puede cambiar tanto las --------------- del ambiente que la comunidad original desaparece.”"))
+
+
+        val answers35 = ArrayList<Answer>()
+        answers35.add(crearRespuesta("Una circulación defectuosa, o interrumpida, de algún material de los ecosistemas", true))
+        answers35.add(crearRespuesta("Una “enfermedad” del transporte, es una utilización incompleta de alimentos, otros materiales y también energía que la organización social transporta desde lugares más o menos distantes hasta otros sitios donde son requeridos", false))
+        answers35.add(crearRespuesta("La descripción de algunos comportamientos y tecnologías con los que se puede disminuir nuestro aporte a la contaminación y a su vez protegernos.", false))
+        answers35.add(crearRespuesta("Aquellos materiales que sobran, que no son utilizados o que fueron transformados y ya no sirven, no son devueltos al lugar de procedencia, no se paga el costo del transporte.", false))
+
+        questionList.add(crearPregunta("", answers35, "Desde el punto de vista de la teoría ecológica la contaminación es:"))
+
+
+        val answers36 = ArrayList<Answer>()
+        answers36.add(crearRespuesta("Una circulación defectuosa, o interrumpida, de algún material de los ecosistemas", false))
+        answers36.add(crearRespuesta("La descripción de algunos comportamientos y tecnologías con los que se puede disminuir nuestro aporte a la contaminación y a su vez protegernos.", false))
+        answers36.add(crearRespuesta("Aquellos materiales que sobran, que no son utilizados o que fueron transformados y ya no sirven, no son devueltos al lugar de procedencia, no se paga el costo del transporte.", false))
+        answers36.add(crearRespuesta("Una “enfermedad” del transporte, es una utilización incompleta de alimentos, otros materiales y también energía que la organización social transporta desde lugares más o menos distantes hasta otros sitios donde son requeridos.", true))
+
+        questionList.add(crearPregunta("", answers36, "Desde el punto de vista de la Margalef (1981) la contaminación es:"))
+
+
+        val answers37 = ArrayList<Answer>()
+        answers37.add(crearRespuesta("La contaminación que por dispersa y global ha tardado en llegar a ser evidente", false))
+        answers37.add(crearRespuesta("La contaminación de la atmósfera por los gases causantes del efecto invernadero.", false))
+        answers37.add(crearRespuesta("la que nos afecta directamente, desde cerca: la contaminación del agua que bebemos, de los alimentos, del suelo, o del aire que nos rodea.", true))
+        answers37.add(crearRespuesta("La contaminación localizada, generalmente inscritas en un lugar o región, cuya importancia no depende del agente contaminante y del tiempo de duración.", false))
+
+        questionList.add(crearPregunta("", answers37, "La contaminación que más ha molestado o preocupado a la mayoría de los humanos es:"))
+
+
+        val answers38 = ArrayList<Answer>()
+        answers38.add(crearRespuesta("La del Homo sapiens que deben haber tenido una relación con el medio ambiente, explotar un área y migrar a otra cuando los recursos escaseaban.", true))
+        answers38.add(crearRespuesta("Cuando el hombre comienza a cultivar la tierra y se hace sedentario, la densidad de las poblaciones aumenta, aparecen las ciudades y caminos y por éstos se transportan alimentos y otros materiales que demanda el cambio cultural.", false))
+        answers38.add(crearRespuesta("a revolución científico-tecnológica, se inició hace unos 200 años con la industria subsidiada con mucha energía de alto costo y bajo precio", false))
+        answers38.add(crearRespuesta("la civilización a la que pertenecemos (aunque algunos pertenecen mucho más que otros) que se caracteriza por la gran generación de bienes y servicios.", false))
+
+        questionList.add(crearPregunta("", answers38, "Según Malacalza (2012) en la primera etapa de la civilización es:"))
+
+        val answers39 = ArrayList<Answer>()
+        answers39.add(crearRespuesta("Cuando el hombre comienza a cultivar la tierra y se hace sedentario, la densidad de las poblaciones aumenta, aparecen las ciudades y caminos y por éstos se transportan alimentos y otros materiales que demanda el cambio cultural.", true))
+        answers39.add(crearRespuesta("La del Homo sapiens que deben haber tenido una relación con el medio ambiente, explotar un área y migrar a otra cuando los recursos escaseaban.", false))
+        answers39.add(crearRespuesta("la revolución científico-tecnológica, se inició hace unos 200 años con la industria subsidiada con mucha energía de alto costo y bajo precio.", false))
+        answers39.add(crearRespuesta("la civilización a la que pertenecemos (aunque algunos pertenecen mucho más que otros) que se caracteriza por la gran generación de bienes y servicios.", false))
+
+        questionList.add(crearPregunta("", answers39, "Según Malacalza (2012) en la segunda etapa de la civilización es:"))
+
+        val answers40 = ArrayList<Answer>()
+        answers40.add(crearRespuesta("Cuando el hombre comienza a cultivar la tierra y se hace sedentario, la densidad de las poblaciones aumenta, aparecen las ciudades y caminos y por éstos se transportan alimentos y otros materiales que demanda el cambio cultural.", false))
+        answers40.add(crearRespuesta("la civilización a la que pertenecemos (aunque algunos pertenecen mucho más que otros) que se caracteriza por la gran generación de bienes y servicios", false))
+        answers40.add(crearRespuesta("La del Homo sapiens que deben haber tenido una relación con el medio ambiente, explotar un área y migrar a otra cuando los recursos escaseaban.", false))
+        answers40.add(crearRespuesta("la revolución científico-tecnológica, se inició hace unos 200 años con la industria subsidiada con mucha energía de alto costo y bajo precio", true))
+
+        questionList.add(crearPregunta("", answers40, "Según Malacalza (2012) en la tercera etapa de la civilización es:"))
+
+        val answers41 = ArrayList<Answer>()
+        answers41.add(crearRespuesta("Cuando el hombre comienza a cultivar la tierra y se hace sedentario, la densidad de las poblaciones aumenta, aparecen las ciudades y caminos y por éstos se transportan alimentos y otros materiales que demanda el cambio cultural.", false))
+        answers41.add(crearRespuesta("la revolución científico-tecnológica, se inició hace unos 200 años con la industria subsidiada con mucha energía de alto costo y bajo precio", false))
+        answers41.add(crearRespuesta("la civilización a la que pertenecemos (aunque algunos pertenecen mucho más que otros) que se caracteriza por la gran generación de bienes y servicios", true))
+        answers41.add(crearRespuesta("La del Homo sapiens que deben haber tenido una relación con el medio ambiente, explotar un área y migrar a otra cuando los recursos escaseaban.", false))
+
+        questionList.add(crearPregunta("", answers41, "Según Malacalza (2012) en la etapa de la civilización a la que pertenecemos es"))
+
+        val answers42 = ArrayList<Answer>()
+        answers42.add(crearRespuesta("aún no han actuado globalmente los mecanismos de retroalimentación que regulen o eviten los perjuicios señalados", false))
+        answers42.add(crearRespuesta("se suman ahora la propiedad privada del agua potable, del aire y el clima en general.", false))
+        answers42.add(crearRespuesta("cuyos costos no son incorporados al precio del bien producido, los costos ambientales derivados de la producción industrial no se transfieren al consumidor del producto mediante el precio, sino que son cargados a toda la población, sea o no consumidora", true))
+        answers42.add(crearRespuesta("de origen químico, físico o biológico, debemos agregar ahora la pobreza.", false))
+
+        questionList.add(crearPregunta("", answers42, "La civilización a la que pertenecemos no sólo ha producido bienes en cantidad, sino que también ha introducido “disturbios” a toda la biosfera. Estos son disturbios:"))
+
+        val answers43 = ArrayList<Answer>()
+        answers43.add(crearRespuesta("Diseño, recuperación, moda, actualización, mantenimiento, nuevo producto, publicidad", false))
+        answers43.add(crearRespuesta("Diseño, fabricación, producto, actualización, mantenimiento, emprendimiento, publicidad", false))
+        answers43.add(crearRespuesta("Diseño, fabricación, producto, actualización, mantenimiento, nuevo producto, publicidad", true))
+
+
+        questionList.add(crearPregunta("", answers43, "Las faces del proceso de obsolescencia programada en su orden son las siguientes:"))
+
+        val answers44 = ArrayList<Answer>()
+        answers44.add(crearRespuesta("de los programas de gestión", true))
+        answers44.add(crearRespuesta("las políticas generales de la gestión integral de los residuos sólidos no peligrosos", false))
+        answers44.add(crearRespuesta("Plan de minimización", false))
+        answers44.add(crearRespuesta("declaración anual de desechos peligrosos.", false))
+
+        questionList.add(crearPregunta("", answers44, "El principio de responsabilidad extendida trata sobre Los productores y/o importadores y la responsabilidad que poseen sobre el producto a través de todo el ciclo de vida de este, incluyendo los impactos inherentes a la selección de los materiales, del proceso de producción de estos, así como los relativos al uso y disposición final de estos luego de su vida útil. En ese sentido el Acuerdo Ministerial 061 del 04 de mayo de 2015 en su art. 161 trata sobre:"))
+
+
+        val answers45 = ArrayList<Answer>()
+        answers45.add(crearRespuesta("de los programas de gestión", false))
+        answers45.add(crearRespuesta("las políticas generales de la gestión integral de los residuos sólidos no peligrosos", true))
+        answers45.add(crearRespuesta("Plan de minimización", false))
+        answers45.add(crearRespuesta("declaración anual de desechos peligrosos.", false))
+
+        questionList.add(crearPregunta("", answers45, "El principio de responsabilidad extendida trata sobre Los productores y/o importadores y la responsabilidad que poseen sobre el producto a través de todo el ciclo de vida de este, incluyendo los impactos inherentes a la selección de los materiales, del proceso de producción de estos, así como los relativos al uso y disposición final de estos luego de su vida útil. En ese sentido el Acuerdo Ministerial 061 del 04 de mayo de 2015 en su art. 49 trata sobre:"))
+
+
+
+        val answers46 = ArrayList<Answer>()
+        answers46.add(crearRespuesta("Fortalecimiento de Iniciativas Nacionales y Mejoramiento de la Corporación Regional para el Manejo Ambientalmente Racional de los COP en Residuos de Aparatos Eléctricos o Electrónicos (RAEE) en países de América Latina", false))
+        answers46.add(crearRespuesta("Fortalecimiento de Iniciativas Nacionales y Mejoramiento de la Cooperación Regional para el Mejoramiento Ambientalmente Racional de los COP en Residuos de Aparatos Eléctricos o Electrónicos (RAEE) en países de América Latina", false))
+        answers46.add(crearRespuesta("Fortalecimiento de Iniciativas Nacionales y Mejoramiento de la Cooperación Regional para el Manejo Ambientalmente Racional de los COP en Residuos de Aparatos Eléctricos o Electrónicos (RAEE) en países de América Latina", true))
+        answers46.add(crearRespuesta("Fortalecimiento de Iniciativas Nacionales y Mejoramiento de la Cooperación Regional para el Manejo Ambientalmente Racional de los COP en Residuos de Apartados Eléctricos o Electrónicos (RAEE) en países de América Latina", false))
+
+        questionList.add(crearPregunta("", answers46, "Las siglas del Proyecto ONUDI-FMAM signifcan:"))
+
+
+        val answers47 = ArrayList<Answer>()
+        answers47.add(crearRespuesta("Escalamiento de las investigaciones nacionales de mantenimiento proliferación de RAEE, incluyendo el establecimiento de modelos de negocio sustentable.", false))
+        answers47.add(crearRespuesta("ErradicarContaminación de áreas verdes, acuíferos, ríos, lagos y mares.", false))
+        answers47.add(crearRespuesta("Controlar Emisiones a la atmósfera de elementos tóxicos.", false))
+        answers47.add(crearRespuesta("Inventarios detallados de cantidades de RAEE existentes y actividades en curso y   Diseño/mejoramiento de estrategias y esquemas de recolección y procesamiento", true))
+
+        questionList.add(crearPregunta("", answers47, "Dos de los elementos claves del proyecto ONUDI-FMAM Son:"))
+
+
+        val answers48 = ArrayList<Answer>()
+        answers48.add(crearRespuesta("Promover el desequilibrio de los ecosistemas", false))
+        answers48.add(crearRespuesta("Escalamiento de las instalaciones nacionales de desmantelamiento / pre-procesamiento de RAEE, incluyendo el establecimiento de modelos de negocio sustentable y Conexión con los mercados derivados nacionales, regionales e internacionales de acuerdo con los convenios internacionales; por ejemplo, Convenio de Basilea", true))
+        answers48.add(crearRespuesta("Erradicar Contaminación de áreas verdes, acuíferos, ríos, lagos y mares.", false))
+        answers48.add(crearRespuesta("Escalamiento de las investigaciones nacionales de mantenimiento / proliferación de RAEE, incluyendo el establecimiento de modelos de negocio sustentable.", false))
+
+        questionList.add(crearPregunta("", answers48, "Dos de los elementos claves del proyecto ONUDI-FMAM Son:"))
+
+
+        val answers49 = ArrayList<Answer>()
+        answers49.add(crearRespuesta("Escalamiento de las investigaciones nacionales de mantenimiento / proliferación de RAEE, incluyendo el establecimiento de modelos de negocio sustentable.", false))
+        answers49.add(crearRespuesta("Desarrollo y mejora de normas y legislación, incluyendo mecanismos de fnanciamiento y la Creación de capacidades, capacitación y sensibilización .", true))
+        answers49.add(crearRespuesta("Controlar Emisiones a la atmósfera de elementos tóxicos.", false))
+        answers49.add(crearRespuesta("ErradicarContaminación de áreas verdes, acuíferos, ríos, lagos y mares.", false))
+
+        questionList.add(crearPregunta("", answers49, "Dos de los elementos claves del proyecto ONUDI-FMAM Son:"))
+
+
+        val answers50 = ArrayList<Answer>()
+        answers50.add(crearRespuesta("Séptimo", true))
+        answers50.add(crearRespuesta("Tercer.", false))
+        answers50.add(crearRespuesta("Décimo.", false))
+
+        questionList.add(crearPregunta("", answers50, "Complete la sentencia con la ubicación correcta: Los estados latinoamericanos con mayor porcentaje de desechos son Brasil (1 millón 412 mil toneladas) y México (958 mil toneladas). En la lista de países Ecuador ocupa el .....lugar con 73 mil toneladas."))
+
 
 
         val batch = db.batch()
@@ -4693,6 +5345,9 @@ class FirebaseApi(val db: FirebaseFirestore, val mAuth: FirebaseAuth, val storag
         }
 
     }
+
+
+
 
     fun crearCuestionarios() {
         Log.e(TAG, "VOY A guardar mis cuesitonarios")

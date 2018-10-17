@@ -113,7 +113,6 @@ class UpdateQuestionnaireActivity : AppCompatActivity(), View.OnClickListener, U
     private fun setupFieldsValidation() {
         var fields = ArrayList<TextInputEditText>()
         fields.add(tie_title!!)
-        fields.add(tie_discription!!)
         onTextChangedListener(fields, btn_create!!)
     }
 

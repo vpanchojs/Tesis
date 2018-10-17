@@ -2,7 +2,7 @@ package ec.com.dovic.aprendiendo.questionnaireResume.ui
 
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Questionaire
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 import ec.com.dovic.aprendiendo.entities.User
 
 /**
@@ -15,8 +15,8 @@ interface QuestionnaireResumeView {
     fun navigationBack()
     fun setQuestions(questionList: List<Question>)
     fun setUser(user: User)
-    fun updateRating(rating: Raiting)
-    fun setRatings(ratingList: List<Raiting>)
+    fun updateRating(rating: Score)
+    fun setRatings(ratingList: List<Score>)
     fun showButtonRaiting(visible: Int)
     fun dowloadQuestionnaire()
     fun confirmDownloadQuestionnaire()

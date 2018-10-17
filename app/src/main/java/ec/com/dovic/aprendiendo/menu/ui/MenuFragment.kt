@@ -6,10 +6,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import ec.com.dovic.aprendiendo.MyApplication
 import ec.com.dovic.aprendiendo.R
 import ec.com.dovic.aprendiendo.block.servicie.ServicieBlock
@@ -31,6 +36,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
     private var data: ArrayList<OptionMenu>? = ArrayList()
     lateinit var progressDialog: ProgressDialog
     private var user: User? = null
+    private var mGoogleSignInClient: GoogleSignInClient? = null
 
     @Inject
     lateinit var presenter: MenusPresenter
@@ -64,6 +70,7 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
         view.rv_menu_options.layoutManager = LinearLayoutManager(context)
         view.rv_menu_options.adapter = adapterOptions
         view.cl_my_profile.setOnClickListener(this)
+        setupSingInGoogle()
         setupInjection()
 
         return view
@@ -140,15 +147,43 @@ class MenuFragment : Fragment(), MenusView, onOptionsAdapterListener, View.OnCli
              }
              */
             0 -> {
-                presenter.crearCuestionario()
-                showMessagge("Términos y Condiciones")
+                // presenter.crearCuestionario()
+                //showMessagge("Términos y Condiciones")
+                val url = "https://aprendiendo-75d32.firebaseapp.com"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
             }
             1 -> {
-                showMessagge("Ayuda")
+                val url = "https://firebasestorage.googleapis.com/v0/b/aprendiendo-75d32.appspot.com/o/MANUAL%20DE%20USUARIO.pdf?alt=media&token=bee31e8a-850d-429a-8c47-391d289312ea"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
             }
             2 -> {
                 presenter.onSingOut()
                 activity!!.stopService(Intent(context, ServicieBlock::class.java))
+            }
+        }
+    }
+
+    fun setupSingInGoogle() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("138055446583-vk1h8k95h1ksqqs5akl9eaa5rturnr44.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+    }
+
+    override fun singOut(platform: Int) {
+        Log.e(TAG, "la plataforma ha cerrar session $platform")
+        when (platform) {
+            User.FACEBOOK -> {
+                LoginManager.getInstance().logOut()
+            }
+            User.GOOGLE -> {
+                mGoogleSignInClient!!.signOut()
             }
         }
     }

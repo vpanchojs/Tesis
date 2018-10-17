@@ -10,7 +10,7 @@ import ec.com.dovic.aprendiendo.domain.listeners.onDomainApiActionListener
 import ec.com.dovic.aprendiendo.domain.services.DbApi
 import ec.com.dovic.aprendiendo.entities.Question
 import ec.com.dovic.aprendiendo.entities.Questionaire
-import ec.com.dovic.aprendiendo.entities.Raiting
+import ec.com.dovic.aprendiendo.entities.Score
 import ec.com.dovic.aprendiendo.entities.User
 import ec.com.dovic.aprendiendo.lib.base.EventBusInterface
 import ec.com.dovic.aprendiendo.questionnaireResume.events.QuestionnaireResumeEvents
@@ -84,9 +84,9 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
         firebaseApi.onGetRatingsAll(idQuestionnaire, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {
                 var aux = response as QuerySnapshot
-                var ratingsList = ArrayList<Raiting>()
+                var ratingsList = ArrayList<Score>()
                 aux.documents.forEach {
-                    var raiting = it.toObject(Raiting::class.java)
+                    var raiting = it.toObject(Score::class.java)
                     raiting!!.idRaiting = it.id
                     raiting.me = it.id == firebaseApi.getUid()
                     ratingsList.add(raiting)
@@ -101,10 +101,12 @@ class QuestionnaireResumeRepositoryImp(var eventBus: EventBusInterface, var fire
         })
     }
 
-    override fun setRaiting(raiting: Raiting, update: Boolean, oldRaiting: Double) {
+    override fun setRaiting(raiting: Score, update: Boolean, oldRaiting: Double) {
         firebaseApi.onSetRaiting(raiting, update, oldRaiting, object : onDomainApiActionListener {
             override fun onSuccess(response: Any?) {
-                retrofitApi.generateRecommendations(firebaseApi.getUid(), raiting.idQuestionaire)
+                if(raiting.value>=3.0){
+                    retrofitApi.generateRecommendations(firebaseApi.getUid(), raiting.idQuestionaire)
+                }
                 postEvent(QuestionnaireResumeEvents.ON_SET_RATING_SUCCESS, response!!)
             }
 
